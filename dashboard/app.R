@@ -2,7 +2,7 @@
 # PROYECTO: Auditoría Forense Presupuestaria de Municipios de Bolivia (Gestión 2025)
 # APLICACIÓN: dashboard/app.R
 # TECNOLOGÍAS: R Shiny + bslib (Bootstrap 5) + plotly + DT + custom.css
-# SISTEMA VISUAL: Dark Telemetry / Obsidian (estricto DESIGN.md)
+# SISTEMA VISUAL: Dark Telemetry / Obsidian (estricto DESIGN.md & Anti-AI-Slop)
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -51,13 +51,73 @@ fmt_bs <- function(x) {
   paste0("Bs. ", format(round(x), big.mark = ".", decimal.mark = ","))
 }
 
+# Helper configuración limpia de Plotly (Anti-AI-Slop: sin barra de herramientas ruidosa)
+clean_plotly_config <- function(p) {
+  config(p, displayModeBar = "hover",
+         modeBarButtonsToRemove = c("lasso2d", "select2d", "autoScale2d", "hoverClosestCartesian", "hoverCompareCartesian"),
+         displaylogo = FALSE)
+}
+
+# Diagnóstico forense cualitativo por municipio de consenso
+dict_diagnostico <- list(
+  "1239" = list(
+    titulo = "Violación de la Ley de Benford",
+    desc = "Alteración estadísticamente significativa en el primer dígito (Chi² = 16,91, p = 0,031, MAD = 0,0241). Patrón anómalo incompatible con transacciones naturales."
+  ),
+  "1205" = list(
+    titulo = "Parálisis de Inversión Pública (0,00%)",
+    desc = "El municipio destinó el 100% de su presupuesto a gasto corriente y servicios. Cero asignación a formación bruta de capital o infraestructura."
+  ),
+  "1206" = list(
+    titulo = "Peor Ejecución Nacional & Alta Deuda Flotante",
+    desc = "Tasa de ejecución más baja de Bolivia (31,87%) con un 16,20% de compromisos devengados no pagados. Riesgo de insolvencia y parálisis operativa."
+  ),
+  "1207" = list(
+    titulo = "Fraccionamiento de Compras (19,86% Duplicados)",
+    desc = "Concentración crítica de partidas devengadas en montos idénticos repetitivos justo en los límites de contratación menor del Estado."
+  ),
+  "1208" = list(
+    titulo = "Reincidencia de Montos & Sobredependencia",
+    desc = "15,32% de pagos en partidas idénticas combinadas con atipicidad local extrema en servicios no personales."
+  ),
+  "1209" = list(
+    titulo = "Superávit de Caja Distorsionado (46,67%)",
+    desc = "Saldo aparente positivo originado por subejecución crítica del gasto de inversión en lugar de una recaudación eficiente."
+  ),
+  "1210" = list(
+    titulo = "Aislamiento Multivariante & Deuda Flotante",
+    desc = "Brecha de pago del 14,28% y vulnerabilidad estructural en captación de recursos propios respecto a municipios pares."
+  ),
+  "1211" = list(
+    titulo = "Desfase Presupuestario y Modificación Neta",
+    desc = "Alta tasa de modificación presupuestaria combinada con dispersión asimétrica de caja percibida."
+  ),
+  "1212" = list(
+    titulo = "Rigidez en Servicios No Personales",
+    desc = "Desviación extrema en gasto de grupo 20000 y atipicidad de densidad respecto a la mezcla gaussiana nacional."
+  ),
+  "1213" = list(
+    titulo = "Vulnerabilidad Fiscal & Dispersión Operativa",
+    desc = "Dispersión severa en ratios de operación y baja capacidad de cobertura financiera con recursos del TGN."
+  ),
+  "1214" = list(
+    titulo = "Desfase Severo de Caja y Compromisos",
+    desc = "Asimetría entre el flujo de ingresos percibidos y los gastos devengados con pasivos flotantes acumulados."
+  ),
+  "1215" = list(
+    titulo = "Atipicidad Multivariante de Escala y Pasivos",
+    desc = "Concentración masiva de deuda flotante nominal y desviación multivariante en componentes principales PCA."
+  )
+)
+
 # ------------------------------------------------------------------------------
 # 2. Interfaz de Usuario (UI) con bslib
 # ------------------------------------------------------------------------------
 ui <- page_navbar(
   title = div(
-    span("AUDITORÍA FISCAL BOLIVIA 2025", style = "color: #00FF88; font-weight: 700;"),
-    span("| TELEMETRÍA FORENSE GAM", style = "color: #9CA3AF; font-size: 0.82rem; margin-left: 0.5rem;")
+    style = "display: flex; align-items: center; gap: 0.75rem;",
+    span("AUDITORÍA FISCAL BOLIVIA 2025", style = "color: #00FF88; font-weight: 700; letter-spacing: -0.02em;"),
+    span(class = "navbar-badge", span(class = "pulse-dot"), "MEFP 2025 | DUCKDB OLAP")
   ),
   theme = bs_theme(
     version = 5,
@@ -83,27 +143,43 @@ ui <- page_navbar(
       class = "kpi-container",
       div(
         class = "kpi-card kpi-normal",
-        div(class = "kpi-title", "Gasto Vigente Consolidado"),
+        div(
+          class = "kpi-title",
+          span("Gasto Vigente Consolidado"),
+          span(class = "kpi-tag tag-normal", "335 GAMs")
+        ),
         div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_vigente))),
-        div(class = "kpi-sub", "335 Gobiernos Autónomos Municipales")
+        div(class = "kpi-sub", "Presupuesto municipal total autorizado en Bolivia")
       ),
       div(
         class = "kpi-card kpi-primary",
-        div(class = "kpi-title", "Gasto Devengado (Ejecución)"),
+        div(
+          class = "kpi-title",
+          span("Gasto Devengado (Ejecución)"),
+          span(class = "kpi-tag tag-primary", sprintf("%.1f%% Global", sum(df_gam$gasto_devengado) / sum(df_gam$gasto_vigente) * 100))
+        ),
         div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_devengado))),
-        div(class = "kpi-sub", sprintf("Tasa Global: %.2f%% del presupuesto", sum(df_gam$gasto_devengado) / sum(df_gam$gasto_vigente) * 100))
+        div(class = "kpi-sub", "Obligaciones contables efectivamente perfeccionadas")
       ),
       div(
         class = "kpi-card kpi-warn",
-        div(class = "kpi-title", "Deuda Flotante Exigible"),
+        div(
+          class = "kpi-title",
+          span("Deuda Flotante Exigible"),
+          span(class = "kpi-tag tag-warn", "PASIVO EXIGIBLE")
+        ),
         div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_devengado) - sum(df_gam$gasto_pagado))),
-        div(class = "kpi-sub", sprintf("Compromisos pendientes de desembolso"))
+        div(class = "kpi-sub", "Compromisos devengados pendientes de pago en tesorería")
       ),
       div(
         class = "kpi-card kpi-alert",
-        div(class = "kpi-title", "Municipios en Alerta Crítica"),
+        div(
+          class = "kpi-title",
+          span("Municipios en Alerta Crítica"),
+          span(class = "kpi-tag tag-alert", "ALTO RIESGO")
+        ),
         div(class = "kpi-value", "12 GAMs"),
-        div(class = "kpi-sub", "Consenso GMM + LOF de alta prioridad")
+        div(class = "kpi-sub", "Consenso GMM + LOF aislado para auditoría forense")
       )
     ),
     
@@ -114,7 +190,7 @@ ui <- page_navbar(
         card_header(
           div(
             div("Presupuesto vs. Ejecución por Departamento"),
-            div(class = "card-subtitle", "Compara el gasto vigente (capacidad asignada) contra el devengado real por departamento")
+            div(class = "card-subtitle", "Compara la capacidad autorizada (Vigente) contra la ejecución real (Devengado)")
           )
         ),
         card_body(plotlyOutput("plot_depto_comparativa", height = "360px"))
@@ -123,7 +199,7 @@ ui <- page_navbar(
         card_header(
           div(
             div("Línea Base Univariada y Sesgo de Escala"),
-            div(class = "card-subtitle", "Demuestra cómo evaluar montos brutos sólo señala grandes capitales, mientras que los ratios revelan fallas de ejecución")
+            div(class = "card-subtitle", "El análisis univariado sobre montos brutos sólo señala capitales, mientras los ratios revelan fallas de gestión")
           )
         ),
         card_body(
@@ -152,20 +228,20 @@ ui <- page_navbar(
         selectInput("filtro_depto_gmm", "Departamento:", choices = departamentos_disponibles, selected = "TODOS"),
         sliderInput("slider_minpts", "Parámetro minPts (LOF):", min = 10, max = 30, value = 20, step = 5),
         sliderInput("slider_umbral_lof", "Umbral de Alerta LOF:", min = 1.2, max = 2.2, value = 1.5, step = 0.05),
-        hr(style = "border-color: #1F2937;"),
+        hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
         div(
           style = "font-size: 0.78rem; color: #9CA3AF;",
-          p(strong("Guía del Auditor:")),
-          p("• GMM ajusta 4 regímenes gaussianos multivariantes en el espacio de 9 ratios."),
-          p("• Elipses azules delimitan el 85% de densidad de cada régimen."),
-          p("• Ajuste el slider minPts para verificar la estabilidad de los atípicos locales.")
+          p(strong("Guía de Interpretación:")),
+          p("• GMM ajusta 4 regímenes gaussianos en el espacio normalizado de 9 ratios fiscales."),
+          p("• El score LOF mide el grado de aislamiento respecto a la densidad de los k municipios más cercanos."),
+          p("• Puntos en carmesí cumplen la condición de doble alerta (GMM global + LOF local).")
         )
       ),
       card(
         card_header(
           div(
             div("Espacio Latente PCA: Regímenes GMM y Factores Locales LOF"),
-            div(class = "card-subtitle", "Los puntos anómalos destacan en carmesí (consenso) y ámbar (local). Pase el cursor para inspeccionar el diagnóstico detallado.")
+            div(class = "card-subtitle", "Los puntos anómalos destacan en carmesí (consenso) y ámbar (local). Pase el cursor para ver el diagnóstico.")
           )
         ),
         card_body(plotlyOutput("plot_pca_gmm_interactivo", height = "520px"))
@@ -187,20 +263,24 @@ ui <- page_navbar(
                     choices = c("TODAS", "Consenso GMM + LOF (Prioridad Alta)",
                                 "Solo GMM (Global/Contextual)", "Solo LOF (Local)", "Normal"),
                     selected = "TODAS"),
-        hr(style = "border-color: #1F2937;"),
+        hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
         div(
-          style = "font-size: 0.76rem; color: #9CA3AF;",
-          p(strong("Criterio de Priorización:")),
-          p("• ", span("Consenso GMM + LOF:", style = "color: #FF3366; font-weight: 600;"), " Municipios atípicos a nivel de densidad global y vecindad local."),
-          p("• ", span("Solo LOF:", style = "color: #FFB020; font-weight: 600;"), " Distorsión respecto a sus pares similares."),
-          p("• ", span("Solo GMM:", style = "color: #4DB8FF; font-weight: 600;"), " Combinación de ratios atípica en la mezcla global.")
+          style = "font-size: 0.75rem; color: #9CA3AF;",
+          div(strong("CONTEOS OFICIALES 2025:"), style = "margin-bottom: 0.4rem; color: #F3F4F6;"),
+          div(
+            class = "stats-pill-grid",
+            div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #FF3366;", "12"), div(class = "stats-pill-label", "Consenso")),
+            div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #FFB020;", "23"), div(class = "stats-pill-label", "Solo LOF")),
+            div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #4DB8FF;", "15"), div(class = "stats-pill-label", "Solo GMM")),
+            div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #00FF88;", "285"), div(class = "stats-pill-label", "Normal"))
+          )
         )
       ),
       card(
         card_header(
           div(
             div("Matriz Forense de Cuadrantes: Log-Densidad GMM vs. Score LOF"),
-            div(class = "card-subtitle", "Cuadrante superior izquierdo (LOF > 1.5 y Log-Densidad < -14.5) concentra el consenso de riesgo crítico")
+            div(class = "card-subtitle", "El cuadrante superior izquierdo (LOF > 1.5 y Log-Densidad < -14.5) delimita la zona de riesgo crítico")
           )
         ),
         card_body(plotlyOutput("plot_cuadrantes_consenso", height = "320px"))
@@ -209,7 +289,7 @@ ui <- page_navbar(
         card_header(
           div(
             div("Padrón Municipal Auditado (335 GAMs)"),
-            div(class = "card-subtitle", "Tabla interactiva, buscable y exportable con ratios estandarizados y clasificación forense")
+            div(class = "card-subtitle", "Tabla interactiva y exportable con los 9 ratios estandarizados y diagnóstico de riesgo")
           )
         ),
         card_body(DTOutput("tabla_consenso_interactiva"))
@@ -224,12 +304,12 @@ ui <- page_navbar(
     title = "Auditoría Forense (Benford & Drill-Down)",
     layout_sidebar(
       sidebar = sidebar(
-        width = 300,
+        width = 310,
         title = "Expediente Municipal",
         selectInput("selector_municipio_forense", "Seleccionar GAM Prioritario:",
                     choices = opciones_consenso,
                     selected = opciones_consenso[grep("Caquiaviri", names(opciones_consenso))[1]]),
-        hr(style = "border-color: #1F2937;"),
+        hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
         uiOutput("panel_ficha_forense")
       ),
       layout_columns(
@@ -238,7 +318,7 @@ ui <- page_navbar(
           card_header(
             div(
               div("Prueba de Ley de Benford (Primer Dígito)"),
-              div(class = "card-subtitle", "Distribución de dígitos observada (carmesí) vs. teórica de Benford (azul). Desviaciones anómalas indican alteración humana o fraccionamiento.")
+              div(class = "card-subtitle", "Distribución observada (carmesí) vs. teórica (azul). Desvíos anómalos señalan alteración humana o fraccionamiento.")
             )
           ),
           card_body(plotlyOutput("plot_benford_drilldown", height = "360px"))
@@ -247,7 +327,7 @@ ui <- page_navbar(
           card_header(
             div(
               div("Composición del Gasto Devengado por Objeto"),
-              div(class = "card-subtitle", "Desglose por grupos de partida (Servicios Personales 10000, No Personales 20000, Materiales 30000, Activos 40000)")
+              div(class = "card-subtitle", "Desglose por grupos de partida: Serv. Personales (10000), Serv. No Personales (20000), Materiales (30000), Activos (40000)")
             )
           ),
           card_body(plotlyOutput("plot_objeto_drilldown", height = "360px"))
@@ -257,7 +337,7 @@ ui <- page_navbar(
         card_header(
           div(
             div("Diagnóstico de Liquidez y Brecha Presupuestaria (Caja Real vs. Deuda)"),
-            div(class = "card-subtitle", "Comparativa de Ingresos Percibidos, Gastos Devengados y Gastos Efectivamente Pagados")
+            div(class = "card-subtitle", "Comparativa de Ingresos Percibidos, Gastos Devengados y Gastos Pagados")
           )
         ),
         card_body(plotlyOutput("plot_caja_drilldown", height = "280px"))
@@ -286,7 +366,7 @@ server <- function(input, output, session) {
     
     p <- plot_ly(df_depto, y = ~reorder(departamento, vigente)) %>%
       add_bars(x = ~vigente, name = "Presupuesto Vigente",
-               marker = list(color = "#1F2937", line = list(color = "#374151", width = 1)),
+               marker = list(color = "#161B22", line = list(color = "#374151", width = 1)),
                hovertemplate = "<b>%{y}</b><br>Vigente: Bs. %{x:.1f}M<extra></extra>") %>%
       add_bars(x = ~devengado, name = "Gasto Devengado",
                marker = list(color = COLOR_PRIMARY, line = list(color = "#00FF88", width = 1)),
@@ -304,7 +384,8 @@ server <- function(input, output, session) {
         yaxis = list(title = "", gridcolor = "transparent"),
         legend = list(orientation = "h", x = 0.2, y = 1.15, font = list(color = COLOR_TEXT_PRI)),
         margin = list(t = 40, r = 20, b = 40, l = 100)
-      )
+      ) %>%
+      clean_plotly_config()
     p
   })
   
@@ -348,7 +429,8 @@ server <- function(input, output, session) {
         yaxis = list(title = "", gridcolor = COLOR_GRID),
         showlegend = FALSE,
         margin = list(t = 20, r = 20, b = 40, l = 100)
-      )
+      ) %>%
+      clean_plotly_config()
     p
   })
   
@@ -457,7 +539,8 @@ server <- function(input, output, session) {
       yaxis = list(title = "Componente Principal 2 (PCA 2)", gridcolor = COLOR_GRID),
       legend = list(orientation = "h", x = 0.1, y = 1.1, font = list(color = COLOR_TEXT_PRI)),
       margin = list(t = 50, r = 30, b = 50, l = 60)
-    )
+    ) %>%
+      clean_plotly_config()
     p
   })
   
@@ -488,7 +571,8 @@ server <- function(input, output, session) {
         yaxis = list(title = "LOF Score (Corte Crítico = 1.5)", gridcolor = COLOR_GRID),
         legend = list(orientation = "h", x = 0.05, y = 1.15, font = list(color = COLOR_TEXT_PRI)),
         margin = list(t = 40, r = 20, b = 40, l = 60)
-      )
+      ) %>%
+      clean_plotly_config()
     p
   })
   
@@ -556,18 +640,41 @@ server <- function(input, output, session) {
     m <- mun_seleccionado()
     req(nrow(m) > 0)
     
+    ent_code <- as.character(m$entidad)
+    diag <- if (!is.null(dict_diagnostico[[ent_code]])) {
+      dict_diagnostico[[ent_code]]
+    } else {
+      list(
+        titulo = "Anomalía Multivariante de Consenso",
+        desc = "Combinación simultánea de baja log-densidad probabilística en GMM y alto aislamiento espacial en LOF."
+      )
+    }
+    
     tagList(
+      # Banner de Alerta Forense Específica
       div(
-        style = "background-color: #161B22; border: 1px solid #1F2937; padding: 0.85rem; border-radius: 6px; font-size: 0.8rem;",
-        p(strong("FICHA TÉCNICA FORENSE"), style = "color: #00FF88; font-size: 0.85rem; margin-bottom: 0.5rem;"),
-        p(strong("Código Entidad: "), span(m$entidad, class = "num-cell")),
-        p(strong("Departamento: "), m$departamento),
-        p(strong("Presupuesto: "), span(fmt_bs(m$gasto_vigente), class = "num-cell")),
-        p(strong("Tasa Ejecución: "), span(sprintf("%.1f%%", m$tasa_ejecucion_gasto * 100), class = "num-cell")),
-        p(strong("Deuda Flotante: "), span(sprintf("%.2f%%", m$brecha_pago * 100), class = "num-cell")),
-        p(strong("Balance Caja: "), span(sprintf("%.2f%%", m$balance_caja_real * 100), class = "num-cell")),
-        p(strong("LOF Score: "), span(sprintf("%.2f", m$lof_score), class = "num-cell")),
-        p(strong("Log-Densidad: "), span(sprintf("%.2f", m$gmm_log_dens), class = "num-cell"))
+        class = "forensic-alert-box",
+        div(class = "forensic-alert-title", "ALERTA FORENSE PRINCIPAL"),
+        p(strong(diag$titulo), style = "color: #F3F4F6; margin-bottom: 0.25rem; font-size: 0.82rem;"),
+        p(class = "forensic-alert-desc", diag$desc)
+      ),
+      
+      # Tarjeta Ficha Técnica Estructurada
+      div(
+        class = "forensic-spec-card",
+        div(
+          style = "font-family: var(--font-mono); color: #00FF88; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; margin-bottom: 0.6rem;",
+          paste0("GAM ", toupper(m$municipio))
+        ),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "Código Entidad:"), span(class = "forensic-spec-val", m$entidad)),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "Departamento:"), span(class = "forensic-spec-val", m$departamento)),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "Presupuesto Vigente:"), span(class = "forensic-spec-val", fmt_bs(m$gasto_vigente))),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "Tasa de Ejecución:"), span(class = "forensic-spec-val", sprintf("%.1f%%", m$tasa_ejecucion_gasto * 100))),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "Deuda Flotante:"), span(class = "forensic-spec-val", style = "color: #FFB020;", sprintf("%.2f%%", m$brecha_pago * 100))),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "Ratio de Inversión:"), span(class = "forensic-spec-val", sprintf("%.1f%%", m$ratio_inversion * 100))),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "Balance de Caja Real:"), span(class = "forensic-spec-val", sprintf("%.2f%%", m$balance_caja_real * 100))),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "LOF Score (Local):"), span(class = "forensic-spec-val", style = "color: #FF3366;", sprintf("%.2f", m$lof_score))),
+        div(class = "forensic-spec-row", span(class = "forensic-spec-label", "Log-Densidad GMM:"), span(class = "forensic-spec-val", style = "color: #4DB8FF;", sprintf("%.2f", m$gmm_log_dens)))
       )
     )
   })
@@ -602,7 +709,8 @@ server <- function(input, output, session) {
         yaxis = list(title = "Frecuencia Relativa (%)", gridcolor = COLOR_GRID),
         legend = list(orientation = "h", x = 0.2, y = 1.15, font = list(color = COLOR_TEXT_PRI)),
         margin = list(t = 50, r = 20, b = 40, l = 60)
-      )
+      ) %>%
+      clean_plotly_config()
     p
   })
   
@@ -631,8 +739,8 @@ server <- function(input, output, session) {
                  textposition = "inside",
                  textinfo = "label+percent",
                  marker = list(
-                   colors = c("#3B82F6", COLOR_ALERT, COLOR_WARN, COLOR_NORMAL, "#6B7280"),
-                   line = list(color = "#000000", width = 1.5)
+                    colors = c("#3B82F6", COLOR_ALERT, COLOR_WARN, COLOR_NORMAL, "#6B7280"),
+                    line = list(color = "#000000", width = 1.5)
                  )) %>%
       layout(
         plot_bgcolor = COLOR_BG,
@@ -640,7 +748,8 @@ server <- function(input, output, session) {
         font = list(color = COLOR_TEXT_PRI, family = "Inter"),
         legend = list(orientation = "h", x = 0.0, y = -0.15, font = list(color = COLOR_TEXT_PRI, size = 9)),
         margin = list(t = 20, r = 20, b = 40, l = 20)
-      )
+      ) %>%
+      clean_plotly_config()
     p
   })
   
@@ -666,7 +775,8 @@ server <- function(input, output, session) {
         yaxis = list(title = "Millones de Bs. (Bs. M)", gridcolor = COLOR_GRID),
         showlegend = FALSE,
         margin = list(t = 20, r = 20, b = 40, l = 60)
-      )
+      ) %>%
+      clean_plotly_config()
     p
   })
 }
