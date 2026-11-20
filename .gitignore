@@ -1,0 +1,24 @@
+# Archivos crudos pesados (> 400 MB que exceden límites de GitHub)
+data/raw/
+
+# Directorio de paquetes locales de R
+r_libs/
+
+# Scripts temporales y logs de depuración
+scratch/
+*.log
+
+# Archivos de entorno y sesión local
+.Rproj.user/
+.Rhistory
+.RData
+.Renviron
+
+# Archivos auxiliares de compilación LaTeX (manteniendo el PDF final)
+informe/*.aux
+informe/*.log
+informe/*.out
+informe/*.toc
+informe/*.bbl
+informe/*.blg
+informe/*.synctex.gz

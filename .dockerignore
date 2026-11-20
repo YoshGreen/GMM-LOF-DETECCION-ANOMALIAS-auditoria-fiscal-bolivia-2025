@@ -1,0 +1,11 @@
+# Exclusiones de Docker para optimizar el peso de la imagen (< 1 MB de contexto de build)
+data/raw/
+r_libs/
+scratch/
+informe/
+.git/
+.Rproj.user/
+.Rhistory
+.RData
+.Renviron
+*.log
