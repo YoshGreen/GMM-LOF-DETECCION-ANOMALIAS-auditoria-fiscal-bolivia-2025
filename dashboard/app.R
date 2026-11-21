@@ -386,40 +386,44 @@ ui <- page_fluid(
           card(
             card_header(
               div(
-                div("Tablero de Alertas Split-Flap (Caracteres Mecánicos)"),
-                div(class = "card-subtitle", "Visualización de telemetría aeroportuaria/forense con los 12 municipios priorizados")
-              )
-            ),
-            card_body(
-              uiOutput("split_flap_ui"),
-              div(
-                style = "margin-top: 1rem; text-align: right;",
+                style = "display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;",
+                div(
+                  div("Tablero de Alertas Split-Flap (Caracteres Mecánicos)"),
+                  div(class = "card-subtitle", "Visualización de telemetría aeroportuaria/forense con los 12 municipios priorizados")
+                ),
                 tags$button(
                   class = "receipt-btn",
-                  style = "background: #E8B400; color: #000; margin: 0 0 0 auto; display: inline-block;",
+                  style = "background: #E8B400; color: #000; margin: 0; padding: 6px 14px; font-size: 0.75rem; white-space: nowrap;",
                   onclick = "runFlapAnimation()",
                   "⟲ ACTUALIZAR CARACTERES FLAP"
                 )
               )
+            ),
+            card_body(
+              uiOutput("split_flap_ui")
             )
           ),
           card(
             card_header(
               div(
-                div("Cinta de Sumadora Contable"),
-                div(class = "card-subtitle", "Impresión mecánica secuencial de la auditoría final")
+                style = "display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;",
+                div(
+                  div("Cinta de Sumadora Contable"),
+                  div(class = "card-subtitle", "Impresión mecánica secuencial de la auditoría final")
+                ),
+                tags$button(
+                  class = "receipt-btn",
+                  style = "margin: 0; padding: 6px 14px; font-size: 0.75rem; white-space: nowrap;",
+                  onclick = "printReceiptSequence()",
+                  "⟲ REIMPRIMIR CINTA"
+                )
               )
             ),
             card_body(
               div(
                 class = "receipt-wrapper",
                 div(class = "receipt-slot"),
-                div(id = "receiptContent", class = "receipt-paper"),
-                tags$button(
-                  class = "receipt-btn",
-                  onclick = "printReceiptSequence()",
-                  "⟲ REIMPRIMIR CINTA FORENSE"
-                )
+                div(id = "receiptContent", class = "receipt-paper")
               )
             )
           )
