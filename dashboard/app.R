@@ -1072,48 +1072,99 @@ server <- function(input, output, session) {
   # --- PESTAÑA 6: SPLIT-FLAP BOARD (Ideas/) ---
   
   output$split_flap_ui <- renderUI({
+    # Función auxiliar para empaquetar casillas mecánicas dentro de una columna alineada
+    render_flap_col <- function(text, col_class, cell_class = "") {
+      chars <- strsplit(text, "")[[1]]
+      cells <- lapply(chars, function(ch) {
+        extra_cls <- if (ch != " ") cell_class else ""
+        tags$span(
+          class = paste("flap-cell", extra_cls),
+          `data-char` = ch,
+          ch
+        )
+      })
+      tags$div(class = paste("flap-col", col_class), cells)
+    }
+    
     rows_ui <- lapply(seq_len(nrow(df_consenso_gams)), function(i) {
       r <- df_consenso_gams[i, ]
-      mun_name <- toupper(gsub("[\"“”]", "", r$municipio))
-      mun_name <- substr(mun_name, 1, 13)
-      mun_padded <- sprintf("%-13s", mun_name)
-      dep_padded <- sprintf("%-5s", substr(toupper(r$departamento), 1, 5))
-      lof_padded <- sprintf("%-4.2f", r$lof_score)
+      
+      # 1. Nombre de Municipio limpio a 13 caracteres exactos
+      clean_mun <- toupper(r$municipio)
+      clean_mun <- gsub('["“”]', '', clean_mun)
+      clean_mun <- gsub(" \\(.*\\)", "", clean_mun)
+      clean_mun <- substr(trimws(clean_mun), 1, 13)
+      mun_padded <- sprintf("%-13s", clean_mun)
+      
+      # 2. Código oficial de Departamento (3 letras + 1 espacio = 4 caracteres)
+      dep_raw <- toupper(r$departamento)
+      dep_code <- if (grepl("PAZ", dep_raw)) {
+        "LPZ "
+      } else if (grepl("POTO", dep_raw)) {
+        "POT "
+      } else if (grepl("CRUZ", dep_raw)) {
+        "SCZ "
+      } else if (grepl("ORU", dep_raw)) {
+        "ORU "
+      } else if (grepl("COCH", dep_raw)) {
+        "CBB "
+      } else if (grepl("CHU", dep_raw)) {
+        "CHQ "
+      } else if (grepl("TAR", dep_raw)) {
+        "TRJ "
+      } else if (grepl("BEN", dep_raw)) {
+        "BEN "
+      } else if (grepl("PAN", dep_raw)) {
+        "PAN "
+      } else {
+        sprintf("%-4s", substr(dep_raw, 1, 4))
+      }
+      
+      # 3. Factor LOF (4 caracteres)
+      lof_padded <- sprintf("%4.2f", r$lof_score)
+      
+      # 4. Tasa de Ejecución de Gasto (5 caracteres)
       ejec_padded <- sprintf("%5.1f", r$tasa_ejecucion_gasto * 100)
+      
+      # 5. Brecha de Pago / Deuda Flotante (5 caracteres)
       deuda_padded <- sprintf("%5.1f", r$brecha_pago * 100)
-      estado <- if (r$lof_score >= 1.9) "CRÍTICO  " else "OBSERVAR "
       
-      flat_str <- paste0(mun_padded, dep_padded, lof_padded, ejec_padded, deuda_padded, estado)
+      # 6. Dictamen de Auditoría Forense (9 caracteres)
+      estado_padded <- if (r$lof_score >= 1.9) "CRÍTICO  " else "OBSERVADO"
+      estado_cls <- if (r$lof_score >= 1.9) "cell-red" else "cell-yellow"
       
-      # Generar spans
-      cells <- lapply(seq_len(nchar(flat_str)), function(j) {
-        char_val <- substr(flat_str, j, j)
-        cls <- if (j > 18 && j <= 22) "cell-yellow" else if (j > 32) "cell-red" else ""
-        span(class = paste("flap-cell", cls), char_val)
-      })
-      
-      div(
+      tags$div(
         class = "flap-row",
-        `data-flat` = flat_str,
-        cells
+        `data-row-idx` = i - 1,
+        onclick = sprintf("runFlapAnimation(%d)", i - 1),
+        title = "Haz clic para reanimar este municipio",
+        render_flap_col(mun_padded, "col-gam", ""),
+        render_flap_col(dep_code, "col-depto", ""),
+        render_flap_col(lof_padded, "col-lof", "cell-yellow"),
+        render_flap_col(ejec_padded, "col-ejec", ""),
+        render_flap_col(deuda_padded, "col-deuda", ""),
+        render_flap_col(estado_padded, "col-estado", estado_cls)
       )
     })
     
-    div(
+    tags$div(
       class = "flap-board",
-      div(
+      tags$div(
+        class = "flap-mobile-hint d-md-none",
+        tags$span("⇄ Desliza horizontalmente para ver todas las métricas en móviles")
+      ),
+      tags$div(
         class = "flap-header",
-        span(style = "width: 270px; display: inline-block;", "MUNICIPIO"),
-        span(style = "width: 105px; display: inline-block;", "DEPTO"),
-        span(style = "width: 85px; display: inline-block;", "LOF"),
-        span(style = "width: 105px; display: inline-block;", "EJEC %"),
-        span(style = "width: 105px; display: inline-block;", "DEUDA %"),
-        span(style = "display: inline-block;", "ESTADO")
+        tags$div(class = "flap-col col-gam", "MUNICIPIO (GAM)"),
+        tags$div(class = "flap-col col-depto", "DEPTO"),
+        tags$div(class = "flap-col col-lof", "LOF"),
+        tags$div(class = "flap-col col-ejec", "EJEC %"),
+        tags$div(class = "flap-col col-deuda", "DEUDA %"),
+        tags$div(class = "flap-col col-estado", "DICTAMEN AUDITORÍA")
       ),
       rows_ui
     )
   })
-  
   # --- PESTAÑA 7: GRÁFICAS COMPARATIVAS AVANZADAS ---
   
   output$plot_comparativa_inversion_deuda <- renderPlotly({

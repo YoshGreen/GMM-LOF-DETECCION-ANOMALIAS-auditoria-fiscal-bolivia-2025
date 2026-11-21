@@ -145,28 +145,51 @@ function initCorkEvents() {
   });
 }
 
-// 4. TABLERO SPLIT-FLAP (Telemetría Mecánica)
-const FLAP_CHARS = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789.%- ";
+// 4. TABLERO SPLIT-FLAP (Telemetría Mecánica de Caracteres)
+const FLAP_CHARS = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789.%-";
+
 function setFlapChar(el, targetChar, steps) {
+  // Limpiar timer previo para evitar que caracteres sigan bailando o acumulándose
+  if (el._flapTimer) {
+    clearInterval(el._flapTimer);
+    el._flapTimer = null;
+  }
+
+  // Si el objetivo es espacio en blanco, NO rotar ruido aleatorio para evitar vibración en huecos vacíos
+  if (!targetChar || targetChar === " ") {
+    el.textContent = " ";
+    return;
+  }
+
   let count = 0;
-  const interval = setInterval(() => {
-    if (++count >= steps) {
+  el._flapTimer = setInterval(() => {
+    count++;
+    if (count >= steps) {
+      clearInterval(el._flapTimer);
+      el._flapTimer = null;
       el.textContent = targetChar;
-      clearInterval(interval);
     } else {
       el.textContent = FLAP_CHARS[Math.floor(Math.random() * FLAP_CHARS.length)];
     }
-  }, 38);
+  }, 34);
 }
 
-function runFlapAnimation() {
+function runFlapAnimation(onlyRowIndex) {
   const rows = document.querySelectorAll(".flap-row");
+  if (!rows || rows.length === 0) return;
+
   rows.forEach((row, rowIndex) => {
-    const targetText = row.getAttribute("data-flat") || "";
+    // Si se especificó una fila particular y no coincide, no reanimar esa fila
+    if (onlyRowIndex !== undefined && onlyRowIndex !== null && rowIndex !== onlyRowIndex) {
+      return;
+    }
+
     const cells = row.querySelectorAll(".flap-cell");
     cells.forEach((cell, cellIndex) => {
-      const targetChar = targetText[cellIndex] || " ";
-      setFlapChar(cell, targetChar, 5 + (cellIndex % 8) * 2 + rowIndex * 2);
+      const targetChar = cell.getAttribute("data-char") || cell.textContent || " ";
+      // Casillas con letras giran de 4 a 12 ciclos escalonados
+      const steps = 4 + (cellIndex % 6) * 2 + (onlyRowIndex !== undefined ? 0 : Math.min(rowIndex, 6) * 2);
+      setFlapChar(cell, targetChar, steps);
     });
   });
 }
