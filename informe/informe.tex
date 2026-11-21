@@ -254,6 +254,19 @@ Para garantizar la viabilidad computacional sin requerir memoria RAM masiva, se 
 
 El análisis de integridad contable inicial arrojó cero valores nulos en columnas monetarias esenciales, 1 partida de gasto devengado negativo, 498 partidas con presupuesto vigente negativo (reversiones contables), y 306 partidas donde el monto pagado excedió al devengado. En ingresos se registraron 1.366 registros con presupuesto vigente cero pero recaudación efectiva positiva, provenientes de transferencias extraordinarias no presupuestadas en el POA inicial.
 
+\subsection{Diccionario de Datos y Selección de Características}
+Los conjuntos de datos crudos publicados por el Ministerio de Economía y Finanzas Públicas (MEFP) poseen una estructura multidimensional altamente desagregada, compuesta originalmente por 67 atributos en el archivo de Gastos y 42 atributos en el de Ingresos (109 columnas en total). En concordancia con los principios del proceso KDD \citep{fayyad1996kdd}, someter el modelo de minería a la totalidad de campos provocaría una degradación severa por la ``maldición de la dimensionalidad'', redundancia semántica y sobreajuste.
+
+Por tanto, se aplicó una estrategia de selección de características basada en los siguientes criterios contables y matemáticos:
+\begin{enumerate}[label=\textbf{\alph*)}]
+    \item \textbf{Variables Conservadas e Involucradas:} Se seleccionaron los atributos temporales (\texttt{gestion}), los discriminadores institucionales (\texttt{entidad\_sigla\_subarea}, \texttt{entidad}), los campos geográficos (\texttt{desc\_departamento}, \texttt{desc\_municipio}), la totalidad de flujos monetarios (\texttt{inicial}, \texttt{vigente}, \texttt{devengado}, \texttt{pagado}, \texttt{percibido}), el discriminador de proyectos de inversión (\texttt{actividad = 0}), el grupo de servicios no personales (\texttt{objeto\_grupo = 20000}), la fuente de transferencias gubernamentales (\texttt{fuente = 41}) y los clasificadores de partida para la auditoría de montos duplicados en compras menores.
+    \item \textbf{Variables Excluidas y Justificación:} Se descartaron las columnas que presentaban redundancia funcional (duplicidad de código numérico y texto descriptivo, como \texttt{fuente} y \texttt{desc\_fuente}), jerarquías institucionales constantes tras el filtrado municipal (\texttt{entidad\_sector}, \texttt{entidad\_area}, etc.), niveles de desagregación interna sin relevancia macrofiscal (\texttt{da}, \texttt{desc\_da}), y clasificadores sectoriales o de cuentas nacionales (\texttt{finfun\_*}, \texttt{acteco\_*}) que no inciden en la solvencia financiera, la deuda flotante ni en la detección de patrones de fraude contable.
+\end{enumerate}
+
+La Tabla \ref{tab:diccionario_datos} detalla el inventario estructurado de atributos de ambos conjuntos de datos, su tipología formal y el dictamen técnico de inclusión o exclusión analítica.
+
+\input{tablas/tabla_diccionario_datos.tex}
+
 \subsection{Ingeniería de Características: 9 Ratios Invariantes a la Escala}
 Con el fin de eliminar el sesgo de tamaño poblacional, se definieron nueve indicadores matemáticos por municipio:
 \begin{enumerate}[label=\textbf{\arabic*.}]

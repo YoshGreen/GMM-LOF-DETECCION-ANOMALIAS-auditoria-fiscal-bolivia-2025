@@ -1,0 +1,57 @@
+% ==============================================================================
+% TABLA: DICCIONARIO DE DATOS Y SELECCIÓN DE CARACTERÍSTICAS (MEFP 2025)
+% ==============================================================================
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{p{3.2cm}p{1.6cm}p{1.4cm}>{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Campo / Atributo MEFP} & \textbf{Tipo Dato} & \textbf{Estado} & \textbf{Propósito Analítico o Justificación de Exclusión} \\
+\midrule
+\multicolumn{4}{l}{\textbf{A. Macrodatos de Gastos (\texttt{presupuesto\_gasto\_gestion\_2025.csv} -- 67 columnas originales)}} \\
+\midrule
+\texttt{gestion} & Entero & \textbf{Usado} & Filtro temporal estricto (\texttt{gestion == 2025}). \\
+\texttt{entidad\_sigla\_subarea} & Texto & \textbf{Usado} & Filtro institucional para aislar Gobiernos Municipales (\texttt{'GAM'}). \\
+\texttt{entidad} & Entero & \textbf{Usado} & Identificador primario único del GAM (llave de cruce relacional). \\
+\texttt{entidad\_desc\_entidad} & Texto & \textbf{Usado} & Razón social oficial del Gobierno Autónomo Municipal. \\
+\texttt{desc\_departamento} & Texto & \textbf{Usado} & Segmentación territorial departamental (9 departamentos). \\
+\texttt{desc\_provincia}, \texttt{desc\_municipio} & Texto & \textbf{Usado} & Contexto geográfico para etiquetado forense y drill-down. \\
+\texttt{inicial} & Decimal & \textbf{Usado} & Presupuesto institucional aprobado; cálculo de modificación (TMP). \\
+\texttt{vigente} & Decimal & \textbf{Usado} & Techo presupuestario modificado; denominador de ejecución (TEG). \\
+\texttt{devengado} & Decimal & \textbf{Usado} & Obligación económica formal; base de los ratios de gasto y Benford. \\
+\texttt{pagado} & Decimal & \textbf{Usado} & Desembolso efectivo de caja; cálculo de deuda flotante exigible. \\
+\texttt{actividad} & Entero & \textbf{Usado} & Separación contable: \texttt{actividad = 0} identifica inversión pública. \\
+\texttt{objeto\_grupo} & Entero & \textbf{Usado} & Clasificador: grupo \texttt{20000} identifica Servicios No Personales. \\
+\texttt{objeto\_partida}, \texttt{objeto\_desc\_partida} & Entero/Txt & \textbf{Usado} & Auditoría drill-down de compras y montos idénticos repetitivos. \\
+\addlinespace
+\texttt{entidad\_sector}, \texttt{subsector}, \texttt{area}, \texttt{subarea} (códigos y descripciones) & Varios & \textit{No Usado} & Constantes o redundantes tras el filtro inicial de subárea \texttt{'GAM'}. \\
+\texttt{da}, \texttt{desc\_da} (Dirección Administrativa) & Varios & \textit{No Usado} & Nivel de desagregación interno variable no comparable entre GAMs. \\
+\texttt{programa}, \texttt{desc\_programa}, \texttt{proyecto} & Varios & \textit{No Usado} & Codificación programática heterogénea; capturada por \texttt{actividad}. \\
+\texttt{entidad\_transferencia} & Entero & \textit{No Usado} & Vacío o cero en la mayoría de comprobantes operativos municipales. \\
+\texttt{objeto\_subgrupo}, \texttt{subpartida} (códigos y textos) & Varios & \textit{No Usado} & Alta dimensionalidad dispersa; consolidada en grupo y partida. \\
+\texttt{fuente}, \texttt{organismo} (clasificador completo de financiamiento) & Varios & \textit{No Usado} & Múltiples niveles redundantes; la estructura de financiamiento clave se captura en ingresos. \\
+\texttt{finfun\_*} (Finalidad y Función - 6 campos) & Varios & \textit{No Usado} & Clasificación funcional secundaria; no afecta la ejecución financiera. \\
+\texttt{acteco\_*} (Actividad Económica - 6 campos) & Varios & \textit{No Usado} & Criterio de cuentas nacionales no incidente en solvencia o fraude. \\
+\midrule
+\multicolumn{4}{l}{\textbf{B. Macrodatos de Ingresos (\texttt{presupuesto\_ingreso\_gestion\_2025.csv} -- 42 columnas originales)}} \\
+\midrule
+\texttt{gestion} & Entero & \textbf{Usado} & Filtro temporal estricto (\texttt{gestion == 2025}). \\
+\texttt{entidad\_sigla\_subarea} & Texto & \textbf{Usado} & Filtro institucional para aislar Gobiernos Municipales (\texttt{'GAM'}). \\
+\texttt{entidad} & Entero & \textbf{Usado} & Llave foránea de unión con la base de gastos. \\
+\texttt{inicial} & Decimal & \textbf{Usado} & Estimación presupuestaria inicial de recursos propios y transferencias. \\
+\texttt{vigente} & Decimal & \textbf{Usado} & Presupuesto vigente de ingresos; cálculo de eficacia recaudadora. \\
+\texttt{devengado} & Decimal & \textbf{Usado} & Derecho de cobro reconocido en la gestión fiscal. \\
+\texttt{percibido} & Decimal & \textbf{Usado} & Recaudación efectiva líquida; cálculo del balance de caja real. \\
+\texttt{fuente} & Entero & \textbf{Usado} & Identificación de Fuente \texttt{41} (Transferencias T.G.N., IDH, Coparticipación). \\
+\addlinespace
+\texttt{entidad\_*} (sector, subsector, área, descripciones) & Varios & \textit{No Usado} & Redundantes con la jerarquía institucional ya vinculada en gastos. \\
+\texttt{rubro\_tipo}, \texttt{clase}, \texttt{cuenta}, \texttt{sub\_cuenta} (códigos y descripciones) & Varios & \textit{No Usado} & Desagregación excesiva que atomiza la recaudación sin alterar la solvencia global. \\
+\texttt{grupo\_fuente}, \texttt{desc\_grupo\_fuente}, \texttt{desc\_fuente} & Varios & \textit{No Usado} & Texto explicativo redundante con el código numérico \texttt{fuente = 41}. \\
+\texttt{organismo\_*} (9 campos de organismos financiadores) & Varios & \textit{No Usado} & Mayoritariamente transferencias directas del T.G.N. sin variación local. \\
+\texttt{entidad\_otorgante} & Entero & \textit{No Usado} & Escaso llenado y no uniforme entre alcaldías municipales. \\
+\bottomrule
+\end{tabularx}
+\caption{Diccionario de datos oficial (MEFP), inventario de campos y fundamentación analítica de inclusión/exclusión.}
+\label{tab:diccionario_datos}
+\end{table}
