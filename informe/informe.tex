@@ -14,339 +14,543 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{xcolor}
+\usepackage{url}
 \usepackage{hyperref}
 \usepackage{natbib}
 \usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{array}
+
+% Permitir saltos de línea en URLs en guiones, barras, números y caracteres especiales
+\def\UrlBreaks{\do\/\do\-\do\_\do\.\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9}
 
 % --- Configuración de Enlaces y Colores ---
 \definecolor{darkblue}{RGB}{11,61,145}
 \definecolor{crimson}{RGB}{180,20,50}
+\definecolor{forestgreen}{RGB}{20,120,40}
 \hypersetup{
     colorlinks=true,
     linkcolor=darkblue,
     citecolor=darkblue,
-    urlcolor=crimson
+    urlcolor=crimson,
+    filecolor=forestgreen
 }
+
+% Espaciado de párrafos
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
 
 \begin{document}
 
+% ==============================================================================
+% PORTADA INSTITUCIONAL
+% ==============================================================================
 \begin{titlepage}
 	\centering
-	{\Large\bfseries UNIVERSIDAD MAYOR DE SAN ANDRÉS}\\[0.4cm]
-	{\large FACULTAD DE CIENCIAS PURAS Y NATURALES}\\[0.3cm]
-	{\large CARRERA DE INFORMÁTICA}\\[0.8cm]
+	{\Large\bfseries UNIVERSIDAD MAYOR DE SAN ANDRÉS}\\[0.3cm]
+	{\large FACULTAD DE CIENCIAS PURAS Y NATURALES}\\[0.2cm]
+	{\large CARRERA DE INFORMÁTICA}\\[0.6cm]
 	
-	\IfFileExists{figuras/LOGOumsa.png}{\includegraphics[width=0.42\linewidth]{figuras/LOGOumsa.png}}{%
-		\IfFileExists{figuras/LOGOumsa.jpg}{\includegraphics[width=0.42\linewidth]{figuras/LOGOumsa.jpg}}{%
-			\fbox{\parbox[c][4cm][c]{0.45\linewidth}{\centering \textbf{Logo UMSA}\\[0.2cm](figuras/LOGOumsa)}}}}\\[0.8cm]
+	\IfFileExists{figuras/LOGOumsa.png}{\includegraphics[width=0.38\linewidth]{figuras/LOGOumsa.png}}{%
+		\IfFileExists{figuras/LOGOumsa.jpg}{\includegraphics[width=0.38\linewidth]{figuras/LOGOumsa.jpg}}{%
+			\fbox{\parbox[c][3.5cm][c]{0.4\linewidth}{\centering \textbf{Logo UMSA}\\[0.2cm](figuras/LOGOumsa)}}}}\\[0.6cm]
 	
 	{\LARGE\bfseries Auditoría Forense Presupuestaria de los\\[0.2cm]Gobiernos Autónomos Municipales de Bolivia (2025)\\[0.35cm]
-		\large Detección Multivariante de Anomalías Fiscales mediante KDD con DuckDB, Mezclas Gaussianas (GMM), Factor de Atipicidad Local (LOF) y Ley de Benford}\\[0.8cm]
+		\large Detección Multivariante de Anomalías Fiscales mediante KDD con DuckDB, Mezclas Gaussianas (GMM), Factor de Atipicidad Local (LOF) y Ley de Benford}\\[0.7cm]
 	
 	\begin{flushleft}
-		\hspace{2.5cm}\textbf{MATERIA:} Minería de Datos\\[0.25cm]
-		\hspace{2.5cm}\textbf{DOCENTE:} M.Sc. Menfy Morales Rios\\[0.25cm]
-		\hspace{2.5cm}\textbf{ESTUDIANTE:}\\[0.15cm]
-		\hspace{3.0cm}Cordova Avendaño Yoshua Aaron\\[0.35cm]
-		\hspace{2.5cm}\textbf{ACCESO AL SISTEMA:}\\[0.15cm]
-		\hspace{3.0cm}\textbf{Dashboard Interactivo:} R Shiny (bslib, plotly, DT)\\[0.15cm]
-		\hspace{3.0cm}\textbf{Repositorio GitHub:} \url{https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025}\\[0.15cm]
-		\hspace{3.0cm}\textbf{Entorno de Modelado:} DuckDB, mclust (GMM), dbscan (LOF)
+		\hspace{1.5cm}\textbf{MATERIA:} Minería de Datos (INF-398 / INF-399)\\[0.2cm]
+		\hspace{1.5cm}\textbf{DOCENTE:} M.Sc. Menfy Morales Rios\\[0.2cm]
+		\hspace{1.5cm}\textbf{ESTUDIANTE:}\\[0.15cm]
+		\hspace{2.2cm}Cordova Avendaño Yoshua Aaron\\[0.3cm]
+		\hspace{1.5cm}\textbf{INFORMACIÓN DEL PROYECTO Y ACCESO PÚBLICO:}\\[0.15cm]
+		\hspace{2.2cm}\textbf{Repositorio GitHub:} \url{https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025}\\[0.15cm]
+		\hspace{2.2cm}\textbf{Plataforma Web en Línea (Render):} \url{https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/}\\[0.15cm]
+		\hspace{2.2cm}\textbf{Portal Oficial de Datos (MEFP):} \url{https://abierto.economiayfinanzas.gob.bo/}\\[0.15cm]
 	\end{flushleft}
 	
 	\vfill
-	{\large\bfseries LA PAZ -- BOLIVIA}\\[0.2cm]
-	{\large\bfseries 2026}
+	{\large\bfseries LA PAZ -- BOLIVIA}\\[0.15cm]
+	{\large\bfseries Gestión Académica 2026}
 \end{titlepage}
 
-\newpage
-
-\begin{center}
-{\Large\bfseries Auditoría Forense Presupuestaria de los Gobiernos Autónomos Municipales de Bolivia (Gestión 2025):}\\[0.3em]
-{\large Detección Multivariante de Anomalías Fiscales mediante Mezclas Gaussianas, Factor de Atipicidad Local y Ley de Benford}\\[0.8em]
-\textbf{Cordova Avendaño Yoshua Aaron} \\
-\textit{Materia: Minería de Datos --- Docente: M.Sc. Menfy Morales Rios} \\
-Carrera de Informática, Universidad Mayor de San Andrés \\
-La Paz -- Bolivia
-\end{center}
-\vspace{1em}
-
-\begin{abstract}
-\noindent El presente estudio desarrolla un marco integral de minería de datos y auditoría forense computacional orientado a la detección de irregularidades presupuestarias y patrones atípicos de gasto e ingreso en los 335 Gobiernos Autónomos Municipales (GAM) de Bolivia durante la gestión fiscal 2025. Utilizando como fuente primaria los registros microcontables oficiales del Ministerio de Economía y Finanzas Públicas (429.753 partidas de gasto y 14.644 rubros de ingreso), se implementó un proceso de Descubrimiento de Conocimiento en Bases de Datos (KDD) soportado en un motor analítico columnar en disco (\texttt{DuckDB}). Para superar el severo sesgo de escala inherente a los análisis univariados tradicionales ---que tienden a clasificar como atípicos a los municipios de mayor volumen demográfico en lugar de aquellos con anomalías comportamentales---, se formuló una matriz de nueve indicadores fiscales normalizados e invariantes a la escala. Sobre este espacio vectorial se ajustó un Modelo de Mezclas Gaussianas (\textit{Gaussian Mixture Models}, GMM) optimizado mediante el criterio de información bayesiano (BIC), complementado con el algoritmo de Factor de Valor Atípico Local (\textit{Local Outlier Factor}, LOF) bajo evaluación de sensibilidad multiescala ($minPts \in \{10, 15, 20, 30\}$). El cruce metodológico de consenso aisló 12 municipios con anomalías simultáneas de densidad global y vecindad local. Sobre las transacciones crudas de estos municipios priorizados, se aplicó la prueba forense de primer dígito de la Ley de Benford y un análisis de reincidencia de montos duplicados. Los hallazgos revelaron distorsiones críticas no detectables mediante inspección contable estándar: el GAM de Caquiaviri presentó una violación estadísticamente significativa de la Ley de Benford ($\chi^2 = 16,91$, $p = 0,031$, $MAD = 0,0241$), el GAM de Chulumani exhibió la tasa de ejecución más baja a nivel nacional (31,87\%) combinada con una elevada deuda flotante (16,20\%), el GAM de Tahua registró una asignación de 0\% a inversión pública en activos reales, y el GAM de Boyuibe concentró un 19,86\% de sus partidas devengadas en montos exactos reiterativos, señalando un alto riesgo de fraccionamiento de compras estatales.
-\vspace{0.8em}
-
-\noindent \textbf{Palabras clave:} Minería de datos fiscales, Gobiernos Autónomos Municipales de Bolivia, Modelos de Mezclas Gaussianas (GMM), Factor de Valor Atípico Local (LOF), Ley de Benford, Auditoría forense computacional, KDD.
-\end{abstract}
-
-\newpage
+\clearpage
 
 % ==============================================================================
-\section{Introducción y Contexto Institucional en Bolivia}
+% SECCIÓN PRELIMINAR: ÍNDICES FORMALES
 % ==============================================================================
-En el Estado Plurinacional de Bolivia, el régimen de descentralización fiscal amparado en la Constitución Política del Estado y la Ley Marco de Autonomías y Descentralización ``Andrés Ibáñez'' (Ley N° 031) confiere a los Gobiernos Autónomos Municipales (GAM) competencias directas para la administración, programación y ejecución de sus presupuestos anuales \citep{ley031autonomias}. La estructura financiera municipal en Bolivia se nutre principalmente de dos vertientes: los recursos específicos derivados de la recaudación tributaria local (patentes, impuestos a bienes inmuebles y automotores) y las transferencias corrientes y de capital procedentes del nivel central del Estado mediante la Coparticipación Tributaria y el Impuesto Directo a los Hidrocarburos (IDH), catalogadas contablemente bajo la Fuente de Financiamiento 41 (Transferencias T.G.N.) \citep{mefp2025clasificador}.
+\pagenumbering{roman}
+\setcounter{page}{1}
 
-Históricamente, los mecanismos de fiscalización y auditoría gubernamental ejercidos por la Contraloría General del Estado y las unidades de auditoría interna han dependido de muestreos manuales selectivos y de la revisión documental ex-post sobre comprobantes físicos. Esta práctica adolece de limitaciones metodológicas estructurales:
-\begin{enumerate}[label=\alph*)]
-    \item \textbf{Imposibilidad de procesamiento exhaustivo:} Los repositorios de datos abiertos del Ministerio de Economía y Finanzas Públicas (MEFP) registran cientos de miles de líneas transaccionales por gestión, superando con creces las capacidades de hojas de cálculo convencionales.
-    \item \textbf{Sesgo de escala en auditoría tradicional:} La priorización empírica de inspecciones suele concentrarse en los municipios metropolitanos (el denominado ``eje central'': Santa Cruz de la Sierra, La Paz, El Alto y Cochabamba) debido a la magnitud absoluta de sus presupuestos, invisibilizando distorsiones fiscales y riesgos de corrupción graves en municipios medianos y rurales.
-    \item \textbf{Carencia de modelos multivariantes:} Las anomalías contables rara vez se manifiestan como una sola cifra aislada fuera de rango; corresponden más bien a combinaciones atípicas de variables interrelacionadas, tales como un alto nivel de recaudación con parálisis de gasto de capital, o una desmedida acumulación de deuda flotante sin respaldo en tesorería.
+\tableofcontents
+\clearpage
+
+\listoffigures
+\clearpage
+
+\listoftables
+\clearpage
+
+% ==============================================================================
+% CUERPO PRINCIPAL DEL INFORME
+% ==============================================================================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ------------------------------------------------------------------------------
+\section{Introducción y Contexto Institucional}
+% ------------------------------------------------------------------------------
+En el Estado Plurinacional de Bolivia, el proceso de descentralización y configuración del régimen autonómico, amparado en la Constitución Política del Estado de 2009 y en la Ley Marco de Autonomías y Descentralización ``Andrés Ibáñez'' (Ley N° 031), otorga a los Gobiernos Autónomos Municipales (GAM) facultades directas para formular, aprobar, ejecutar y fiscalizar sus presupuestos institucionales anuales \citep{ley031autonomias}. La estructura financiera de los 335 municipios del país está compuesta principalmente por dos vertientes: los recursos propios generados por la recaudación tributaria local (impuestos sobre bienes inmuebles, vehículos y patentes municipales) y las transferencias de recursos públicos del nivel central del Estado, destacando la Coparticipación Tributaria y el Impuesto Directo a los Hidrocarburos (IDH), catalogadas formalmente bajo la Fuente de Financiamiento 41 (Transferencias T.G.N.) \citep{mefp2025clasificador}.
+
+A pesar del marco regulatorio establecido por la Ley de Administración y Control Gubernamentales (Ley N° 1178 - SAFCO) y las Normas Básicas del Sistema de Administración de Bienes y Servicios (D.S. N° 0181), la fiscalización pública en Bolivia ha dependido históricamente de auditorías documentales tradicionales de carácter muestral y posterior (\textit{ex-post}) ejecutadas por la Contraloría General del Estado y las unidades de auditoría interna de cada entidad. En la gestión fiscal 2025, la administración pública municipal generó más de 444.000 registros transaccionales en microdatos contables, volumen de información que satura las capacidades analíticas de las herramientas de oficina convencionales (como hojas de cálculo) y deja fuera del radar analítico patrones complejos de fraude, distorsiones operativas y desvíos presupuestarios sutiles.
+
+El presente proyecto aplica técnicas avanzadas de Minería de Datos, Descubrimiento de Conocimiento en Bases de Datos (KDD) y Auditoría Forense Computacional sobre los registros microcontables oficiales del Ministerio de Economía y Finanzas Públicas \citep{mefp_datosabiertos}, implementando modelos de aprendizaje no supervisado basados en densidades probabilísticas (GMM) y distancias geométricas locales (LOF) para identificar irregularidades presupuestarias de forma objetiva, científica y reproducible. Todo el pipeline de procesamiento, scripts de cómputo, modelos y visualizaciones se encuentran publicados bajo licencia de acceso abierto en el repositorio GitHub institucional \citep{github_proyecto}, y la plataforma interactiva pericial está disponible en producción en la nube \citep{render_dashboard}.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{4.2cm}>{\raggedright\arraybackslash}X}
+\hline
+\textbf{Recurso del Proyecto} & \textbf{Acceso Directo e Hiperv\'inculo Oficial} \\
+\hline
+\textbf{Repositorio de C\'odigo:} & \url{https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025} \\
+\textbf{Plataforma Web en L\'inea:} & \url{https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/} \\
+\textbf{Portal de Datos MEFP:} & \url{https://abierto.economiayfinanzas.gob.bo/} \\
+\textbf{Entorno de C\'omputo:} & R 4.4, DuckDB, \texttt{mclust} (GMM), \texttt{dbscan} (LOF), \texttt{bslib}, Docker \\
+\hline
+\end{tabularx}
+\caption{Enlaces institucionales y acceso p\'ublico a los artefactos de la investigaci\'on.}
+\label{tab:enlaces_proyecto}
+\end{table}
+
+% ------------------------------------------------------------------------------
+\section{Planteamiento del Problema y Justificación}
+% ------------------------------------------------------------------------------
+
+\subsection{Planteamiento del Problema}
+La auditoría y supervisión del gasto público municipal en Bolivia enfrenta tres problemas metodológicos críticos:
+\begin{enumerate}[label=\textbf{\alph*)}]
+    \item \textbf{El sesgo de escala en la fiscalización tradicional:} Cuando los órganos de control fiscal evalúan anomalías o seleccionan entidades para auditorías especiales, suelen basarse en umbrales monetarios absolutos o en técnicas estadísticas univariadas simples (como el criterio de Tukey sobre montos brutos). Este enfoque genera un severo sesgo de escala: clasifica automáticamente como ``atípicos'' a los municipios metropolitanos del eje central (Santa Cruz de la Sierra, La Paz, El Alto, Cochabamba) debido al volumen demográfico y magnitud de sus presupuestos, mientras que municipios medianos y rurales con graves irregularidades contables (parálisis de obras, desvío de partidas o deudas flotantes desproporcionadas) quedan encubiertos por su reducido presupuesto nominal.
+    \item \textbf{Invisibilidad de anomalías multivariantes complejas:} Las irregularidades fiscales casi nunca se manifiestan como una sola cifra aislada fuera de rango; corresponden más bien a combinaciones simultáneas y patológicas de múltiples variables. Por ejemplo, una entidad puede presentar una ejecución presupuestaria aparentemente normal (80\%), pero sostener al mismo tiempo un 0\% de inversión en obras de infraestructura real, una deuda flotante extrema de compromisos no pagados y una violación de las leyes estadísticas de distribución numérica en sus comprobantes de egreso.
+    \item \textbf{Limitación computacional ante datos masivos:} Los repositorios de datos abiertos del MEFP registran cientos de miles de transacciones contables detalladas. Procesar estos volúmenes con herramientas estadísticas tradicionales en memoria RAM suele provocar cuellos de botella y pérdidas de rendimiento, obligando a los analistas a realizar muestreos selectivos subjetivos que diluyen el poder probatorio de la auditoría.
 \end{enumerate}
 
-El objetivo central de esta investigación es desarrollar e implementar un pipeline computacional riguroso de minería de datos fiscales para la gestión 2025, integrando modelos no supervisados de densidad global (GMM) y densidad local (LOF), y validando sus alertas mediante pruebas forenses de microdatos (Ley de Benford y detección de transacciones idénticas fraccionadas).
+\subsection{Justificación}
+\begin{itemize}[noitemsep]
+    \item \textbf{Justificación Técnica y Computacional:} La incorporación de motores analíticos columnares modernos (\texttt{DuckDB}) permite procesar la totalidad del universo transaccional en disco mediante streaming sin desbordar la memoria principal, garantizando una ingesta reproducible y exhaustiva de los microdatos.
+    \item \textbf{Justificación Metodológica en Minería de Datos:} La combinación sinérgica de modelos paramétricos de densidad global (Mezclas Gaussianas - GMM) con modelos no paramétricos de densidad local (Factor de Atipicidad Local - LOF) permite capturar anomalías en diferentes escalas topológicas del espacio fiscal, superando las restricciones de los métodos basados únicamente en distancias euclidianas globales.
+    \item \textbf{Justificación Social e Institucional:} El presupuesto municipal representa la vía fundamental para satisfacer necesidades de salud, educación, saneamiento e infraestructura en las comunidades de Bolivia. La detección temprana y automatizada de señales de alerta de corrupción, fraccionamiento de contratos y parálisis de inversión proporciona herramientas de decisión directas para la Contraloría General del Estado, el Viceministerio de Presupuesto y la sociedad civil.
+\end{itemize}
 
-% ==============================================================================
+% ------------------------------------------------------------------------------
+\section{Objetivos del Proyecto}
+% ------------------------------------------------------------------------------
+
+\subsection{Objetivo General}
+Desarrollar e implementar un marco computacional integral de minería de datos y auditoría forense para la detección multivariante de anomalías presupuestarias y patrones atípicos de gasto e ingreso en los 335 Gobiernos Autónomos Municipales de Bolivia durante la gestión fiscal 2025, mediante la integración de procesamiento en disco con DuckDB, Modelos de Mezclas Gaussianas (GMM), Factor de Valor Atípico Local (LOF), pruebas forenses de Benford y una plataforma interactiva en R Shiny.
+
+\subsection{Objetivos Específicos}
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item \textbf{Ingesta y Poda Estructural:} Implementar un pipeline eficiente de extracción, transformación y limpieza con DuckDB sobre los microdatos contables crudos de gastos e ingresos del MEFP (más de 444.000 filas), generando un registro de auditoría de integridad contable y cruce determinístico sobre los 335 GAMs.
+    \item \textbf{Ingeniería de Ratios Invariantes:} Formular y computar una matriz de 9 indicadores financieros relativos normalizados que eliminen el sesgo poblacional y dimensional, permitiendo comparaciones objetivas entre municipios rurales y capitales departamentales.
+    \item \textbf{Evaluación de Línea Base Univariada:} Demostrar formal y empíricamente las limitaciones del análisis univariado clásico (criterio de Tukey $IQR$ y puntuaciones $Z$) sobre montos brutos frente al análisis de ratios normalizados.
+    \item \textbf{Segmentación y Modelado Probabilístico (GMM):} Ajustar modelos de mezclas gaussianas mediante el algoritmo EM, seleccionando la estructura de covarianza y número óptimo de componentes regímenes ($G$) con el criterio de información bayesiano (BIC), e identificar anomalías globales de baja log-densidad.
+    \item \textbf{Modelado de Densidad Local (LOF):} Aplicar el algoritmo Local Outlier Factor evaluando la estabilidad y sensibilidad multiescala de los scores frente a variaciones en el parámetro de vecindad ($minPts \in \{10, 15, 20, 30\}$).
+    \item \textbf{Matriz de Consenso y Proyección PCA:} Construir un espacio latente mediante Análisis de Componentes Principales (PCA) y triangular las alertas de GMM y LOF para aislar un grupo prioritario de municipios en consenso de alto riesgo.
+    \item \textbf{Auditoría Forense de Microdatos:} Ejecutar sobre los municipios en consenso la prueba de conformidad con la Ley de Benford (primer dígito, Chi-cuadrado y MAD de Nigrini), el test de transacciones duplicadas idénticas (alertas de fraccionamiento bajo el D.S. 0181) y la descomposición del gasto por objeto contable.
+    \item \textbf{Plataforma Interactiva de Monitoreo:} Diseñar y desplegar una aplicación web interactiva en R Shiny (\texttt{dashboard/app.R}) con sistema visual \textit{Dark Telemetry}, componentes dinámicos de filtrado, proyecciones interactivas 2D/3D y expedientes municipales descargables para auditores públicos.
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
 \section{Marco Teórico y Fundamentos Metodológicos}
-% ==============================================================================
+% ------------------------------------------------------------------------------
 
-\subsection{Taxonomía de Valores Atípicos en Datos Fiscales}
-Siguiendo la conceptualización formal de \citet{chandola2009anomaly}, en el contexto fiscal identificamos tres categorías de anomalías:
-\begin{enumerate}[label=\arabic*)]
-    \item \textbf{Anomalías Globales:} Observaciones que se encuentran aisladas de la distribución general de la población en el espacio de características. En este estudio corresponden a municipios con combinaciones de ratios fiscales extremas a nivel de país.
-    \item \textbf{Anomalías Contextuales:} Puntos que se apartan significativamente de su contexto o régimen de comportamiento específico (por ejemplo, un municipio con perfil demográfico rural que exhibe patrones de endeudamiento típicos de una capital industrial).
-    \item \textbf{Anomalías Locales:} Observaciones cuya densidad relativa respecto a sus vecinos más próximos es sustancialmente menor, independientemente de si están alejadas de la media global.
-\end{enumerate}
+\subsection{Taxonomía de Valores Atípicos en Finanzas Públicas}
+De acuerdo con la formalización de \citet{chandola2009anomaly}, un valor atípico o anomalía es un patrón en los datos que no se ajusta a la noción general de comportamiento normal. En auditoría fiscal se distinguen:
+\begin{itemize}[noitemsep]
+    \item \textbf{Anomalías Globales:} Observaciones que se encuentran sustancialmente apartadas de la totalidad de la masa de datos. Representan municipios con comportamientos presupuestarios atípicos respecto al estándar nacional.
+    \item \textbf{Anomalías Contextuales:} Puntos que resultan anómalos únicamente en un contexto específico determinado por variables de control (por ejemplo, un municipio rural que gasta en servicios no personales como una capital metropolitana).
+    \item \textbf{Anomalías Locales:} Municipios cuya densidad en el espacio multivariante es marcadamente menor que la de su vecindario más próximo, aun cuando sus indicadores no alcancen los extremos de la distribución global.
+\end{itemize}
 
-\subsection{Línea Base Univariada y Criterio de Tukey}
-Como estándar exploratorio clásico \citep{tukey1977eda}, se establece la detección de valores atípicos mediante el rango intercuartílico ($IQR = Q_3 - Q_1$). Un valor $x$ se clasifica como:
+\subsection{Línea Base Univariada: Regla de Tukey y Puntuación Z}
+Como punto de comparación clásico \citep{tukey1977eda}, se establece la detección univariada basada en cuartiles:
 \begin{align}
-    \text{Atípico Leve:} & \quad x < Q_1 - 1,5 \times IQR \quad \lor \quad x > Q_3 + 1,5 \times IQR \\
-    \text{Atípico Extremo:} & \quad x < Q_1 - 3,0 \times IQR \quad \lor \quad x > Q_3 + 3,0 \times IQR
+    \text{Límite Atípico Leve:} & \quad [Q_1 - 1,5 \times IQR, \; Q_3 + 1,5 \times IQR] \\
+    \text{Límite Atípico Extremo:} & \quad [Q_1 - 3,0 \times IQR, \; Q_3 + 3,0 \times IQR]
 \end{align}
-Adicionalmente, se calculó la puntuación estandarizada $Z = (x - \bar{x}) / s$, categorizando como atípico un registro con $|Z| > 2$ o $|Z| > 3$.
+donde $IQR = Q_3 - Q_1$. Complementariamente, la puntuación normalizada $Z = (x - \bar{x})/s$ identifica observaciones con $|Z| > 2$ (desviación moderada) o $|Z| > 3$ (desviación extrema).
 
 \subsection{Modelos de Mezclas Gaussianas (GMM) y Algoritmo EM}
-Los Modelos de Mezclas Gaussianas asumen que los datos observados $\mathbf{x} \in \mathbb{R}^d$ provienen de una combinación ponderada de $G$ densidades gaussianas multivariantes \citep{scrucca2016mclust}:
+Los Modelos de Mezclas Gaussianas asumen que una distribución multivariante $p(\mathbf{x})$ se genera mediante la combinación lineal convexa de $G$ densidades normales \citep{scrucca2016mclust}:
 \begin{equation}
     p(\mathbf{x} \mid \boldsymbol{\theta}) = \sum_{k=1}^{G} \pi_k \, \mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)
 \end{equation}
-donde $\pi_k$ es la probabilidad a priori de pertenencia al componente $k$ ($\sum \pi_k = 1, \pi_k \ge 0$), $\boldsymbol{\mu}_k$ es el vector de medias y $\boldsymbol{\Sigma}_k$ es la matriz de covarianza del régimen $k$.
+donde $\pi_k$ representa el peso del componente $k$ ($\sum \pi_k = 1, \pi_k \ge 0$), $\boldsymbol{\mu}_k$ es el centroide o vector de medias y $\boldsymbol{\Sigma}_k$ es la matriz de covarianza.
 
-El ajuste de los parámetros $\boldsymbol{\theta} = \{\pi_k, \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k\}_{k=1}^G$ se realiza mediante el algoritmo de Esperanza-Maximización (EM) \citep{dempster1977em}. En el paso E, se calculan las probabilidades posteriores de que la observación $i$ pertenezca al régimen $k$:
+La estimación de los parámetros se realiza iterativamente mediante el algoritmo de Esperanza-Maximización (EM) \citep{dempster1977em}. En el paso E se estiman las probabilidades posteriores de pertenencia $\tau_{ik}$:
 \begin{equation}
     \tau_{ik} = \frac{\pi_k \, \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)}{\sum_{j=1}^G \pi_j \, \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_j, \boldsymbol{\Sigma}_j)}
 \end{equation}
-En el paso M, se actualizan los estimadores de máxima verosimilitud de $\pi_k, \boldsymbol{\mu}_k$ y $\boldsymbol{\Sigma}_k$. La selección del número óptimo de componentes $G$ y la estructura geométrica de covarianza (volumen, forma y orientación) se realiza maximizando el Criterio de Información Bayesiano (BIC) \citep{raftery1995bic}:
+En el paso M se actualizan los estimadores ponderados de $\pi_k, \boldsymbol{\mu}_k$ y $\boldsymbol{\Sigma}_k$. La selección del modelo óptimo (familia geométrica de covarianza y número de grupos $G$) se determina maximizando el Criterio de Información Bayesiano (BIC) \citep{raftery1995bic}:
 \begin{equation}
     \text{BIC} = 2 \ln \hat{L} - \nu \ln(n)
 \end{equation}
-donde $\hat{L}$ es la función de verosimilitud maximizada, $\nu$ el número de parámetros independientes y $n$ el número de observaciones. Para la detección de anomalías globales y contextuales bajo GMM, se evalúa la log-densidad total de cada observación $\ln p(\mathbf{x}_i)$, identificando como municipios anómalos aquellos cuya log-densidad se ubica por debajo del percentil 5\% de la distribución empírica.
+donde $\hat{L}$ es la verosimilitud maximizada, $\nu$ es el número de parámetros independientes estimados y $n$ el número de observaciones. Las anomalías globales y contextuales se detectan evaluando la log-densidad conjunta $\ln p(\mathbf{x}_i)$, identificando como sospechosos a los municipios en el percentil inferior ($< 5\%$).
 
 \subsection{Factor de Valor Atípico Local (LOF)}
-Introducido por \citet{breunig2000lof}, el algoritmo LOF mide el grado de aislamiento local de un objeto $\mathbf{p}$ respecto a su vecindario $N_{k}(\mathbf{p})$. Se define la distancia de alcanzabilidad (\textit{reachability distance}) de $\mathbf{p}$ respecto a $\mathbf{o}$ como:
+Propuesto por \citet{breunig2000lof}, el algoritmo LOF no asume una distribución paramétrica subyacente y calcula la densidad local de un punto respecto a sus $k$ vecinos más cercanos ($N_k(\mathbf{p})$). La distancia de alcanzabilidad entre $\mathbf{p}$ y $\mathbf{o}$ se define como:
 \begin{equation}
     \text{reach-dist}_k(\mathbf{p}, \mathbf{o}) = \max \{ k\text{-distancia}(\mathbf{o}), d(\mathbf{p}, \mathbf{o}) \}
 \end{equation}
-La densidad de alcanzabilidad local (\textit{local reachability density}, $lrd$) se expresa como:
+La densidad de alcanzabilidad local ($lrd_k$) se obtiene como el recíproco del promedio de distancias de alcanzabilidad:
 \begin{equation}
     lrd_k(\mathbf{p}) = \left[ \frac{\sum_{\mathbf{o} \in N_k(\mathbf{p})} \text{reach-dist}_k(\mathbf{p}, \mathbf{o})}{|N_k(\mathbf{p})|} \right]^{-1}
 \end{equation}
-Finalmente, el score LOF de $\mathbf{p}$ es el promedio de las razones de densidades:
+El score LOF es el cociente promedio de las densidades de los vecinos sobre la densidad del punto:
 \begin{equation}
     \text{LOF}_k(\mathbf{p}) = \frac{\sum_{\mathbf{o} \in N_k(\mathbf{p})} \frac{lrd_k(\mathbf{o})}{lrd_k(\mathbf{p})}}{|N_k(\mathbf{p})|}
 \end{equation}
-Un valor $\text{LOF} \approx 1$ indica que el municipio se encuentra en una región de densidad similar a la de sus vecinos; un score $\text{LOF} > 1,5$ se toma como umbral base de anomalía local. Para evaluar la estabilidad frente al hiperparámetro de tamaño de vecindad $minPts$, se ejecutó un análisis de sensibilidad con $minPts \in \{10, 15, 20, 30\}$.
+Un score cercano a 1 indica pertenencia a un conglomerado uniforme; valores de $\text{LOF} > 1,5$ señalan aislamiento local estadísticamente relevante.
 
-\subsection{Ley de Benford y Detección Forense de Fraude}
-La Ley de Benford \citep{benford1938law} postula que en conjuntos de datos no restringidos generados por procesos naturales o contables legítimos, la frecuencia del primer dígito significativo $d \in \{1, 2, \dots, 9\}$ sigue una distribución logarítmica:
+\subsection{Ley de Benford y Criterios Forenses de Nigrini}
+La Ley de Benford \citep{benford1938law} establece que en colecciones de números formadas de manera natural y sin topes artificiales, la probabilidad teórica de que el primer dígito significativo sea $d \in \{1, \dots, 9\}$ sigue la ley logarítmica:
 \begin{equation}
     P(d) = \log_{10}\left(1 + \frac{1}{d}\right)
 \end{equation}
-Para evaluar la conformidad forense se utilizan dos métricas complementarias: la prueba de bondad de ajuste Chi-cuadrado:
-\begin{equation}
-    \chi^2 = n \sum_{d=1}^9 \frac{(f_d^{\text{obs}} - P(d))^2}{P(d)}, \quad \text{con } 8 \text{ grados de libertad}
-\end{equation}
-y la Desviación Absoluta Media (MAD, \textit{Mean Absolute Deviation}) \citep{nigrini2012benford}:
+Para contrastar la hipótesis de conformidad forense se calculan el estadístico Chi-cuadrado ($\chi^2 = n \sum_{d=1}^9 \frac{(f_d^{\text{obs}} - P(d))^2}{P(d)}$ con 8 g.l.) y la Desviación Absoluta Media (MAD) \citep{nigrini2012benford}:
 \begin{equation}
     \text{MAD} = \frac{1}{9} \sum_{d=1}^9 \left| f_d^{\text{obs}} - P(d) \right|
 \end{equation}
-Bajo los criterios estandarizados de \citet{nigrini2012benford}, valores de $\text{MAD} \le 0,006$ representan conformidad cercana; entre $0,006$ y $0,012$, conformidad aceptable; entre $0,012$ y $0,015$, marginal; y valores $\text{MAD} > 0,015$ denotan \textit{no conformidad} (violación de la ley), alertando sobre intervención humana deliberada, redondeos artificiales o fraccionamiento de contratos.
-
-% ==============================================================================
-\section{Metodología KDD y Auditoría de Integridad Fiscal}
-% ==============================================================================
-El proceso de Descubrimiento de Conocimiento en Bases de Datos (KDD) \citep{fayyad1996kdd} se aplicó sobre los archivos CSV oficiales de la gestión 2025 provistos por el MEFP, correspondientes a:
+Bajo los estándares de auditoría forense de \citet{nigrini2012benford}:
 \begin{itemize}[noitemsep]
-    \item \texttt{presupuesto\_gasto\_gestion\_2025.csv} (408,34 MB, 429.753 filas, 67 columnas).
-    \item \texttt{presupuesto\_ingreso\_gestion\_2025.csv} (8,79 MB, 14.644 filas, 42 columnas).
+    \item $\text{MAD} \le 0,006$: Conformidad cercana (\textit{Close conformity}).
+    \item $0,006 < \text{MAD} \le 0,012$: Conformidad aceptable (\textit{Acceptable conformity}).
+    \item $0,012 < \text{MAD} \le 0,015$: Conformidad marginal (\textit{Marginally acceptable conformity}).
+    \item $\text{MAD} > 0,015$: No conformidad o violación (\textit{Nonconformity}), indicador de distorsión antrópica o manipulación documental.
 \end{itemize}
 
-Para evitar el desbordamiento de memoria RAM en el entorno computacional, se recurrió al motor analítico columnar \texttt{DuckDB} en R, ejecutando las consultas analíticas en streaming directamente sobre disco.
+\subsection{Marco Legal: Ley 1178 (SAFCO) y D.S. 0181 (NB-SABS)}
+En el ordenamiento jurídico boliviano, el Sistema de Contratación de Bienes y Servicios (D.S. N° 0181) prohíbe taxativamente el fraccionamiento deliberado del gasto orientado a eludir licitaciones públicas transparentes \citep{ds0181}. Los techos para Contratación Menor se fijan en compras de hasta Bs. 50.000 (con subtramos operativos habituales en Bs. 20.000). La reiteración atípica de comprobantes exactamente por debajo o en estos límites constituye una señal de alerta forense vinculada a la responsabilidad civil y penal prevista en la Ley N° 1178 (SAFCO) \citep{ley1178safco}.
 
-\subsection{Poda Estructural y Auditoría Contable}
-Se aplicaron los filtros institucionales de la administración municipal: $\text{gestión} = 2025$ y $\text{entidad\_sigla\_subarea} = \text{'GAM'}$ (subárea 1.1.7.3 del clasificador presupuestario). Como se documenta en la Tabla \ref{tab:auditoria_limpieza}, se obtuvieron 263.893 registros de gasto y 9.436 registros de ingreso, cruzando con exactitud matemática plena sobre los 335 Gobiernos Autónomos Municipales de Bolivia.
+% ------------------------------------------------------------------------------
+\section{Desarrollo Metodológico y Pipeline KDD}
+% ------------------------------------------------------------------------------
+
+\subsection{Flujo de Trabajo KDD}
+El proceso de Descubrimiento de Conocimiento en Bases de Datos (KDD) \citep{fayyad1996kdd} se organizó en cinco fases secuenciales e iterativas:
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item \textbf{Selección de Datos:} Ingesta de los microdatos abiertos oficiales descargados del portal del Ministerio de Economía y Finanzas Públicas \citep{mefp_datosabiertos} (\url{https://abierto.economiayfinanzas.gob.bo/}): \texttt{presupuesto\_gasto\_gestion\_2025.csv} (408,3 MB, 429.753 partidas) y \texttt{presupuesto\_ingreso\_gestion\_2025.csv} (8,8 MB, 14.644 rubros).
+    \item \textbf{Preprocesamiento y Auditoría:} Filtrado estructural de subárea (\texttt{entidad\_sigla\_subarea == 'GAM'}), gestión 2025, tratamiento de valores nulos con \texttt{coalesce} y detección de inconsistencias lógicas.
+    \item \textbf{Transformación e Ingeniería de Atributos:} Consolidación a nivel entidad y construcción de 9 ratios fiscales relativos normalizados con \texttt{scale()}.
+    \item \textbf{Minería de Datos Multivariante:} Ajuste simultáneo de modelos GMM (\texttt{mclust}) y LOF (\texttt{dbscan}) con proyección en componentes principales (PCA).
+    \item \textbf{Evaluación y Auditoría Forense Drill-Down:} Extracción de microdatos para los municipios priorizados en consenso y ejecución de pruebas de Benford, fraccionamiento y estructura de compras.
+\end{enumerate}
+
+\subsection{Poda Estructural y Auditoría Contable con DuckDB}
+Para garantizar la viabilidad computacional sin requerir memoria RAM masiva, se utilizó el paquete \texttt{duckdb} en R. Las consultas analíticas se ejecutaron directamente sobre disco. Como resume la Tabla \ref{tab:auditoria_limpieza}, se procesaron 429.753 partidas de gastos y 14.644 rubros de ingresos, filtrando 263.893 y 9.436 registros municipales respectivamente, correspondientes con exactitud a los 335 GAMs del país.
 
 \input{tablas/tabla_auditoria_limpieza.tex}
 
-La auditoría de integridad contable en bruto reveló:
-\begin{itemize}[noitemsep]
-    \item Cero valores nulos en columnas monetarias esenciales (\texttt{inicial}, \texttt{vigente}, \texttt{devengado}, \texttt{pagado}, \texttt{percibido}).
-    \item Reversiones contables en microdatos: 1 partida de devengado negativo y 498 partidas con presupuesto vigente negativo en gastos.
-    \item Inconsistencias a nivel transacción: 306 partidas con $\text{pagado} > \text{devengado}$, y 1.366 registros de ingresos con $\text{vigente} = 0$ pero recaudación positiva, correspondientes a transferencias extraordinarias no presupuestadas al inicio de la gestión.
-\end{itemize}
+El análisis de integridad contable inicial arrojó cero valores nulos en columnas monetarias esenciales, 1 partida de gasto devengado negativo, 498 partidas con presupuesto vigente negativo (reversiones contables), y 306 partidas donde el monto pagado excedió al devengado. En ingresos se registraron 1.366 registros con presupuesto vigente cero pero recaudación efectiva positiva, provenientes de transferencias extraordinarias no presupuestadas en el POA inicial.
 
-\subsection{Ingeniería de Características Invariantes a la Escala}
-Con el fin de posibilitar comparaciones no sesgadas entre municipios de gran escala (ej. Santa Cruz de la Sierra con un presupuesto superior a 4.550 millones de Bs.) y municipios rurales (ej. Mojinete o Tahua con presupuestos inferiores a 4 millones de Bs.), se construyeron nueve ratios financieros por entidad:
+\subsection{Ingeniería de Características: 9 Ratios Invariantes a la Escala}
+Con el fin de eliminar el sesgo de tamaño poblacional, se definieron nueve indicadores matemáticos por municipio:
 \begin{enumerate}[label=\textbf{\arabic*.}]
-    \item \textbf{Tasa de ejecución del gasto:} $\text{TEG} = \frac{\text{Gasto Devengado}}{\text{Gasto Vigente}}$. Mide la capacidad efectiva de absorción presupuestaria.
-    \item \textbf{Tasa de modificación presupuestaria:} $\text{TMP} = \frac{\text{Gasto Vigente} - \text{Gasto Inicial}}{\text{Gasto Inicial}}$. Evalúa el grado de alteración del techo fiscal inicial.
-    \item \textbf{Brecha de pago (Deuda Flotante):} $\text{DF} = \frac{\text{Gasto Devengado} - \text{Gasto Pagado}}{\text{Gasto Devengado}}$. Cuantifica compromisos devengados exigibles impagos al cierre fiscal.
-    \item \textbf{Ratio de inversión pública:} $\text{RIP} = \frac{\text{Devengado en Proyectos (Actividad = 0)}}{\text{Gasto Devengado}}$. Mide la proporción canalizada a formación bruta de capital.
-    \item \textbf{Ratio de Servicios No Personales (Grupo 20000):} $\text{R20} = \frac{\text{Devengado Grupo 20000}}{\text{Gasto Devengado}}$. Captura gastos en consultorías, mantenimiento, alquileres y contrataciones transitorias.
-    \item \textbf{Balance de caja real:} $\text{BCR} = \frac{\text{Ingreso Percibido} - \text{Gasto Pagado}}{\text{Ingreso Percibido}}$. Refleja la posición neta de liquidez efectiva en tesorería.
-    \item \textbf{Eficacia de recaudación:} $\text{ER} = \frac{\text{Ingreso Percibido}}{\text{Ingreso Vigente}}$. Evalúa el cumplimiento del presupuesto de ingresos.
-    \item \textbf{Dependencia del TGN:} $\text{DEP} = \frac{\text{Percibido Fuente 41}}{\text{Ingreso Percibido}}$. Peso de las transferencias del nivel central sobre los ingresos totales.
-    \item \textbf{Escala presupuestaria logarítmica:} $\text{LOGP} = \ln(1 + \text{Gasto Vigente})$. Variable de control dimensional.
+    \item \textbf{Tasa de Ejecución del Gasto (TEG):} $\text{TEG} = \frac{\text{Gasto Devengado}}{\text{Gasto Vigente}}$. Mide la capacidad de absorción y cumplimiento de metas del gasto.
+    \item \textbf{Tasa de Modificación Presupuestaria (TMP):} $\text{TMP} = \frac{\text{Gasto Vigente} - \text{Gasto Inicial}}{\text{Gasto Inicial}}$. Cuantifica la alteración de la programación fiscal inicial.
+    \item \textbf{Brecha de Pago o Deuda Flotante (DF):} $\text{DF} = \frac{\text{Gasto Devengado} - \text{Gasto Pagado}}{\text{Gasto Devengado}}$. Representa la acumulación de obligaciones contraídas con contratistas y proveedores no canceladas en efectivo.
+    \item \textbf{Ratio de Inversión Pública (RIP):} $\text{RIP} = \frac{\text{Devengado en Proyectos (Actividad = 0)}}{\text{Gasto Devengado}}$. Proporción del gasto canalizado a la formación bruta de capital e infraestructura frente al gasto corriente.
+    \item \textbf{Ratio de Servicios No Personales (R20):} $\text{R20} = \frac{\text{Devengado Grupo 20000}}{\text{Gasto Devengado}}$. Concentración de gasto en consultorías, mantenimiento y contratos transitorios.
+    \item \textbf{Balance de Caja Real (BCR):} $\text{BCR} = \frac{\text{Ingreso Percibido} - \text{Gasto Pagado}}{\text{Ingreso Percibido}}$. Posición neta de liquidez efectiva al cierre de caja.
+    \item \textbf{Eficacia de Recaudación (ER):} $\text{ER} = \frac{\text{Ingreso Percibido}}{\text{Ingreso Vigente}}$. Capacidad de cobranza frente a lo programado en ingresos.
+    \item \textbf{Dependencia del TGN (DEP):} $\text{DEP} = \frac{\text{Percibido Fuente 41}}{\text{Ingreso Percibido}}$. Grado de subordinación financiera ante transferencias del nivel central.
+    \item \textbf{Escala Presupuestaria Logarítmica (LOGP):} $\text{LOGP} = \ln(1 + \text{Gasto Vigente})$. Factor de control dimensional.
 \end{enumerate}
 
-Todas las variables fueron estandarizadas con $\text{scale}()$ (media cero y varianza unitaria) previo a su ingreso a los algoritmos GMM y LOF.
+Todos los ratios fueron estandarizados ($\mu=0, \sigma=1$) antes de ingresar a los algoritmos de aprendizaje de máquinas.
 
-% ==============================================================================
-\section{Resultados Experimentales y Modelado Multivariante}
-% ==============================================================================
-
-\subsection{Línea Base Univariada y Demostración del Sesgo de Escala}
-La evaluación univariada tradicional (Tabla \ref{tab:linea_base_univariada}) pone de manifiesto la deficiencia epistemológica de auditar sobre cifras brutas. El criterio de Tukey sobre el presupuesto vigente señala a 39 municipios, todos ellos correspondientes a capitales de departamento o urbes intermedias masivas (Santa Cruz de la Sierra, La Paz, El Alto, Cochabamba, Sucre).
+\subsection{Demostración Empírica del Sesgo de Escala Univariado}
+La Tabla \ref{tab:linea_base_univariada} y la Figura \ref{fig:sesgo_escala} demuestran con contundencia por qué la auditoría basada en cifras monetarias brutas resulta contraproducente.
 
 \input{tablas/tabla_linea_base_univariada.tex}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{figuras/fig_01_sesgo_escala_univariado.png}
-    \caption{Evidencia empírica del sesgo de escala: contraste entre detección por presupuesto bruto versus ratios fiscales de comportamiento en los 335 GAMs.}
+    \caption{Demostración empírica del sesgo de escala: los criterios sobre montos brutos (Tukey/Z) señalan a las grandes ciudades (falsos positivos), mientras que los ratios relativos descubren distorsiones operativas críticas.}
     \label{fig:sesgo_escala}
 \end{figure}
 
-Como ilustra nítidamente la Figura \ref{fig:sesgo_escala} y resume la Tabla \ref{tab:top_atipicos_univariados}, las grandes capitales (puntos azules) son falsos positivos de escala: ejecutan normalmente su presupuesto (cercanas al 80-95\% de absorción). Por el contrario, los municipios señalados por los ratios fiscales (puntos rojos) presentan distorsiones operativas extremas que la escala jamás detecta: Chulumani ejecuta apenas el 31,87\% de su presupuesto y acumula una deuda flotante del 16,20\%; Caquiaviri mantiene una deuda flotante del 15,95\%; y Tahua destina 0\% de su gasto a inversión real.
+Al aplicar el criterio de Tukey sobre el presupuesto vigente bruto, se aíslan 39 municipios, todos ellos correspondientes a capitales departamentales o urbes metropolitanas (Tabla \ref{tab:top_atipicos_univariados}). Sin embargo, estas ciudades operan con ratios normales (ejecuciones entre 80\% y 90\%). En contraste, los indicadores relativos de comportamiento descubren distorsiones severas en municipios no metropolitanos: Chulumani ejecuta apenas 31,87\% de su presupuesto y acumula 16,20\% de deuda flotante; Caquiaviri sostiene 15,95\% de deuda flotante impaga; y Tahua asigna 0\% de su presupuesto a inversión pública real.
 
 \input{tablas/tabla_top_atipicos_univariados.tex}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{figuras/fig_02_boxplot_ratios_tukey.png}
-    \caption{Distribución y dispersión univariada de los ratios fiscales normalizados (335 GAMs de Bolivia, Gestión 2025).}
+    \caption{Distribución y dispersión univariada de los 9 ratios fiscales normalizados (335 GAMs de Bolivia, Gestión 2025).}
     \label{fig:boxplot_ratios}
 \end{figure}
 
-\subsection{Segmentación por Regímenes con Mezclas Gaussianas (GMM)}
-El algoritmo EM aplicado sobre la matriz estandarizada evaluó parametrizaciones de covarianza para $G \in \{1, \dots, 9\}$. El criterio BIC alcanzó su máximo valor ($\text{BIC} = -5.284,80$) en el modelo \textbf{VVE} (elipsoidal, igual orientación, volumen y forma variable) con exactamente \textbf{$G = 4$ regímenes gaussianos} (Figura \ref{fig:gmm_bic}).
+\subsection{Segmentación y Regímenes con Mezclas Gaussianas (GMM)}
+El algoritmo EM evaluó parametrizaciones geométricas para $G \in \{1, \dots, 9\}$. La maximización del criterio BIC ($\text{BIC} = -5.284,80$) seleccionó como óptimo el modelo \textbf{VVE} (elipsoidal, igual orientación, volumen y forma variable) con exactamente \textbf{$G = 4$ regímenes fiscales} (Figura \ref{fig:gmm_bic}).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.88\textwidth]{figuras/fig_03_gmm_curva_bic.png}
-    \caption{Curva del Criterio de Información Bayesiano (BIC) según número de componentes y familias geométricas en \texttt{mclust}.}
+    \caption{Curva de selección de modelo por Criterio de Información Bayesiano (BIC) en \texttt{mclust}.}
     \label{fig:gmm_bic}
 \end{figure}
 
-La caracterización sustantiva de los 4 regímenes se detalla en la Tabla \ref{tab:gmm_regimenes}:
+La caracterización macroeconómica de los 4 regímenes (Tabla \ref{tab:gmm_regimenes}) refleja la heterogeneidad de los municipios bolivianos:
 \begin{itemize}[noitemsep]
-    \item \textbf{Régimen 1 (90 GAMs, 26,9\%):} Municipios rurales altamente dependientes del TGN (88,9\%) con alta inversión pública (39,4\%) y presupuestos promedio de Bs. 32,8M.
-    \item \textbf{Régimen 2 (94 GAMs, 28,1\%):} Municipios de ejecución moderada (76,4\%) pero con fuerte peso de Servicios No Personales (31,2\%).
-    \item \textbf{Régimen 3 (48 GAMs, 14,3\%):} Municipios de mayor escala fiscal (promedio Bs. 200,9M) con recaudación propia destacada y menor dependencia estatal central (60,4\%).
-    \item \textbf{Régimen 4 (103 GAMs, 30,7\%):} Perfil de comportamiento estándar promedio nacional.
+    \item \textbf{Régimen 1 (90 GAMs, 26,9\%):} Municipios rurales de alta inversión comunal (28,5\%) y extrema dependencia del TGN (87,9\%).
+    \item \textbf{Régimen 2 (94 GAMs, 28,1\%):} Municipios con alta concentración en Servicios No Personales (27,9\%).
+    \item \textbf{Régimen 3 (48 GAMs, 14,3\%):} Municipios urbanos e intermedios de mayor escala fiscal (promedio Bs. 200,9M) con ingresos propios tributarios destacados.
+    \item \textbf{Régimen 4 (103 GAMs, 30,7\%):} Conglomerado fiscal estándar promedio nacional.
 \end{itemize}
 
 \input{tablas/tabla_gmm_regimenes.tex}
 
-Al evaluar la log-densidad total $\ln p(\mathbf{x}_i)$, se fijó el umbral crítico en el percentil 5\% ($\le -14,526$), clasificando a 17 municipios como anomalías de baja densidad probabilística global o contextual.
+El análisis de log-densidad probabilística multivariante identificó 17 municipios por debajo del umbral del 5\% ($\ln p(\mathbf{x}_i) \le -14,526$), categorizados como anomalías globales de baja verosimilitud conjunta.
 
-\subsection{Detección Local con LOF y Análisis de Sensibilidad}
-El cálculo del Factor de Valor Atípico Local con parámetro base $minPts = 20$ y corte $\text{LOF} > 1,5$ identificó 16 municipios con densidad local significativamente deteriorada respecto a sus pares más próximos. 
+\subsection{Análisis de Densidad Local con LOF y Sensibilidad Multiescala}
+El algoritmo LOF computó la atipicidad respecto al vecindario con parámetro base $minPts = 20$. Con un corte de $\text{LOF} > 1,5$, se detectaron 16 municipios con deterioro severo de densidad local.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.88\textwidth]{figuras/fig_05_sensibilidad_lof.png}
-    \caption{Análisis de sensibilidad y estabilidad de los scores LOF frente a variaciones de $minPts \in \{10, 15, 20, 30\}$.}
+    \caption{Evaluación de sensibilidad y estabilidad de los scores LOF para $minPts \in \{10, 15, 20, 30\}$.}
     \label{fig:sensibilidad_lof}
 \end{figure}
 
-Como se aprecia en la Figura \ref{fig:sensibilidad_lof}, la correlación de Pearson entre los distintos valores de vecindad se mantuvo por encima de $0,94$ ($r = 0,987$ entre $minPts=15$ y $20$; $r = 0,978$ entre $20$ y $30$), lo que evidencia que la condición anómala de los municipios no es un artefacto de la parametrización de vecindad, sino una propiedad topológica persistente del espacio fiscal.
+El análisis de sensibilidad (Figura \ref{fig:sensibilidad_lof}) confirmó la robustez del modelo: la correlación de Pearson entre los diferentes valores de vecindad superó sistemáticamente $0,94$ ($r = 0,987$ entre 15 y 20; $r = 0,978$ entre 20 y 30), demostrando que la condición de atipicidad no es un sesgo del parámetro elegido, sino una propiedad topológica persistente de los datos fiscales.
 
-\subsection{Matriz de Consenso Forense}
-La triangulación de ambos paradigmas (densidad paramétrica global GMM y densidad no paramétrica local LOF) permitió estratificar el universo de los 335 GAMs en cuatro categorías operativas (Figura \ref{fig:pca_consenso}):
+\subsection{Matriz de Consenso y Proyección PCA}
+La triangulación de los dos paradigmas (densidad global paramétrica GMM y densidad local no paramétrica LOF) clasificó a los 335 GAMs en cuatro grupos:
 \begin{itemize}[noitemsep]
-    \item \textbf{Normal:} 314 municipios (93,7\%).
-    \item \textbf{Solo GMM (Global/Contextual):} 5 municipios (1,5\%).
-    \item \textbf{Solo LOF (Local):} 4 municipios (1,2\%).
-    \item \textbf{Consenso GMM + LOF (Prioridad Alta):} \textbf{12 municipios críticos (3,6\%)}, listados en la Tabla \ref{tab:consenso_anomalias}.
+    \item \textbf{Normales:} 314 municipios (93,73\%).
+    \item \textbf{Solo GMM (Global/Contextual):} 5 municipios (1,49\%).
+    \item \textbf{Solo LOF (Local):} 4 municipios (1,19\%).
+    \item \textbf{Consenso GMM + LOF (Prioridad Alta):} \textbf{12 municipios críticos (3,58\%)}, presentados en la Tabla \ref{tab:consenso_anomalias}.
 \end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.94\textwidth]{figuras/fig_04_pca_consenso_anomalias.png}
-    \caption{Espacio latente de Componentes Principales (PCA1 y PCA2) mostrando las elipses de los regímenes GMM y los 12 municipios en consenso de alto riesgo forense.}
+    \caption{Espacio latente de Componentes Principales (PCA) con elipses de regímenes GMM y ubicación de los 12 municipios priorizados en consenso.}
     \label{fig:pca_consenso}
 \end{figure}
 
 \input{tablas/tabla_consenso_anomalias.tex}
 
-% ==============================================================================
-\section{Auditoría Forense Drill-Down y Análisis de Casos Críticos}
-% ==============================================================================
-Para profundizar en las causas de atipicidad de los 12 municipios priorizados en consenso, se extrajeron sus 6.387 transacciones crudas de gasto devengado desde DuckDB y se ejecutaron pruebas de microdatos contables.
+La proyección en componentes principales (Figura \ref{fig:pca_consenso}) captura el 48,7\% de la varianza total acumulada en los dos primeros ejes (PC1: 27,4\%, PC2: 21,3\%). Los vectores de carga (*loadings*) revelan que PC1 está dominado por la escala presupuestaria y la deuda flotante en sentido positivo, mientras que PC2 separa a los municipios según su balance de caja y nivel de inversión pública.
 
-\subsection{Violaciones a la Ley de Benford}
-La Tabla \ref{tab:auditoria_benford} presenta los resultados de la prueba del primer dígito de Benford. De acuerdo a la escala de \citet{nigrini2012benford}, cinco municipios caen en la categoría de \textbf{No Conformidad (Nonconformity, $\text{MAD} > 0,015$)}: Caquiaviri, Tahua, Chulumani, Antequera y San Juan.
+\subsection{Análisis Metodológico de Anomalías Unilaterales}
+El estudio de los casos no coincidentes ofrece un alto valor epistemológico:
+\begin{itemize}[noitemsep]
+    \item \textbf{Solo GMM (5 municipios):} Corresponden a observaciones ubicadas en las fronteras exteriores de las elipses gaussianas. Tienen valores moderadamente inusuales en varias dimensiones a la vez, lo que disminuye su log-densidad global, pero se encuentran rodeados de vecinos a distancias homogéneas, por lo que su LOF se mantiene por debajo de 1,5.
+    \item \textbf{Solo LOF (4 municipios):} Representan anomalías de densidad local. Se sitúan en zonas con densidades globales intermedias, pero están relativamente aislados de sus vecinos inmediatos más cercanos en subespacios específicos de gasto corriente y transferencias.
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+\section{Auditoría Forense Drill-Down y Expedientes Críticos}
+% ------------------------------------------------------------------------------
+Sobre los 12 municipios identificados en consenso, se realizó una extracción en profundidad de sus 6.387 transacciones crudas de gasto devengado para ejecutar pruebas de microdatos contables.
+
+\subsection{Conformidad con la Ley de Benford}
+La Tabla \ref{tab:auditoria_benford} expone los resultados de la prueba del primer dígito de Benford. De acuerdo a los umbrales de \citet{nigrini2012benford}, cinco municipios caen en la categoría de \textbf{No Conformidad ($\text{MAD} > 0,015$)}: Caquiaviri, Tahua, Chulumani, Antequera y San Juan.
 
 \input{tablas/tabla_auditoria_benford.tex}
 
-El caso más contundente es el **GAM de Caquiaviri (La Paz)** (Figura \ref{fig:benford_caq}): con 239 partidas devengadas, registra una desviación sustancial ($\chi^2 = 16,91$, $p = 0,031 < 0,05$, $\text{MAD} = 0,0241$), reflejando una supresión artificial del dígito 1 (observado 21,3\% vs. teórico 30,1\%) y picos anómalos desproporcionados en los dígitos 4 y 5. Estadísticamente, la probabilidad de que esta alteración de frecuencias ocurra de forma aleatoria es inferior al 3,1\%.
+El caso más destacado es el \textbf{GAM de Caquiaviri (La Paz)} (Figura \ref{fig:benford_caq}): con 239 partidas devengadas, registra una desviación estadísticamente significativa ($\chi^2 = 16,91$, $p = 0,031 < 0,05$, $\text{MAD} = 0,0241$). La distribución observada exhibe una supresión anormal del dígito 1 (21,3\% observado frente al 30,1\% teórico) y picos desproporcionados en los dígitos 4 y 5, descartando aleatoriedad con una confianza del 96,9\%.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.88\textwidth]{figuras/fig_06_benford_caquiaviri.png}
-    \caption{Prueba de la Ley de Benford en Caquiaviri (La Paz): discrepancia empírica estadísticamente significativa ($p = 0,031$).}
+    \caption{Prueba de la Ley de Benford en Caquiaviri: discrepancia empírica estadísticamente significativa ($p = 0,031$).}
     \label{fig:benford_caq}
 \end{figure}
 
-\subsection{Alertas de Fraccionamiento de Contratos y Montos Duplicados}
-La inspección de microdatos reveló que en varios municipios anómalos, una proporción considerable del gasto no obedece a precios de mercado continuos, sino a la reiteración sistemática de cifras monetarias exactas (Tabla \ref{tab:duplicados_sospechosos}):
+\subsection{Fraccionamiento de Contratos y Montos Duplicados (D.S. 0181)}
+La inspección transaccional identificó una fuerte concentración de comprobantes emitidos por montos monetarios idénticos y repetitivos (Tabla \ref{tab:duplicados_sospechosos}):
 \begin{itemize}[noitemsep]
-    \item \textbf{GAM de Boyuibe (Santa Cruz):} El \textbf{19,86\%} de todas sus partidas devengadas (137 de 690 registros) corresponde a montos idénticos repetidos. Se evidenciaron compras reiterativas por montos exactos de Bs. 20.000 y Bs. 50.000 en partidas de materiales y servicios no personales.
-    \item \textbf{GAM de Colcha ``K'' (Potosí):} A pesar de contar con un presupuesto masivo (Bs. 127M derivado de regalías mineras y litio), el \textbf{15,32\%} de sus registros de gasto devengado son montos repetidos de Bs. 20.000, Bs. 48.000 y Bs. 50.000.
+    \item \textbf{GAM de Boyuibe (Santa Cruz):} El \textbf{19,86\%} de todas sus partidas devengadas (137 de 690 comprobantes) corresponde a cifras repetidas, destacando múltiples adquisiciones de Bs. 20.000 y Bs. 50.000 en insumos y servicios.
+    \item \textbf{GAM de Colcha ``K'' (Potosí):} A pesar de administrar un presupuesto de Bs. 127 millones por regalías mineras, el \textbf{15,32\%} de sus registros son montos idénticos reiterativos de Bs. 20.000, Bs. 48.000 y Bs. 50.000.
     \item \textbf{GAM de San Juan (Santa Cruz):} Concentra un \textbf{14,16\%} de transacciones duplicadas.
 \end{itemize}
-En la normativa boliviana de contrataciones públicas (D.S. 0181), las modalidades de Contratación Menor tienen topes fijados habitualmente en Bs. 20.000 y Bs. 50.000; la acumulación de pagos idénticos justo en estos límites constituye un indicio forense típico de fraccionamiento deliberado para evitar licitaciones públicas formales.
 
 \input{tablas/tabla_duplicados_sospechosos.tex}
+
+Bajo el D.S. N° 0181, los límites de contratación menor se establecen habitualmente en Bs. 20.000 y Bs. 50.000. La emisión repetitiva de facturas y órdenes justo al borde de dichos topes constituye una señal de alerta de fraccionamiento premeditado de compras para eludir convocatorias públicas competitivas.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.94\textwidth]{figuras/fig_07_composicion_gasto_consenso.png}
-    \caption{Descomposición de la estructura presupuestaria del gasto devengado por objeto del gasto en los 12 GAMs en consenso.}
+    \caption{Estructura presupuestaria del gasto devengado por objeto del gasto en los 12 GAMs en consenso.}
     \label{fig:comp_gasto}
 \end{figure}
 
-\subsection{Distorsiones Estructurales en la Composición del Gasto}
-La Figura \ref{fig:comp_gasto} desglosa la participación por objeto de gasto de los 12 municipios en consenso:
+\subsection{Descomposición por Objeto del Gasto y Diagnóstico de Casos}
+La Figura \ref{fig:comp_gasto} desglosa la participación por objeto de gasto de los municipios en consenso, permitiendo individualizar las causas de atipicidad:
+\begin{enumerate}[label=\textbf{\alph*)}]
+    \item \textbf{Tahua (Potosí):} Presenta una patología presupuestaria extrema con un \textbf{0\% de ejecución en Activos Reales} (Grupo 40000). La totalidad de sus recursos se consumió en partidas corrientes de sueldos y materiales.
+    \item \textbf{Chulumani (La Paz):} Registra la ejecución de gasto más baja del país (31,87\%) combinada con un balance de caja positivo del +60,78\% y una deuda flotante del 16,20\%. Refleja parálisis de obras con recursos ociosos en tesorería.
+    \item \textbf{Santa Cruz de la Sierra:} Presenta la mayor deuda flotante de Bolivia (17,77\%, equivalente a más de Bs. 647 millones impagos a contratistas) y un balance de caja negativo (-2,44\%).
+    \item \textbf{Mojinete (Potosí) y Antequera (Oruro):} Presentan balances de caja negativos extremos (-48,98\% y -34,13\% respectivamente), comprometiendo pagos por encima de los ingresos efectivamente recaudados en el año.
+    \item \textbf{Humanata y Malla (La Paz):} Exhiben estructuras presupuestarias atípicas con alta concentración en proyectos específicos no recurrentes y brechas significativas entre el presupuesto devengado y pagado.
+    \item \textbf{Colpa Bélgica (Santa Cruz):} Muestra una combinación de alta ejecución (89,1\%) con distorsiones multivariantes en servicios no personales y gasto corriente.
+\end{enumerate}
+
+\subsection{Matriz de Riesgo Normativo y Responsabilidad (Ley 1178)}
+Con base en los hallazgos analíticos, se estructuró una matriz de tipificación de riesgos conforme al régimen de responsabilidades por la función pública de la Ley SAFCO (Tabla \ref{tab:matriz_riesgos_safco}).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Matriz de Tipologías de Riesgo Fiscal y Responsabilidad Legal (Ley 1178 y D.S. 0181)}
+\label{tab:matriz_riesgos_safco}
+\begin{tabularx}{\textwidth}{p{3.2cm}p{4.2cm}p{3.5cm}X}
+\hline
+\textbf{Tipología de Riesgo} & \textbf{Evidencia Analítica / Métrica} & \textbf{Municipios Ejemplares} & \textbf{Responsabilidad Sugerida (Ley 1178)} \\
+\hline
+\textbf{Riesgo I: Fraccionamiento Contractual} & Reincidencia de montos idénticos al tope de contratación menor (Bs. 20k / 50k). & Boyuibe (19,9\%), Colcha ``K'' (15,3\%), San Juan (14,2\%) & \textbf{Administrativa y Penal} (Incumplimiento de deberes, D.S. 0181). \\
+\textbf{Riesgo II: Parálisis de Inversión y Fondos Ociosos} & Ejecución $< 40\%$, $0\%$ inversión en activos reales y liquidez retenida $> 50\%$. & Chulumani (31,9\% ejec.), Tahua (0\% activos reales) & \textbf{Ejecutiva y Administrativa} (Gestión deficiente o negligente). \\
+\textbf{Riesgo III: Iliquidez y Sobreendeudamiento} & Deuda flotante $> 15\%$ y balance de caja negativo en tesorería. & Santa Cruz de la Sierra (17,8\%), Caquiaviri (16,0\%), Mojinete & \textbf{Civil y Ejecutiva} (Compromiso de fondos sin respaldo presupuestario). \\
+\textbf{Riesgo IV: Manipulación Documental} & No conformidad severa con Ley de Benford ($p < 0,05$, $\text{MAD} > 0,015$). & Caquiaviri ($p=0,031$, $\text{MAD}=0,024$) & \textbf{Civil y Penal} (Falsedad ideológica o alteración contable). \\
+\hline
+\end{tabularx}
+\end{table}
+
+% ------------------------------------------------------------------------------
+\section{Plataforma Interactiva de Monitoreo (Dashboard R Shiny)}
+% ------------------------------------------------------------------------------
+
+\subsection{Arquitectura del Sistema y Tecnologías Empleadas}
+Para facilitar la transferencia tecnológica hacia los auditores y tomadores de decisión, se implementó y desplegó en la nube una plataforma web interactiva en \textbf{R Shiny} accesible públicamente en \url{https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/} \citep{render_dashboard}, empaquetada mediante contenedorización Docker (\texttt{Dockerfile}) y versionada en GitHub \citep{github_proyecto}. La arquitectura técnica local y de despliegue se apoya en:
 \begin{itemize}[noitemsep]
-    \item \textbf{Tahua (Potosí):} Presenta una patología contable absoluta con un \textbf{0\% de gasto devengado en Activos Reales} (Grupo 40000), destinando la totalidad de su presupuesto a Servicios Personales y Materiales.
-    \item \textbf{Chulumani (La Paz):} Presenta una tasa de ejecución de solo 31,87\% pero con una acumulación de liquidez no desembolsada en caja de +60,78\%, reflejando una parálisis total de gestión en obras comunales.
-    \item \textbf{Mojinete y Antequera:} Evidencian balances de caja reales fuertemente negativos (-48,98\% y -34,13\% respectivamente), comprometiendo desembolsos en tesorería muy por encima de los ingresos efectivamente percibidos.
-    \item \textbf{Santa Cruz de la Sierra:} Aunque por su tamaño conforma con la Ley de Benford ($\text{MAD} = 0,0054$), su atipicidad radica en la mayor deuda flotante de Bolivia (17,77\%, equivalente a más de Bs. 647 millones impagos) y un balance de caja negativo (-2,44\%).
+    \item \textbf{Bootstrap 5 y \texttt{bslib}:} Estructura responsiva de diseño ergonómico bajo la filosofía visual \textit{Dark Telemetry} implementada en \texttt{dashboard/www/custom.css}.
+    \item \textbf{\texttt{plotly}:} Gráficos interactivos de dispersión, proyecciones 2D y 3D en componentes principales con renderizado WebGL, tooltips y elipses probabilísticas.
+    \item \textbf{\texttt{DT}:} Tablas interactivas con capacidad de búsqueda instantánea, paginación, filtros por columnas y botones de exportación a formatos abiertos (CSV, Excel, PDF).
 \end{itemize}
 
-% ==============================================================================
-\section{Plataforma Interactiva de Monitoreo (Dashboard R Shiny)}
-% ==============================================================================
-Para facilitar la adopción operativa de estos hallazgos por parte de auditores y tomadores de decisión, se implementó un dashboard analítico interactivo en **R Shiny** (\texttt{dashboard/app.R}) apoyado en las librerías \texttt{bslib}, \texttt{plotly} y \texttt{DT}. La aplicación opera bajo el sistema visual \textit{Dark Telemetry} (definido en \texttt{custom.css}), estructurado en cuatro módulos:
-\begin{enumerate}[noitemsep]
-    \item \textbf{Panorama Fiscal 2025:} Cuadro de mando ejecutivo con KPIs nacionales, comparativas de vigentes vs. devengados por departamento y módulo interactivo de línea base univariada.
-    \item \textbf{Regímenes GMM \& LOF:} Proyección interactiva en PCA 2D y 3D con filtrado dinámico de departamentos, slider de sensibilidad en $minPts$ y umbral reactivo de LOF.
-    \item \textbf{Consenso de Anomalías:} Matriz bidimensional de cuadrantes (Log-Densidad GMM vs. Score LOF) y tabla analítica completa de los 335 municipios con filtros y exportación a formatos abiertos.
-    \item \textbf{Auditoría Forense Drill-Down:} Expediente municipal interactivo donde el auditor puede inspeccionar para cada GAM su curva de Benford observada vs. teórica, donut de objeto de gasto y balance de liquidez de caja.
+\subsection{Estructura Operativa y Módulos del Dashboard}
+La plataforma interactiva está organizada en ocho módulos funcionales especializados que cubren desde el análisis macroeconómico hasta el drill-down forense transaccional, accesibles a través de su barra de navegación lateral y superior:
+
+\subsubsection{Pestaña 1: Panorama Fiscal 2025}
+La primera pestaña (Figura \ref{fig:dashboard_preview_1}) ofrece una visión ejecutiva del presupuesto municipal consolidado de Bolivia. Presenta cuatro tarjetas KPI con los agregados nacionales: Presupuesto Vigente (Bs. 25.319 M), Gasto Devengado (Bs. 20.404 M, 80,6\% de absorción promedio), Deuda Flotante Exigible (Bs. 1.325 M) y los 12 municipios en alerta crítica. En el cuerpo principal se despliega una comparativa departamental interactiva de gastos vigentes vs. devengados y el selector reactivo de línea base univariada (Tukey $1,5 \times IQR$, $3,0 \times IQR$ y puntuaciones $Z$), permitiendo al auditor comprobar en tiempo real cómo los métodos clásicos sobre montos brutos se sesgan hacia las grandes metrópolis.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/dashboard_interactivo_preview.png}
+    \caption{Pestaña 1 del Dashboard: Panorama Fiscal 2025, cuadro de mando ejecutivo y módulo interactivo de línea base univariada.}
+    \label{fig:dashboard_preview_1}
+\end{figure}
+
+\subsubsection{Pestaña 2: Regímenes GMM \& Densidad LOF}
+La segunda pestaña (Figura \ref{fig:dashboard_preview_2}) materializa la exploración geométrica de los modelos de aprendizaje no supervisado. En ella se proyecta el espacio latente de Componentes Principales (PCA en 2D y 3D interactivo con WebGL) junto a las elipses de densidad de los 4 regímenes gaussianos estimados por \texttt{mclust}. El auditor dispone de una barra lateral interactiva con controles deslizantes (\textit{sliders}) para modular en tiempo real el tamaño de vecindad $minPts \in [10, 30]$ y el umbral de corte del score LOF (con valor base $1,5$), permitiendo realizar análisis de sensibilidad inmediatos y visualizar qué municipios cambian de estado de atipicidad local.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/dashboard_interactivo_preview_2.png}
+    \caption{Pestaña 2 del Dashboard: Regímenes GMM y densidad LOF con proyección multivariante PCA y controles interactivos de sensibilidad.}
+    \label{fig:dashboard_preview_2}
+\end{figure}
+
+\subsubsection{Pestaña 3: Consenso de Anomalías y Padrón DT}
+La tercera pestaña (Figura \ref{fig:dashboard_preview_3}) sintetiza el cruce metodológico de consenso entre el modelo paramétrico GMM y el no paramétrico LOF. Presenta un diagrama de dispersión de cuatro cuadrantes (Log-Densidad GMM vs. Score LOF), destacando en el cuadrante superior izquierdo a los 12 municipios con anomalía simultánea. Debajo se despliega el padrón completo de los 335 GAMs en una tabla interactiva construida con \texttt{DT}, que incluye barras de búsqueda instantánea, paginación, filtros multicriterio por departamento y botones de exportación a formatos abiertos (CSV, Excel, PDF).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/dashboard_interactivo_preview_3.png}
+    \caption{Pestaña 3 del Dashboard: Matriz de consenso GMM + LOF y tabla analítica interactiva de los 335 GAMs.}
+    \label{fig:dashboard_preview_3}
+\end{figure}
+
+\subsubsection{Pestaña 4: Expediente de Evidencias Forenses}
+La cuarta pestaña (Figura \ref{fig:dashboard_preview_4}) funciona como un módulo de auditoría pericial individual (\textit{drill-down}). Al seleccionar cualquier municipio del país (con accesos directos a los 12 casos de consenso), la plataforma extrae dinámicamente sus comprobantes contables y despliega tres componentes analíticos:
+\begin{enumerate}[label=\alph*),noitemsep]
+    \item La curva empírica de la Ley de Benford (primer dígito) contrastada con la distribución logarítmica teórica, calculando en tiempo real el estadístico $\chi^2$, el valor $p$ y el MAD de Nigrini.
+    \item El gráfico de anillo (\textit{donut chart}) de la composición del gasto devengado por objeto del gasto (Grupos 10000 al 90000).
+    \item El balance de liquidez de caja que compara los ingresos percibidos frente a los gastos pagados y la deuda flotante exigible.
 \end{enumerate}
 
-% ==============================================================================
-\section{Conclusiones y Recomendaciones de Política Fiscal}
-% ==============================================================================
-El presente estudio demuestra el valor estratégico de la minería de datos multivariante y la auditoría forense computacional aplicada a las finanzas públicas de Bolivia:
-\begin{enumerate}[label=\arabic*)]
-    \item \textbf{Superación del sesgo de escala:} La ingeniería de ratios financieros normalizados e invariantes a la escala demostró empíricamente que auditar sobre cifras brutas sesga la atención hacia capitales grandes que operan normalmente, omitiendo irregularidades estructurales graves en municipios medianos y rurales.
-    \item \textbf{Robustez del consenso metodológico:} La combinación del modelo paramétrico GMM ($G=4$) y el estimador no paramétrico LOF permitió aislar con precisión estadística a 12 municipios de alto riesgo, cuya atipicidad es estable frente a variaciones de hiperparámetros de vecindad ($r > 0,94$).
-    \item \textbf{Doble verificación forense:} Las pruebas de Benford y montos duplicados en microdatos confirmaron patrones compatibles con prácticas de fraccionamiento contractual y manipulación de partidas en municipios específicos como Caquiaviri, Boyuibe y Colcha ``K''.
-    \item \textbf{Recomendación a los órganos de control:} Se sugiere al Viceministerio de Presupuesto y Contabilidad Fiscal y a la Contraloría General del Estado incorporar estas rutinas algorítmicas en sus sistemas SIGEP/SIAF para generar alertas tempranas continuas antes del cierre contable de la gestión.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/dashboard_interactivo_preview_4.png}
+    \caption{Pestaña 4 del Dashboard: Expediente forense individual con prueba interactiva de la Ley de Benford y desglose presupuestario.}
+    \label{fig:dashboard_preview_4}
+\end{figure}
+
+\subsubsection{Pestaña 5: Tablero de Investigación Criminalístico}
+La quinta pestaña (Figura \ref{fig:dashboard_preview_5}) implementa la metáfora visual pericial de tablero de corcho desarrollada en los prototipos de \texttt{Ideas/}. Cada uno de los 12 municipios priorizados se representa como una ficha policial/pericial con chinchetas rojas, notas explicativas manuscritas (tipografía \textit{Caveat}), rotaciones orgánicas y su score LOF. Hilos conectores generados en SVG interactivo vinculan automáticamente a los municipios que comparten una misma patología fiscal (deuda e iliquidez, déficit de tesorería, inversión atípica o fraccionamiento de compras), resaltando sus relaciones al pasar el cursor sobre cualquier tarjeta.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/dashboard_interactivo_preview_5.png}
+    \caption{Pestaña 5 del Dashboard: Tablero de investigación pericial con fichas municipales e hilos conectores por tipología forense.}
+    \label{fig:dashboard_preview_5}
+\end{figure}
+
+\subsubsection{Pestaña 6: Telemetría Split-Flap y Cinta de Sumadora}
+La sexta pestaña (Figura \ref{fig:dashboard_preview_6}) combina dos conceptos visuales de alta densidad técnica: un panel mecánico de llegadas tipo \textit{Split-Flap} (con animación de caracteres alfanuméricos que rotan mecánicamente hasta fijar los valores de los 12 casos atípicos) y un simulador interactivo de cinta de sumadora contable que imprime secuencialmente el resumen fiscal de la auditoría, culminando con el sello pericial de \textit{OBSERVADO}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/dashboard_interactivo_preview_6.png}
+    \caption{Pestaña 6 del Dashboard: Módulo de telemetría mecánica Split-Flap y simulación de cinta de sumadora contable.}
+    \label{fig:dashboard_preview_6}
+\end{figure}
+
+\subsubsection{Pestaña 7: Gráficas Comparativas y Benchmark}
+La séptima pestaña (Figura \ref{fig:dashboard_preview_7}) concentra tres análisis comparativos de rendimiento y riesgo:
+\begin{enumerate}[label=\alph*),noitemsep]
+    \item Gráfico de dispersión bidimensional: Ratio de Inversión Pública vs. Brecha de Pago (Deuda Flotante), con cuadrantes semánticos que diferencian la \textit{Zona de Salud Fiscal} (alta inversión y baja deuda) de la \textit{Zona Crítica} (baja inversión y sobreendeudamiento).
+    \item Ranking horizontal del indicador forense MAD de Benford en los 12 municipios en consenso, destacando aquellos que superan el umbral de no conformidad ($0,015$).
+    \item Ranking de concentración de montos duplicados reincidentes para identificar alertas de fraccionamiento contractual bajo el D.S. N° 0181.
 \end{enumerate}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/dashboard_interactivo_preview_7.png}
+    \caption{Pestaña 7 del Dashboard: Gráficas comparativas de cuadrantes de riesgo, ranking MAD de Benford y porcentajes de duplicados.}
+    \label{fig:dashboard_preview_7}
+\end{figure}
+
+\subsubsection{Pestaña 8: Bitácora KDD \& Evidencias}
+La octava pestaña (Figura \ref{fig:dashboard_preview_8}) expone la trazabilidad completa del proceso de Descubrimiento de Conocimiento en Bases de Datos (KDD). Detalla los registros de integridad contable en bruto (reversiones presupuestarias, partidas pagadas por encima de devengados e inconsistencias transaccionales), la documentación formal del clasificador del MEFP y los enlaces directos a las fuentes de datos abiertos y al repositorio de código fuente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figuras/dashboard_interactivo_preview_8.png}
+    \caption{Pestaña 8 del Dashboard: Bitácora KDD, registro de integridad contable y trazabilidad del proceso analítico.}
+    \label{fig:dashboard_preview_8}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\section{Conclusiones}
+% ------------------------------------------------------------------------------
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item \textbf{Superación del Sesgo de Escala:} Se demostró empíricamente que la fiscalización tradicional sobre montos brutos concentra erróneamente la atención en grandes urbes que operan dentro de parámetros financieros normales, invisibilizando distorsiones operativas y de control en municipios medianos y rurales. La formulación de 9 ratios fiscales relativos permitió una nivelación rigurosa de la escala.
+    \item \textbf{Solidez del Consenso Multivariante:} La triangulación de modelos probabilísticos de densidad global (GMM, $G=4$ regímenes) con algoritmos no paramétricos de densidad local (LOF) permitió aislar con precisión estadística a 12 municipios críticos en consenso (3,58\% del universo nacional), cuya condición anómala demostró ser altamente estable frente a variaciones de hiperparámetros ($r > 0,94$).
+    \item \textbf{Evidencia Forense Concluyente:} El análisis de microdatos confirmó patologías específicas: Caquiaviri viola la Ley de Benford con significancia estadística ($p=0,031$); Boyuibe, Colcha ``K'' y San Juan concentran entre 14\% y 20\% de sus comprobantes en montos idénticos repetitivos propios de fraccionamiento de compras; Chulumani evidencia parálisis de gestión con recursos estancados; y Tahua asignó 0\% a inversión real en infraestructura.
+    \item \textbf{Eficiencia y Transferibilidad Computacional:} El uso de DuckDB en disco procesó más de 444.000 transacciones contables en segundos sin requerir infraestructura computacional de gran escala, y el Dashboard interactivo en Shiny proporciona una herramienta de telemetría directamente transferible a la práctica de la auditoría gubernamental.
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+\section{Recomendaciones}
+% ------------------------------------------------------------------------------
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item \textbf{A la Contraloría General del Estado (CGE):} Incorporar las rutinas algorítmicas de GMM, LOF y Benford como filtros automatizados de alerta temprana en la planificación anual de auditorías gubernamentales, priorizando inspecciones de campo sobre los municipios que caen en el cuadrante de consenso.
+    \item \textbf{Al Ministerio de Economía y Finanzas Públicas (MEFP):} Implementar controles automáticos en el Sistema Integrado de Gestión Pública (SIGEP) que alerten en tiempo real cuando una unidad ejecutora emita comprobantes reiterados en los límites de Contratación Menor (Bs. 20.000 y 50.000) o registre más de un 15\% de deuda flotante acumulada al tercer trimestre.
+    \item \textbf{A los Concejos Municipales y Control Social:} Utilizar plataformas interactivas de datos abiertos para supervisar trimestralmente la ejecución de proyectos de inversión real y fiscalizar que los fondos de coparticipación e IDH no se desvíen hacia gastos corrientes en servicios no personales.
+    \item \textbf{Líneas Futuras de Investigación:} Extender el modelo multivariante hacia un análisis de series temporales longitudinales (2020--2025) y aplicar técnicas de Procesamiento de Lenguaje Natural (NLP) sobre las glosas descriptivas de los comprobantes contables para detectar redes de proveedores y colusión en licitaciones.
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+\section{Bibliografía y Fuentes de Información}
+% ------------------------------------------------------------------------------
 \bibliographystyle{apalike}
 \bibliography{referencias}
 
