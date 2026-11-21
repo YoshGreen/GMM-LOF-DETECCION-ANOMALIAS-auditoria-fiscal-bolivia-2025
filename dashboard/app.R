@@ -83,9 +83,7 @@ ui <- page_fluid(
     bg = "#000000",
     fg = "#F3F4F6",
     primary = "#00FF88",
-    secondary = "#4DB8FF",
-    base_font = font_google("Inter"),
-    code_font = font_google("JetBrains Mono")
+    secondary = "#4DB8FF"
   ),
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
@@ -107,28 +105,65 @@ ui <- page_fluid(
     div(
       class = "header-actions",
       tags$button(
-        id = "btnSidebarToggle",
-        class = "action-btn-console",
-        onclick = "toggleSidebarMenu()",
-        "☰ Ocultar Menú"
+        id = "btnDrawerOpen",
+        class = "action-btn-console btn-menu-drawer",
+        onclick = "toggleForensicDrawer()",
+        title = "Abrir/Cerrar menú lateral de expedientes",
+        "☰ Menú de Expedientes"
       ),
       tags$button(
         id = "btnThemeToggle",
         class = "action-btn-console btn-theme",
         onclick = "toggleDashboardTheme()",
+        title = "Alternar entre modo oscuro y modo investigador (corcho)",
         "☀️ Modo Investigador"
       ),
-      span(class = "navbar-badge", span(class = "pulse-dot"), "MEFP 2025 · DUCKDB OLAP"),
-      span(class = "navbar-badge", style = "border-color: rgba(77, 184, 255, 0.35); color: #4DB8FF;", "GMM (G=4) + LOF (k=20)")
+      span(id = "currentSectionBadge", class = "navbar-badge current-section-badge", "1. Panorama Fiscal 2025"),
+      span(class = "navbar-badge d-none-mobile", span(class = "pulse-dot"), "MEFP 2025 · DUCKDB"),
+      span(class = "navbar-badge d-none-mobile", style = "border-color: rgba(77, 184, 255, 0.35); color: #4DB8FF;", "GMM + LOF")
     )
   ),
   
-  # Contenedor Principal con Menú Izquierdo (Pill List Rail)
+  # Cortina semitransparente para cerrar el menú desplegable al hacer clic fuera
+  div(class = "drawer-backdrop", onclick = "closeForensicDrawer()"),
+  
+  # Contenedor Principal con Menú Izquierdo Desplegable (Off-Canvas Forensic Drawer)
   div(
     class = "main-wrapper",
     navset_pill_list(
       widths = c(3, 9),
       well = FALSE,
+      
+      # Cabecera dentro del Menú Desplegable (Off-Canvas)
+      nav_item(
+        div(
+          class = "drawer-header-box",
+          div(
+            div(class = "drawer-header-title", "EXPEDIENTES FORENSES"),
+            div(class = "drawer-header-sub", "335 Municipios · MEFP Bolivia 2025")
+          ),
+          tags$button(
+            type = "button",
+            class = "drawer-close-btn",
+            onclick = "closeForensicDrawer()",
+            title = "Cerrar menú lateral",
+            "✕"
+          )
+        )
+      ),
+      nav_item(
+        div(
+          class = "drawer-actions-bar",
+          tags$button(
+            id = "btnPinDrawer",
+            type = "button",
+            class = "action-btn-console btn-pin-drawer",
+            onclick = "togglePinDrawer()",
+            title = "Fijar menú lateral en pantallas de escritorio (>1200px)",
+            "📍 Fijar en Pantalla"
+          )
+        )
+      ),
       
       # ------------------------------------------------------------------------
       # PESTAÑA 1: PANORAMA FISCAL 2025

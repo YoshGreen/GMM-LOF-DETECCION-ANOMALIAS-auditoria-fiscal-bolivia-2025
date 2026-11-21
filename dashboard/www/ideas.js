@@ -1,13 +1,73 @@
 // =============================================================================
 // IDEAS.JS — SISTEMA INTERACTIVO DE EXPEDIENTES FORENSES (Ideas/)
+// - Menú Lateral Desplegable (Off-Canvas Forensic Drawer) con Pinning
 // - Alternador de Tema: Oscuro (Dark Telemetry) / Claro (Investigador Cork)
-// - Colapso y Expansión del Menú Lateral de Expedientes
 // - Tablero de Corcho con Hilos Rojos Dinámicos
 // - Tablero Split-Flap con Giro Mecánico de Caracteres
 // - Cinta de Sumadora Contable Secuencial
 // =============================================================================
 
-// 1. ALTERNADOR DE TEMA (OSCURO / CLARO)
+// 1. MENÚ LATERAL DESPLEGABLE (OFF-CANVAS FORENSIC DRAWER)
+function toggleForensicDrawer() {
+  const body = document.body;
+  const isOpen = body.classList.toggle("drawer-open");
+  const btn = document.getElementById("btnDrawerOpen");
+  
+  if (btn) {
+    btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    btn.innerHTML = isOpen ? "✕ Cerrar Menú" : "☰ Menú de Expedientes";
+  }
+
+  // Notificar a Plotly para recalcular dimensiones responsivas
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
+    if (typeof renderCorkStrings === "function") renderCorkStrings();
+  }, 320);
+}
+
+function closeForensicDrawer() {
+  const body = document.body;
+  if (body.classList.contains("drawer-pinned")) return; // Si está fijado en desktop, no cerrar
+
+  body.classList.remove("drawer-open");
+  const btn = document.getElementById("btnDrawerOpen");
+  if (btn) {
+    btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML = "☰ Menú de Expedientes";
+  }
+
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
+    if (typeof renderCorkStrings === "function") renderCorkStrings();
+  }, 320);
+}
+
+// Compatibilidad por si se llama con el nombre antiguo
+function toggleSidebarMenu() {
+  toggleForensicDrawer();
+}
+
+function togglePinDrawer() {
+  const body = document.body;
+  const isPinned = body.classList.toggle("drawer-pinned");
+  const btn = document.getElementById("btnPinDrawer");
+  
+  if (btn) {
+    btn.innerHTML = isPinned ? "📌 Menú Fijado" : "📍 Fijar en Pantalla";
+    btn.classList.toggle("active", isPinned);
+  }
+
+  try {
+    localStorage.setItem("gam_drawer_pinned", isPinned ? "true" : "false");
+  } catch(e) {}
+
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
+    if (typeof renderCorkStrings === "function") renderCorkStrings();
+  }, 320);
+}
+
+// 2. ALTERNADOR DE TEMA (OSCURO / CLARO)
 function toggleDashboardTheme() {
   const body = document.body;
   const btn = document.getElementById("btnThemeToggle");
@@ -21,32 +81,10 @@ function toggleDashboardTheme() {
     btn.innerHTML = isLight ? "🌙 Modo Oscuro" : "☀️ Modo Investigador";
   }
 
-  // Refrescar layout de gráficos y corcho
   setTimeout(() => {
     window.dispatchEvent(new Event("resize"));
     if (typeof renderCorkStrings === "function") renderCorkStrings();
-  }, 200);
-}
-
-// 2. COLAPSO Y EXPANSIÓN DEL PANEL LATERAL DE EXPEDIENTES
-function toggleSidebarMenu() {
-  const sidebar = document.getElementById("sidebarCol") || document.querySelector(".main-wrapper .row > div:first-child");
-  const content = document.getElementById("contentCol") || document.querySelector(".main-wrapper .row > div:nth-child(2)");
-  const btn = document.getElementById("btnSidebarToggle");
-  if (!sidebar || !content) return;
-
-  const isCollapsed = sidebar.classList.toggle("collapsed");
-  content.classList.toggle("expanded", isCollapsed);
-
-  if (btn) {
-    btn.innerHTML = isCollapsed ? "☰ Mostrar Menú" : "☰ Ocultar Menú";
-  }
-
-  // Ajustar ancho de las gráficas Plotly
-  setTimeout(() => {
-    window.dispatchEvent(new Event("resize"));
-    if (typeof renderCorkStrings === "function") renderCorkStrings();
-  }, 250);
+  }, 220);
 }
 
 // 3. TABLERO DE CORCHO CRIMINALÍSTICO (Hilos Rojos entre sospechosos)
@@ -209,18 +247,37 @@ async function printReceiptSequence() {
   }
 }
 
-// 6. INICIALIZACIÓN GLOBAL
+// 6. INICIALIZACIÓN Y EVENT LISTENERS RESPONSIVOS
 window.addEventListener("resize", () => {
   renderCorkStrings();
 });
 
+// Cerrar drawer al presionar Escape
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeForensicDrawer();
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Cargar tema guardado
   try {
-    const saved = localStorage.getItem("gam_audit_theme");
-    if (saved === "light") {
+    const savedTheme = localStorage.getItem("gam_audit_theme");
+    if (savedTheme === "light") {
       document.body.classList.add("theme-light");
       const btn = document.getElementById("btnThemeToggle");
       if (btn) btn.innerHTML = "🌙 Modo Oscuro";
+    }
+    
+    // Cargar preferencia de menú fijado
+    const savedPin = localStorage.getItem("gam_drawer_pinned");
+    if (savedPin === "true" && window.innerWidth >= 1200) {
+      document.body.classList.add("drawer-pinned");
+      const pinBtn = document.getElementById("btnPinDrawer");
+      if (pinBtn) {
+        pinBtn.innerHTML = "📌 Menú Fijado";
+        pinBtn.classList.add("active");
+      }
     }
   } catch(e) {}
 
@@ -229,14 +286,47 @@ document.addEventListener("DOMContentLoaded", () => {
     initCorkEvents();
     runFlapAnimation();
     printReceiptSequence();
-  }, 500);
+  }, 450);
 });
 
-// Listener para cambio de pestaña en Bootstrap 5
-$(document).on("shown.bs.tab", 'a[data-bs-toggle="pill"]', function (e) {
+// Al seleccionar cualquier pestaña del menú (evento click o tab de Bootstrap):
+$(document).on("click", ".nav-pills a, .nav-pills .nav-link", function (e) {
+  const tabEl = $(this);
+  const activeTabTitle = tabEl.find("span:first-child").text() || tabEl.text();
+  const indicator = document.getElementById("currentSectionBadge");
+  if (indicator && activeTabTitle) {
+    indicator.textContent = activeTabTitle.trim();
+  }
+
+  // Si no está fijado en desktop, cerrar el menú desplegable automáticamente
+  if (!document.body.classList.contains("drawer-pinned")) {
+    closeForensicDrawer();
+  }
+
   setTimeout(() => {
-    renderCorkStrings();
-    initCorkEvents();
-    runFlapAnimation();
-  }, 200);
+    window.dispatchEvent(new Event("resize"));
+    if (typeof renderCorkStrings === "function") renderCorkStrings();
+    if (typeof initCorkEvents === "function") initCorkEvents();
+    if (typeof runFlapAnimation === "function") runFlapAnimation();
+  }, 220);
+});
+
+$(document).on("shown.bs.tab", 'a[data-toggle="tab"], a[data-bs-toggle="tab"], a[data-bs-toggle="pill"]', function (e) {
+  const activeTabTitle = $(e.target).find("span:first-child").text() || $(e.target).text();
+  const indicator = document.getElementById("currentSectionBadge");
+  if (indicator && activeTabTitle) {
+    indicator.textContent = activeTabTitle.trim();
+  }
+
+  // Si no está fijado en desktop, cerrar el menú desplegable automáticamente
+  if (!document.body.classList.contains("drawer-pinned")) {
+    closeForensicDrawer();
+  }
+
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
+    if (typeof renderCorkStrings === "function") renderCorkStrings();
+    if (typeof initCorkEvents === "function") initCorkEvents();
+    if (typeof runFlapAnimation === "function") runFlapAnimation();
+  }, 220);
 });

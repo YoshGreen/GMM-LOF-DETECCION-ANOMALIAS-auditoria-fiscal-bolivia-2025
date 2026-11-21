@@ -1,11 +1,11 @@
 /* ==========================================================================
    DESIGN SYSTEM FORENSE & TELEMETRÍA MUNICIPAL BOLIVIA 2025
    Estrictamente alineado con Ideas/ (Conceptos & Expediente de Evidencias):
+   - Menú Lateral Desplegable (Off-Canvas Forensic Drawer) con opción de fijado
    - Doble Tema: Modo Oscuro (Obsidiana) / Modo Claro (Corcho & Papel Manila)
-   - Panel lateral de expedientes plegable y responsivo con 1 clic
-   - Fichas de evidencia con chincheta pericial roja y notas manuscritas (Caveat)
+   - 100% Responsivo en Smartphones, Tablets, Laptops y Pantallas Ultra-Wide
+   - Fichas periciales con chincheta roja y notas manuscritas (Caveat)
    - Sellos forenses rotados (OBSERVADO / VIOLACIÓN / CONFIRMADO)
-   - Bitácora KDD ilustrada con figuras científicas directas (300 DPI)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap');
@@ -42,7 +42,7 @@
 }
 
 /* ==========================================================================
-   TEMA CLARO (INVESTIGADOR CORK & MANILA DOSSIER)
+   TEMA CLARO (INVESTIGADOR CORK & MANILA DOSSIER - Ideas/)
    ========================================================================== */
 body.theme-light {
   --bg-canvas: #B8864F;
@@ -68,18 +68,19 @@ body.theme-light .top-header-banner {
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45) !important;
 }
 
-body.theme-light .brand-main {
-  color: #FFE66B !important;
-}
+body.theme-light .brand-main { color: #FFE66B !important; }
+body.theme-light .brand-sub { color: #FFFDF5 !important; }
 
-body.theme-light .brand-sub {
-  color: #FFFDF5 !important;
+body.theme-light .main-wrapper .row > div:first-child {
+  background: #D9B46A !important;
+  border-right: 3px solid #5B3A1E !important;
+  box-shadow: 8px 0 32px rgba(91, 58, 30, 0.6) !important;
 }
 
 body.theme-light .nav-pills {
-  background: #D9B46A !important;
-  border: 2px solid #5B3A1E !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 body.theme-light .nav-pills .nav-link {
@@ -122,9 +123,7 @@ body.theme-light .card-header {
   letter-spacing: 0.04em !important;
 }
 
-body.theme-light .card-subtitle {
-  color: #6B6556 !important;
-}
+body.theme-light .card-subtitle { color: #6B6556 !important; }
 
 body.theme-light .kpi-card {
   background-color: #FFFDF5 !important;
@@ -133,13 +132,8 @@ body.theme-light .kpi-card {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25) !important;
 }
 
-body.theme-light .kpi-title {
-  color: #6B6556 !important;
-}
-
-body.theme-light .kpi-value {
-  color: #1D1B16 !important;
-}
+body.theme-light .kpi-title { color: #6B6556 !important; }
+body.theme-light .kpi-value { color: #1D1B16 !important; }
 
 body.theme-light .bitacora-step {
   background-color: #FFFDF5 !important;
@@ -164,14 +158,6 @@ body.theme-light .forensic-spec-card {
   color: #1D1B16 !important;
 }
 
-body.theme-light .forensic-spec-label {
-  color: #6B6556 !important;
-}
-
-body.theme-light .forensic-spec-val {
-  color: #1D1B16 !important;
-}
-
 body.theme-light .sidebar {
   background-color: #E8D5B0 !important;
   border-right: 2px solid #5B3A1E !important;
@@ -188,12 +174,6 @@ body.theme-light .form-control, body.theme-light .selectize-input {
   border: 1.5px solid #5B3A1E !important;
 }
 
-body.theme-light .sidebar-info-card {
-  background-color: #D9B46A !important;
-  border: 1.5px solid #5B3A1E !important;
-  color: #3A2A14 !important;
-}
-
 body.theme-light table.dataTable thead th {
   background-color: #E8D5B0 !important;
   color: #3A2A14 !important;
@@ -207,7 +187,7 @@ body.theme-light table.dataTable tbody td {
 }
 
 /* ==========================================================================
-   ESTRUCTURA Y BOTONES DE ACCIÓN (HEADER)
+   ESTRUCTURA Y MENÚ LATERAL DESPLEGABLE (OFF-CANVAS DRAWER)
    ========================================================================== */
 body {
   background-color: var(--bg-canvas) !important;
@@ -219,6 +199,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Cabecera Superior Fija Telemetría */
 .top-header-banner {
   background-color: #05070A;
   border-bottom: 1px solid rgba(0, 255, 136, 0.35);
@@ -243,22 +224,14 @@ body {
 .brand-main {
   font-family: var(--font-oswald);
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
   letter-spacing: 0.05em;
   color: #FFFFFF;
 }
 
-.brand-accent {
-  color: var(--color-normal);
-}
+.brand-accent { color: var(--color-normal); }
+.brand-sub { font-family: var(--font-caveat); font-size: 1.15rem; color: #FFE66B; }
 
-.brand-sub {
-  font-family: var(--font-caveat);
-  font-size: 1.15rem;
-  color: #FFE66B;
-}
-
-/* Botones de Barra Superior */
 .header-actions {
   display: flex;
   align-items: center;
@@ -270,12 +243,12 @@ body {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.75rem;
-  padding: 0.4rem 0.85rem;
+  padding: 0.42rem 0.85rem;
   border-radius: 4px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   border: 1.5px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.06);
   color: #FFFFFF;
@@ -286,6 +259,17 @@ body {
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-1px);
+}
+
+.action-btn-console.btn-menu-drawer {
+  border-color: var(--color-normal);
+  color: var(--color-normal);
+  background: rgba(0, 255, 136, 0.1);
+}
+
+.action-btn-console.btn-menu-drawer:hover {
+  background: var(--color-normal);
+  color: #000000;
 }
 
 .action-btn-console.btn-theme {
@@ -327,51 +311,160 @@ body {
 }
 
 /* ==========================================================================
-   LAYOUT DEL MENÚ LATERAL PLEGABLE
+   OFF-CANVAS FORENSIC DRAWER (MENÚ LATERAL DESPLEGABLE)
    ========================================================================== */
 .main-wrapper {
-  padding: 1.25rem 1.5rem 3rem;
+  padding: 1rem 1.25rem 3rem;
+  position: relative;
 }
 
-#sidebarCol, #contentCol {
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+/* Columna 1 de navset_pill_list: se transforma en el Drawer Desplegable */
+.main-wrapper .row > div:first-child {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 86vw;
+  background-color: #0A0E14;
+  border-right: 1.5px solid rgba(0, 255, 136, 0.35);
+  box-shadow: 8px 0 32px rgba(0, 0, 0, 0.85);
+  z-index: 1060;
+  padding: 1.25rem 1rem 2rem;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-#sidebarCol.collapsed {
-  display: none !important;
-  width: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
+/* Cuando el Drawer está ABIERTO */
+body.drawer-open .main-wrapper .row > div:first-child {
+  transform: translateX(0) !important;
 }
 
-#contentCol.expanded {
+/* Modo Fijado en Desktop (> 1200px) */
+@media (min-width: 1200px) {
+  body.drawer-pinned .main-wrapper .row > div:first-child {
+    transform: translateX(0) !important;
+    position: fixed;
+  }
+  body.drawer-pinned .main-wrapper .row > div:nth-child(2) {
+    margin-left: 320px !important;
+    width: calc(100% - 320px) !important;
+    flex: 0 0 calc(100% - 320px) !important;
+    max-width: calc(100% - 320px) !important;
+  }
+}
+
+/* Columna de Contenido Principal: SIEMPRE 100% DE ANCHO */
+.main-wrapper .row > div:nth-child(2) {
   width: 100% !important;
   flex: 0 0 100% !important;
   max-width: 100% !important;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Cortina oscura (Backdrop) detrás del Drawer */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+body.drawer-open:not(.drawer-pinned) .drawer-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Estilos de la cabecera interna del Drawer */
+.drawer-header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.drawer-header-title {
+  font-family: var(--font-oswald);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+body.theme-light .drawer-header-title {
+  color: #3A2A14 !important;
+}
+
+.drawer-header-sub {
+  font-size: 0.73rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.3rem 0.55rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+body.theme-light .drawer-close-btn {
+  border-color: #5B3A1E;
+  color: #3A2A14;
+}
+
+.drawer-close-btn:hover {
+  background: rgba(255, 51, 102, 0.2);
+  border-color: #FF3366;
+  color: #FF3366;
+}
+
+.drawer-actions-bar {
+  margin-bottom: 1rem;
+}
+
+.btn-pin-drawer {
+  width: 100%;
+  font-size: 0.72rem;
+  justify-content: center;
+}
+
+/* Pestañas del Drawer */
 .nav-pills {
-  background-color: #080B10;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 0.75rem 0.6rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
-  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  gap: 0.45rem;
 }
 
 .nav-pills .nav-link {
   color: var(--text-secondary) !important;
-  background-color: transparent !important;
-  border: 1px solid transparent !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--border-subtle) !important;
   border-radius: 6px !important;
-  padding: 0.65rem 0.9rem !important;
-  font-size: 0.85rem !important;
+  padding: 0.65rem 0.85rem !important;
+  font-size: 0.84rem !important;
   font-weight: 500 !important;
   text-align: left !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  transition: all 0.18s ease !important;
+  transition: all 0.16s ease !important;
 }
 
 .nav-pills .nav-link:hover {
@@ -402,22 +495,8 @@ body {
   color: var(--text-secondary);
 }
 
-.sidebar-info-card {
-  background-color: #080B10;
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  padding: 0.85rem;
-  margin-top: 1rem;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-
-.sidebar-info-card strong {
-  color: var(--text-primary);
-}
-
 /* ==========================================================================
-   TARJETAS KPI FORENSES
+   TARJETAS KPI
    ========================================================================== */
 .kpi-container {
   display: grid;
@@ -426,12 +505,8 @@ body {
   margin-bottom: 1.35rem;
 }
 
-@media (max-width: 992px) {
-  .kpi-container { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 576px) {
-  .kpi-container { grid-template-columns: 1fr; }
-}
+@media (max-width: 992px) { .kpi-container { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 576px) { .kpi-container { grid-template-columns: 1fr; } }
 
 .kpi-card {
   background-color: var(--bg-surface);
@@ -780,6 +855,7 @@ svg.cork-strings path {
 .flap-board {
   max-width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   background: #17181B;
   padding: 18px;
   border: 4px solid #2A2C31;
@@ -988,7 +1064,11 @@ svg.cork-strings path {
 .forensic-spec-label { color: var(--text-secondary); font-weight: 500; }
 .forensic-spec-val { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text-primary); }
 
-.dataTables_wrapper { color: var(--text-primary) !important; font-size: 0.82rem !important; }
+.dataTables_wrapper {
+  color: var(--text-primary) !important;
+  font-size: 0.82rem !important;
+  overflow-x: auto;
+}
 
 table.dataTable {
   background-color: var(--bg-surface) !important;
@@ -1037,4 +1117,103 @@ table.dataTable tbody tr:hover { background-color: rgba(255, 255, 255, 0.04) !im
   font-size: 0.75rem !important;
   border-radius: 4px !important;
   padding: 0.35rem 0.75rem !important;
+}
+
+
+/* ==========================================================================
+   REGLAS RESPONSIVAS GLOBALES Y ADAPTABILIDAD MULTIDISPOSITIVO
+   ========================================================================== */
+
+/* Teléfonos y Tablets en Vertical (< 992px): Colapso a 1 columna */
+@media (max-width: 991px) {
+  .bslib-layout-columns {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .main-wrapper {
+    padding: 0.75rem 0.75rem 2.5rem !important;
+  }
+}
+
+/* Teléfonos Móviles (< 768px): Header compacto y sin overflow */
+@media (max-width: 768px) {
+  .top-header-banner {
+    padding: 0.5rem 0.65rem !important;
+    gap: 0.4rem !important;
+  }
+  .brand-sub {
+    display: none !important;
+  }
+  .d-none-mobile {
+    display: none !important;
+  }
+  .action-btn-console {
+    padding: 0.35rem 0.6rem !important;
+    font-size: 0.70rem !important;
+  }
+  .current-section-badge {
+    max-width: 140px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  .main-wrapper {
+    padding: 0.5rem 0.4rem 2rem !important;
+  }
+}
+
+/* En pantallas < 1200px, el botón de fijar menú se oculta (solo modo flotante/drawer) */
+@media (max-width: 1199px) {
+  .btn-pin-drawer {
+    display: none !important;
+  }
+}
+
+/* Gráficos Plotly e Imágenes Fluidas */
+.plotly, .js-plotly-plot, .plot-container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.card-body img, .bitacora-card-img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+/* DataTables 100% Responsivas con scroll táctil suave */
+.dataTables_wrapper {
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Modo Investigador Claro: Botones y Badges en la Barra Superior */
+body.theme-light .action-btn-console {
+  background: #FFFDF5 !important;
+  color: #3A2A14 !important;
+  border: 1.5px solid #5B3A1E !important;
+}
+
+body.theme-light .action-btn-console:hover {
+  background: #F4E8C1 !important;
+  color: #1D1B16 !important;
+}
+
+body.theme-light .action-btn-console.btn-menu-drawer {
+  background: #E8CA8C !important;
+  border-color: #5B3A1E !important;
+  color: #1D1B16 !important;
+}
+
+body.theme-light .action-btn-console.btn-theme {
+  background: #D9B46A !important;
+  border-color: #5B3A1E !important;
+  color: #1D1B16 !important;
+}
+
+body.theme-light .current-section-badge {
+  background: #F4E8C1 !important;
+  border-color: #5B3A1E !important;
+  color: #3A2A14 !important;
 }
