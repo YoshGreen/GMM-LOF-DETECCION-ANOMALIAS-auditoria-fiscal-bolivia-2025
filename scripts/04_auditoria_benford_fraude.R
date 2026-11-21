@@ -267,7 +267,9 @@ tex_benford <- sprintf(
   paste(lineas_benford, collapse = "\n")
 )
 
-writeLines(tex_benford, "informe/tablas/tabla_auditoria_benford.tex")
+con_b <- file("informe/tablas/tabla_auditoria_benford.tex", open = "wt", encoding = "UTF-8")
+writeLines(tex_benford, con_b, useBytes = TRUE)
+close(con_b)
 cat(" - Guardado: informe/tablas/tabla_auditoria_benford.tex\n")
 
 # Tabla de Duplicados Sospechosos (Fraccionamiento de Contratos)
@@ -313,7 +315,9 @@ tex_dups <- sprintf(
   paste(lineas_dups, collapse = "\n")
 )
 
-writeLines(tex_dups, "informe/tablas/tabla_duplicados_sospechosos.tex")
+con_d <- file("informe/tablas/tabla_duplicados_sospechosos.tex", open = "wt", encoding = "UTF-8")
+writeLines(tex_dups, con_d, useBytes = TRUE)
+close(con_d)
 cat(" - Guardado: informe/tablas/tabla_duplicados_sospechosos.tex\n")
 
 cat("\nAuditoría Benford y detección de duplicados completadas con éxito.\n")

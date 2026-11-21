@@ -312,7 +312,9 @@ tex_univariado <- sprintf(
   paste(lineas_tabla[4:11], collapse = "\n")
 )
 
-writeLines(tex_univariado, "informe/tablas/tabla_linea_base_univariada.tex")
+con_u <- file("informe/tablas/tabla_linea_base_univariada.tex", open = "wt", encoding = "UTF-8")
+writeLines(tex_univariado, con_u, useBytes = TRUE)
+close(con_u)
 cat(" - Guardado: informe/tablas/tabla_linea_base_univariada.tex\n")
 
 # Tabla de Casos Emblemáticos de Sesgo
@@ -352,7 +354,9 @@ tex_casos <- sprintf(
           top_anomalias_reales$entidad_desc[3], top_anomalias_reales$departamento[3], format(round(top_anomalias_reales$gasto_vigente[3]), big.mark=".", decimal.mark=","), top_anomalias_reales$tasa_ejecucion_gasto[3]*100, top_anomalias_reales$brecha_pago[3]*100)
 )
 
-writeLines(tex_casos, "informe/tablas/tabla_top_atipicos_univariados.tex")
+con_c <- file("informe/tablas/tabla_top_atipicos_univariados.tex", open = "wt", encoding = "UTF-8")
+writeLines(tex_casos, con_c, useBytes = TRUE)
+close(con_c)
 cat(" - Guardado: informe/tablas/tabla_top_atipicos_univariados.tex\n")
 
 cat("\nLínea base univariada completada con éxito.\n")

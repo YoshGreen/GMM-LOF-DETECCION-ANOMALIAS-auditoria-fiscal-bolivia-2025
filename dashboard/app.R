@@ -118,9 +118,105 @@ ui <- page_fluid(
         title = "Alternar entre modo oscuro y modo investigador (corcho)",
         "☀️ Modo Investigador"
       ),
+      div(
+        class = "qr-hover-container",
+        tags$button(
+          id = "btnQR",
+          class = "action-btn-console btn-qr",
+          type = "button",
+          onclick = "openQRModal()",
+          title = "Pasa el cursor o haz clic para proyectar el Código QR en pantalla completa",
+          tags$span("📱"),
+          tags$span("Código QR")
+        ),
+        div(
+          class = "qr-hover-popup",
+          div(
+            class = "qr-popup-header",
+            tags$span(class = "qr-popup-tag", "TELEMETRÍA FORENSE"),
+            tags$span(class = "qr-popup-title", "EXPEDIENTE & REPOSITORIO")
+          ),
+          div(
+            class = "qr-image-frame",
+            tags$img(src = "QR.png", alt = "Código QR", class = "qr-img")
+          ),
+          div(
+            class = "qr-popup-footer",
+            "Escanea con tu teléfono o accede directamente:",
+            div(
+              style = "display: flex; flex-direction: column; gap: 4px; margin-top: 6px;",
+              tags$a(
+                href = "https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/",
+                target = "_blank",
+                style = "color: #00FF88; text-decoration: none; font-size: 0.75rem; font-weight: 600;",
+                "🌐 Plataforma en Vivo (Render)"
+              ),
+              tags$a(
+                href = "https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025",
+                target = "_blank",
+                style = "color: #4DB8FF; text-decoration: none; font-size: 0.75rem;",
+                "💻 Repositorio en GitHub"
+              ),
+              tags$a(
+                href = "https://abierto.economiayfinanzas.gob.bo/",
+                target = "_blank",
+                style = "color: #FFB020; text-decoration: none; font-size: 0.75rem;",
+                "📊 Datos Abiertos (MEFP)"
+              )
+            )
+          )
+        )
+      ),
       span(id = "currentSectionBadge", class = "navbar-badge current-section-badge", "1. Panorama Fiscal 2025"),
       span(class = "navbar-badge d-none-mobile", span(class = "pulse-dot"), "MEFP 2025 · DUCKDB"),
       span(class = "navbar-badge d-none-mobile", style = "border-color: rgba(77, 184, 255, 0.35); color: #4DB8FF;", "GMM + LOF")
+    )
+  ),
+  
+  # Modal de Pantalla Completa para Escaneo de Código QR
+  div(
+    id = "qrFullScreenModal",
+    class = "qr-fullscreen-modal",
+    onclick = "closeQRModal(event)",
+    div(
+      class = "qr-modal-card",
+      tags$button(
+        type = "button",
+        class = "qr-modal-close-btn",
+        onclick = "closeQRModal(event)",
+        title = "Cerrar pantalla completa (Esc)",
+        "✕"
+      ),
+      div(
+        class = "qr-modal-header",
+        div(class = "qr-modal-badge", "TELEMETRÍA FORENSE · MEFP BOLIVIA 2025"),
+        tags$h2("ESCANEAR CÓDIGO QR"),
+        p(class = "qr-modal-sub", "Acceso directo al expediente de evidencias, dashboard y repositorio")
+      ),
+      div(
+        class = "qr-modal-image-wrapper",
+        tags$img(src = "QR.png", alt = "Código QR en Pantalla Completa", class = "qr-modal-img")
+      ),
+      div(
+        class = "qr-modal-footer",
+        div(class = "qr-modal-tip", "💡 Acerca tu cámara para escanear en alta resolución"),
+        div(
+          style = "display: flex; justify-content: center; gap: 12px; margin: 10px 0;",
+          tags$a(
+            href = "https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/",
+            target = "_blank",
+            style = "color: #00FF88; text-decoration: none; font-size: 0.82rem; font-weight: 600;",
+            "🌐 Plataforma en Render"
+          ),
+          tags$a(
+            href = "https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025",
+            target = "_blank",
+            style = "color: #4DB8FF; text-decoration: none; font-size: 0.82rem; font-weight: 600;",
+            "💻 Repositorio GitHub"
+          )
+        ),
+        div(class = "qr-modal-key-hint", "Presiona [Esc] o haz clic afuera para cerrar")
+      )
     )
   ),
   
@@ -588,6 +684,60 @@ ui <- page_fluid(
                 class = "bitacora-card-img",
                 tags$img(src = "figuras/fig_07_composicion_gasto_consenso.png", alt = "Composición Gasto Consenso"),
                 div(class = "bitacora-card-caption", strong("Figura 7: Composición de Gasto por Objeto."), " Evidencia de 0% de inversión en Tahua y anomalías severas de concentración en servicios no personales.")
+              )
+            )
+          )
+        ),
+        
+        # Etapa 5 / Enlaces Oficiales
+        div(
+          class = "bitacora-step",
+          style = "border-left: 3px solid #00FF88;",
+          div(
+            class = "bitacora-header",
+            div(span(class = "bitacora-number", style = "background: rgba(0, 255, 136, 0.15); color: #00FF88;", "ACCESO"), span(class = "bitacora-title", "Enlaces Oficiales, Repositorio y Datos Abiertos")),
+            span(class = "stamp", style = "color: #00FF88; border-color: #00FF88;", "ACCESO PÚBLICO")
+          ),
+          div(
+            class = "bitacora-body",
+            p("El proyecto se encuentra totalmente disponible en producción para la comunidad académica, auditores y ciudadanía:"),
+            div(
+              style = "display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem;",
+              tags$a(
+                href = "https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/",
+                target = "_blank",
+                style = "text-decoration: none;",
+                div(
+                  class = "kpi-card",
+                  style = "border: 1px solid rgba(0, 255, 136, 0.4); background: #0D1117; transition: 0.2s;",
+                  div(class = "kpi-title", style = "color: #00FF88;", "🌐 PLATAFORMA EN VIVO (RENDER)"),
+                  div(style = "font-family: var(--font-mono); font-size: 0.85rem; color: #FFF; word-break: break-all; margin: 6px 0;", "gmm-lof-deteccion-anomalias-auditoria.onrender.com"),
+                  div(class = "kpi-sub", "Dashboard interactivo 100% operativo en la nube")
+                )
+              ),
+              tags$a(
+                href = "https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025",
+                target = "_blank",
+                style = "text-decoration: none;",
+                div(
+                  class = "kpi-card",
+                  style = "border: 1px solid rgba(77, 184, 255, 0.4); background: #0D1117; transition: 0.2s;",
+                  div(class = "kpi-title", style = "color: #4DB8FF;", "💻 REPOSITORIO GITHUB"),
+                  div(style = "font-family: var(--font-mono); font-size: 0.85rem; color: #FFF; word-break: break-all; margin: 6px 0;", "YoshGreen/GMM-LOF-DETECCION-ANOMALIAS..."),
+                  div(class = "kpi-sub", "Código R, DuckDB, Dockerfile e informe LaTeX")
+                )
+              ),
+              tags$a(
+                href = "https://abierto.economiayfinanzas.gob.bo/",
+                target = "_blank",
+                style = "text-decoration: none;",
+                div(
+                  class = "kpi-card",
+                  style = "border: 1px solid rgba(255, 176, 32, 0.4); background: #0D1117; transition: 0.2s;",
+                  div(class = "kpi-title", style = "color: #FFB020;", "📊 DATOS ABIERTOS (MEFP)"),
+                  div(style = "font-family: var(--font-mono); font-size: 0.85rem; color: #FFF; word-break: break-all; margin: 6px 0;", "abierto.economiayfinanzas.gob.bo"),
+                  div(class = "kpi-sub", "Fuente oficial de microdatos de Gastos e Ingresos 2025")
+                )
               )
             )
           )

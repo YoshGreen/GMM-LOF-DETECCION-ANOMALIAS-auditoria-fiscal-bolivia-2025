@@ -1,10 +1,12 @@
 # Auditoría Forense Presupuestaria de Gobiernos Autónomos Municipales de Bolivia (Gestión 2025)
 
 [![R Version](https://img.shields.io/badge/R-4.3%2B-blue.svg?logo=R)](https://www.r-project.org/)
+[![Render Web App](https://img.shields.io/badge/Web%20App-En%20L%C3%ADnea%20(Render)-success?logo=render)](https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repositorio-blue?logo=github)](https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025)
+[![Datos Abiertos MEFP](https://img.shields.io/badge/Datos%20Abiertos-MEFP%20Bolivia-orange)](https://abierto.economiayfinanzas.gob.bo/)
 [![Shiny](https://img.shields.io/badge/Shiny-Interactive%20Dashboard-blueviolet?logo=rstudio)](https://shiny.posit.co/)
 [![DuckDB](https://img.shields.io/badge/DuckDB-In--Disk%20OLAP-yellow?logo=duckdb)](https://duckdb.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready%20for%20Deploy-2496ED?logo=docker)](https://www.docker.com/)
-[![Render](https://img.shields.io/badge/Render-Deploy%20Ready-black?logo=render)](https://render.com/)
 [![LaTeX](https://img.shields.io/badge/LaTeX-Academic%20Report-008080?logo=latex)](https://www.latex-project.org/)
 
 Sistema integral de **Minería de Datos y Auditoría Forense Computacional** para la detección no supervisada de anomalías fiscales, distorsiones presupuestarias y señales de fraude en los **335 Gobiernos Autónomos Municipales (GAM) de Bolivia** durante la **gestión fiscal 2025**.
@@ -30,7 +32,7 @@ El sistema cuenta con un panel analítico en **R Shiny** (`bslib` + `plotly` + `
 
 ---
 
-## 🏛️ Información Académica
+## 🏛️ Información Académica y Enlaces Públicos
 
 - **Institución:** Universidad Mayor de San Andrés (UMSA)
 - **Facultad:** Facultad de Ciencias Puras y Naturales (FCPN)
@@ -38,7 +40,9 @@ El sistema cuenta con un panel analítico en **R Shiny** (`bslib` + `plotly` + `
 - **Materia:** Minería de Datos (Gestión 2026)
 - **Docente:** M.Sc. Menfy Morales Rios
 - **Estudiante:** Cordova Avendaño Yoshua Aaron
-- **Repositorio:** [https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025](https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025)
+- **🌐 Aplicación Web en Vivo (Render):** [https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/](https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/)
+- **💻 Repositorio GitHub Oficial:** [https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025](https://github.com/YoshGreen/GMM-LOF-DETECCION-ANOMALIAS-auditoria-fiscal-bolivia-2025)
+- **📊 Fuente de Datos Oficial (MEFP):** [https://abierto.economiayfinanzas.gob.bo/](https://abierto.economiayfinanzas.gob.bo/)
 
 ---
 
@@ -138,7 +142,7 @@ El proyecto incluye un `Dockerfile` optimizado y multi-etapa con `.dockerignore`
    - **Environment:** Docker
    - **Plan:** Free
 5. Haz clic en **"Deploy Web Service"**.
-6. En pocos minutos tendrás la URL pública activa (ej. `https://auditoria-fiscal-bolivia-2025.onrender.com`).
+6. En pocos minutos tendrás la URL pública activa: [https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/](https://gmm-lof-deteccion-anomalias-auditoria.onrender.com/).
 
 ---
 

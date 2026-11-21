@@ -304,7 +304,9 @@ tex_gmm <- sprintf(
   paste(lineas_regimenes, collapse = "\n")
 )
 
-writeLines(tex_gmm, "informe/tablas/tabla_gmm_regimenes.tex")
+con_g <- file("informe/tablas/tabla_gmm_regimenes.tex", open = "wt", encoding = "UTF-8")
+writeLines(tex_gmm, con_g, useBytes = TRUE)
+close(con_g)
 cat(" - Guardado: informe/tablas/tabla_gmm_regimenes.tex\n")
 
 # Tabla Municipios en Consenso
@@ -352,7 +354,9 @@ tex_consenso <- sprintf(
   paste(lineas_consenso, collapse = "\n")
 )
 
-writeLines(tex_consenso, "informe/tablas/tabla_consenso_anomalias.tex")
+con_co <- file("informe/tablas/tabla_consenso_anomalias.tex", open = "wt", encoding = "UTF-8")
+writeLines(tex_consenso, con_co, useBytes = TRUE)
+close(con_co)
 cat(" - Guardado: informe/tablas/tabla_consenso_anomalias.tex\n")
 
 cat("\nModelos GMM y LOF ejecutados y exportados con éxito.\n")

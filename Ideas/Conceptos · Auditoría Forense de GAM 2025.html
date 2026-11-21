@@ -53,9 +53,53 @@ svg.st path{fill:none;stroke:#c4161c;stroke-width:2.5;filter:drop-shadow(1px 3px
 .fl.y{color:#ffc61a}.fl.r{color:#ff4a3d}
 .fr.hi .fl{box-shadow:0 0 0 1px #e8b40088}
 .fr{cursor:pointer}
+.qr-hover-container{position:relative;display:inline-flex;align-items:center}
+.btn-qr{font:700 12px 'IBM Plex Mono',monospace;color:#4db8ff;background:none;border:1.5px solid #4db8ff88;padding:8px 14px;cursor:pointer;transition:.2s}
+.btn-qr:hover,.qr-hover-container:hover .btn-qr{background:#4db8ff;color:#000;box-shadow:0 0 12px #4db8ff66}
+.qr-hover-popup{position:absolute;top:calc(100% + 10px);right:0;width:230px;background:#14171c;border:1.5px solid #4db8ff;border-radius:6px;padding:12px;box-shadow:0 14px 30px #000c;z-index:9999;opacity:0;visibility:hidden;transform:translateY(-6px);transition:.25s;pointer-events:none}
+.qr-hover-popup::before{content:"";position:absolute;top:-6px;right:22px;width:10px;height:10px;background:#14171c;border-left:1.5px solid #4db8ff;border-top:1.5px solid #4db8ff;transform:rotate(45deg)}
+.qr-hover-container:hover .qr-hover-popup{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.qr-popup-tag{display:block;font:600 10px 'Oswald',sans-serif;color:#4db8ff;letter-spacing:.1em;text-align:center}
+.qr-popup-title{display:block;font:700 11px 'IBM Plex Mono',monospace;color:#fff;text-align:center;margin-bottom:8px}
+.qr-image-frame{background:#fff;padding:6px;border-radius:4px;display:flex;justify-content:center}
+.qr-img{width:100%;max-width:190px;height:auto;display:block}
+.qr-popup-footer{font:10px 'IBM Plex Mono',monospace;color:#9ca3af;text-align:center;margin-top:6px}
+.qr-modal{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:99999;padding:20px}
+.qr-modal.on{display:flex}
+.qr-box{position:relative;background:#14171c;border:2px solid #00ff88;border-radius:14px;padding:28px;max-width:500px;width:100%;text-align:center;box-shadow:0 20px 50px #000c,0 0 30px #00ff8844}
+.qr-box h2{font:700 24px 'Oswald',sans-serif;color:#fff;margin:6px 0 2px;letter-spacing:.04em}
+.qr-box p{color:#9ca3af;font-size:12px;margin:0 0 16px}
+.qr-wrap{background:#fff;padding:16px;border-radius:10px;display:inline-block;border:2px solid #00ff88}
+.qr-wrap img{width:320px;height:320px;max-width:70vw;max-height:50vh;display:block}
+.qr-cls{position:absolute;top:12px;right:14px;width:32px;height:32px;border-radius:50%;background:#ffffff15;border:1px solid #ffffff44;color:#fff;font:700 16px monospace;cursor:pointer}
+.qr-cls:hover{background:#ff3366;border-color:#ff3366}
 </style></head>
 <body class="v1">
-<div class="bar" id="bar"><button class="on" data-v="1">I · Cinta de sumadora</button><button data-v="2">II · Tablero de investigación</button><button data-v="3">III · Tablero de alertas</button></div>
+<div class="bar" id="bar">
+  <button class="on" data-v="1">I · Cinta de sumadora</button>
+  <button data-v="2">II · Tablero de investigación</button>
+  <button data-v="3">III · Tablero de alertas</button>
+  <div class="qr-hover-container">
+    <button class="btn-qr" type="button" onclick="document.getElementById('qrm').classList.add('on')" title="Haz clic para pantalla completa">📱 CÓDIGO QR</button>
+    <div class="qr-hover-popup">
+      <span class="qr-popup-tag">TELEMETRÍA FORENSE</span>
+      <span class="qr-popup-title">EXPEDIENTE DIGITAL</span>
+      <div class="qr-image-frame"><img src="QR.png" alt="Código QR" class="qr-img"></div>
+      <div class="qr-popup-footer">Clic para pantalla completa</div>
+    </div>
+  </div>
+</div>
+
+<div class="qr-modal" id="qrm" onclick="if(event.target==this)this.classList.remove('on')">
+  <div class="qr-box">
+    <button class="qr-cls" onclick="document.getElementById('qrm').classList.remove('on')">✕</button>
+    <span class="qr-popup-tag">TELEMETRÍA FORENSE</span>
+    <h2>ESCANEAR CÓDIGO QR</h2>
+    <p>Acceso directo al expediente de evidencias, dashboard y repositorio</p>
+    <div class="qr-wrap"><img src="QR.png" alt="Código QR"></div>
+    <div style="margin-top:14px;color:#9ca3af;font-size:11px">💡 Acerca tu teléfono para escanear · [Esc] para cerrar</div>
+  </div>
+</div>
 
 <section id="s1" class="on"><div class="slot"></div><div class="paper" id="pp"></div><button class="re" onclick="print1()">⟲ IMPRIMIR OTRA VEZ</button>
 <p class="note">Concepto I: el resultado de la auditoría como la cinta de una sumadora contable. Se imprime línea por línea.</p></section>
@@ -101,4 +145,5 @@ const hot=r[4]>=1.9?"r":"y";return `<div class="fr" onclick="flap(${i})"><span c
 function setC(el,t,n){let s=0;const iv=setInterval(()=>{if(++s>=n){el.textContent=t;clearInterval(iv)}else el.textContent=CH[Math.random()*CH.length|0]},45)}
 function flap(only){document.querySelectorAll(".fr").forEach((row,i)=>{if(only!=null&&i!=only)return;let k=0;row.querySelectorAll(".fl").forEach((el,j)=>{const flat=T[i].join("");setC(el,flat[j]==" "?" ":flat[j],6+(j%9)*2+i*2+(only!=null?0:4));k++})})}
 print1();
+window.addEventListener("keydown",e=>{if(e.key==="Escape"){const m=document.getElementById("qrm");if(m)m.classList.remove("on")}});
 </script></body></html>

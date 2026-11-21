@@ -48,9 +48,54 @@ svg{width:100%;height:auto;display:block}svg text{font:10px 'IBM Plex Mono',mono
 @keyframes pr{from{opacity:0;transform:translateY(-10px)}}
 .bc{height:44px;margin:8px 10px;background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 9px,#111 9px 12px,transparent 12px 14px)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.qr-hover-container{position:relative;display:inline-flex;align-items:center}
+.btn-qr{font:700 13px 'IBM Plex Mono',monospace;color:#ffe66b;background:#3a2a14;border:2px solid #5b3a1e;border-radius:6px;padding:8px 14px;cursor:pointer;transition:.2s}
+.btn-qr:hover,.qr-hover-container:hover .btn-qr{background:#ffe66b;color:#1d1b16;box-shadow:0 0 12px #ffe66b88}
+.qr-hover-popup{position:absolute;top:calc(100% + 10px);right:0;width:230px;background:#fffdf5;border:2px solid #5b3a1e;border-radius:6px;padding:12px;box-shadow:0 14px 30px #0008;z-index:9999;opacity:0;visibility:hidden;transform:translateY(-6px);transition:.25s;pointer-events:none}
+.qr-hover-popup::before{content:"";position:absolute;top:-7px;right:22px;width:10px;height:10px;background:#fffdf5;border-left:2px solid #5b3a1e;border-top:2px solid #5b3a1e;transform:rotate(45deg)}
+.qr-hover-container:hover .qr-hover-popup{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.qr-popup-tag{display:block;font:700 11px 'Oswald',sans-serif;color:#c4161c;letter-spacing:.1em;text-align:center}
+.qr-popup-title{display:block;font:700 12px 'IBM Plex Mono',monospace;color:#1d1b16;text-align:center;margin-bottom:8px}
+.qr-image-frame{background:#fff;padding:6px;border:1px solid #ddd;border-radius:4px;display:flex;justify-content:center}
+.qr-img{width:100%;max-width:190px;height:auto;display:block}
+.qr-popup-footer{font:10px 'IBM Plex Mono',monospace;color:#6b6556;text-align:center;margin-top:6px}
+.qr-modal{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:99999;padding:20px}
+.qr-modal.on{display:flex}
+.qr-box{position:relative;background:#fffdf5;border:3px solid #5b3a1e;border-radius:14px;padding:28px;max-width:500px;width:100%;text-align:center;box-shadow:0 20px 50px #000c,0 0 35px rgba(91,58,30,.4)}
+.qr-box h2{font:700 24px 'Oswald',sans-serif;color:#1d1b16;margin:6px 0 2px;letter-spacing:.04em}
+.qr-box p{color:#6b6556;font-size:12px;margin:0 0 16px}
+.qr-wrap{background:#fff;padding:16px;border-radius:10px;display:inline-block;border:2px solid #5b3a1e}
+.qr-wrap img{width:320px;height:320px;max-width:70vw;max-height:50vh;display:block}
+.qr-cls{position:absolute;top:12px;right:14px;width:32px;height:32px;border-radius:50%;background:#e8ca8c;border:1.5px solid #5b3a1e;color:#1d1b16;font:700 16px monospace;cursor:pointer}
+.qr-cls:hover{background:#c4161c;border-color:#c4161c;color:#fff}
 </style></head>
 <body><div class="wrap">
-<div class="hd"><h1>EXPEDIENTE DE EVIDENCIAS · GAM 2025</h1><span>335 municipios, 12 sospechosos</span></div>
+<div class="hd">
+  <div>
+    <h1>EXPEDIENTE DE EVIDENCIAS · GAM 2025</h1>
+    <span>335 municipios, 12 sospechosos</span>
+  </div>
+  <div class="qr-hover-container">
+    <button class="btn-qr" type="button" onclick="document.getElementById('qrm-ev').classList.add('on')" title="Haz clic para pantalla completa">📱 CÓDIGO QR</button>
+    <div class="qr-hover-popup">
+      <span class="qr-popup-tag">TELEMETRÍA FORENSE</span>
+      <span class="qr-popup-title">EXPEDIENTE DIGITAL</span>
+      <div class="qr-image-frame"><img src="QR.png" alt="Código QR" class="qr-img"></div>
+      <div class="qr-popup-footer">Clic para pantalla completa</div>
+    </div>
+  </div>
+</div>
+
+<div class="qr-modal" id="qrm-ev" onclick="if(event.target==this)this.classList.remove('on')">
+  <div class="qr-box">
+    <button class="qr-cls" onclick="document.getElementById('qrm-ev').classList.remove('on')">✕</button>
+    <span class="qr-popup-tag">TELEMETRÍA FORENSE</span>
+    <h2>ESCANEAR CÓDIGO QR</h2>
+    <p>Acceso directo al expediente de evidencias, dashboard y repositorio</p>
+    <div class="qr-wrap"><img src="QR.png" alt="Código QR"></div>
+    <div style="margin-top:14px;color:#6b6556;font-size:11px">💡 Acerca tu teléfono para escanear · [Esc] para cerrar</div>
+  </div>
+</div>
 <div class="tabs" id="tb"><button class="on">1 · Panorama</button><button>2 · Regímenes</button><button>3 · Consenso</button><button>4 · Expediente</button><button>5 · Cinta</button></div>
 <div class="desk"><section id="s0" class="on"></section><section id="s1"></section><section id="s2"></section><section id="s3"></section><section id="s4"></section></div>
 </div>
@@ -114,4 +159,5 @@ for(const l of L){if(id!=pid)return;const e=document.createElement("div");if(l[0
 const V=[v0,v1,v2,v3,v4];
 document.querySelectorAll("#tb button").forEach((b,i)=>b.onclick=()=>{document.querySelectorAll("#tb button").forEach(x=>x.classList.toggle("on",x==b));document.querySelectorAll("section").forEach((s,j)=>s.classList.toggle("on",i==j));pid++;V[i]();scrollTo({top:0})});
 v0();
+window.addEventListener("keydown",e=>{if(e.key==="Escape"){const m=document.getElementById("qrm-ev");if(m)m.classList.remove("on")}});
 </script></body></html>

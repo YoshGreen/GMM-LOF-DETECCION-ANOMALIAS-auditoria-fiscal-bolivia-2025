@@ -353,3 +353,33 @@ $(document).on("shown.bs.tab", 'a[data-toggle="tab"], a[data-bs-toggle="tab"], a
     if (typeof runFlapAnimation === "function") runFlapAnimation();
   }, 220);
 });
+
+
+// =============================================================================
+// MODAL DE CÓDIGO QR EN PANTALLA COMPLETA
+// =============================================================================
+function openQRModal() {
+  const modal = document.getElementById('qrFullScreenModal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeQRModal(e) {
+  if (e && e.target && e.target.closest && e.target.closest('.qr-modal-card') && !e.target.closest('.qr-modal-close-btn')) {
+    return; // Si el clic fue dentro del recuadro del QR y no en la X, no cerrar
+  }
+  const modal = document.getElementById('qrFullScreenModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+// Cerrar con Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeQRModal();
+  }
+});

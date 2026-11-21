@@ -270,7 +270,9 @@ Inconsistencias Contables Detectadas & %d & %d \\\\
   nrow(df_gam)
 )
 
-writeLines(tex_auditoria, "informe/tablas/tabla_auditoria_limpieza.tex")
+con_a <- file("informe/tablas/tabla_auditoria_limpieza.tex", open = "wt", encoding = "UTF-8")
+writeLines(tex_auditoria, con_a, useBytes = TRUE)
+close(con_a)
 cat(" - informe/tablas/tabla_auditoria_limpieza.tex generada.\n\n")
 
 # ------------------------------------------------------------------------------
