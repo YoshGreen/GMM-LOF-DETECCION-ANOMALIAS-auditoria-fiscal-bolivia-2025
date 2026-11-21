@@ -1,9 +1,55 @@
 // =============================================================================
-// IDEAS.JS — COMPONENTES VISUALES INTERACTIVOS (Ideas/)
-// Corcho Criminalístico, Tablero Split-Flap y Cinta de Sumadora
+// IDEAS.JS — SISTEMA INTERACTIVO DE EXPEDIENTES FORENSES (Ideas/)
+// - Alternador de Tema: Oscuro (Dark Telemetry) / Claro (Investigador Cork)
+// - Colapso y Expansión del Menú Lateral de Expedientes
+// - Tablero de Corcho con Hilos Rojos Dinámicos
+// - Tablero Split-Flap con Giro Mecánico de Caracteres
+// - Cinta de Sumadora Contable Secuencial
 // =============================================================================
 
-// 1. CORCHO CRIMINALÍSTICO (Hilos de conexión roja entre municipios)
+// 1. ALTERNADOR DE TEMA (OSCURO / CLARO)
+function toggleDashboardTheme() {
+  const body = document.body;
+  const btn = document.getElementById("btnThemeToggle");
+  const isLight = body.classList.toggle("theme-light");
+  
+  try {
+    localStorage.setItem("gam_audit_theme", isLight ? "light" : "dark");
+  } catch(e) {}
+
+  if (btn) {
+    btn.innerHTML = isLight ? "🌙 Modo Oscuro" : "☀️ Modo Investigador";
+  }
+
+  // Refrescar layout de gráficos y corcho
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
+    if (typeof renderCorkStrings === "function") renderCorkStrings();
+  }, 200);
+}
+
+// 2. COLAPSO Y EXPANSIÓN DEL PANEL LATERAL DE EXPEDIENTES
+function toggleSidebarMenu() {
+  const sidebar = document.getElementById("sidebarCol") || document.querySelector(".main-wrapper .row > div:first-child");
+  const content = document.getElementById("contentCol") || document.querySelector(".main-wrapper .row > div:nth-child(2)");
+  const btn = document.getElementById("btnSidebarToggle");
+  if (!sidebar || !content) return;
+
+  const isCollapsed = sidebar.classList.toggle("collapsed");
+  content.classList.toggle("expanded", isCollapsed);
+
+  if (btn) {
+    btn.innerHTML = isCollapsed ? "☰ Mostrar Menú" : "☰ Ocultar Menú";
+  }
+
+  // Ajustar ancho de las gráficas Plotly
+  setTimeout(() => {
+    window.dispatchEvent(new Event("resize"));
+    if (typeof renderCorkStrings === "function") renderCorkStrings();
+  }, 250);
+}
+
+// 3. TABLERO DE CORCHO CRIMINALÍSTICO (Hilos Rojos entre sospechosos)
 function renderCorkStrings() {
   const cork = document.getElementById("corkBoard");
   const svg = document.getElementById("corkSvg");
@@ -32,11 +78,11 @@ function renderCorkStrings() {
       const p2 = arr[i + 1].getBoundingClientRect();
       
       const x1 = p1.left + p1.width / 2 - rect.left;
-      const y1 = p1.top - rect.top; // Desde la chincheta superior
+      const y1 = p1.top - rect.top; // Chincheta superior
       const x2 = p2.left + p2.width / 2 - rect.left;
       const y2 = p2.top - rect.top;
       
-      const sag = Math.max(y1, y2) + 40; // Curvatura natural del hilo colgante
+      const sag = Math.max(y1, y2) + 38; // Curva de hilo colgante
       pathsHtml += `<path data-group="${grp}" d="M${x1},${y1} Q${(x1 + x2) / 2},${sag} ${x2},${y2}"/>`;
     }
   }
@@ -61,7 +107,7 @@ function initCorkEvents() {
   });
 }
 
-// 2. TABLERO SPLIT-FLAP (Telemetría Aeroportuaria / Terminal Forense)
+// 4. TABLERO SPLIT-FLAP (Telemetría Mecánica)
 const FLAP_CHARS = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789.%- ";
 function setFlapChar(el, targetChar, steps) {
   let count = 0;
@@ -72,7 +118,7 @@ function setFlapChar(el, targetChar, steps) {
     } else {
       el.textContent = FLAP_CHARS[Math.floor(Math.random() * FLAP_CHARS.length)];
     }
-  }, 40);
+  }, 38);
 }
 
 function runFlapAnimation() {
@@ -87,7 +133,7 @@ function runFlapAnimation() {
   });
 }
 
-// 3. CINTA DE SUMADORA CONTABLE
+// 5. CINTA DE SUMADORA CONTABLE
 let printSessionId = 0;
 async function printReceiptSequence() {
   const paper = document.getElementById("receiptContent");
@@ -107,7 +153,7 @@ async function printReceiptSequence() {
     { type: "dashed" },
     { type: "bold center", text: "— CONSENSO GMM + LOF —" },
     { type: "row bold", l: "01 CHULUMANI", r: "LOF: 2,64" },
-    { type: "small", text: "EJEC 31,9% · DEUDA 16,2% · PARÁLISIS" },
+    { type: "small", text: "EJEC 31,9% · DEUDA 16,2% · PARÁLISIS FISCAL" },
     { type: "row bold", l: "02 MOJINETE", r: "LOF: 1,96" },
     { type: "small", text: "EJEC 78,7% · SUPERÁVIT ATÍPICO 46,7%" },
     { type: "row bold", l: "03 TAHUA", r: "LOF: 1,91" },
@@ -159,29 +205,38 @@ async function printReceiptSequence() {
     }
 
     paper.appendChild(div);
-    await new Promise(r => setTimeout(r, item.type === "dashed" ? 30 : 65));
+    await new Promise(r => setTimeout(r, item.type === "dashed" ? 25 : 60));
   }
 }
 
-// Disparadores automáticos al cargar y cambiar de pestaña
+// 6. INICIALIZACIÓN GLOBAL
 window.addEventListener("resize", () => {
   renderCorkStrings();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  try {
+    const saved = localStorage.getItem("gam_audit_theme");
+    if (saved === "light") {
+      document.body.classList.add("theme-light");
+      const btn = document.getElementById("btnThemeToggle");
+      if (btn) btn.innerHTML = "🌙 Modo Oscuro";
+    }
+  } catch(e) {}
+
   setTimeout(() => {
     renderCorkStrings();
     initCorkEvents();
     runFlapAnimation();
     printReceiptSequence();
-  }, 600);
+  }, 500);
 });
 
-// Listener para cuando Shiny cambia de tab
+// Listener para cambio de pestaña en Bootstrap 5
 $(document).on("shown.bs.tab", 'a[data-bs-toggle="pill"]', function (e) {
   setTimeout(() => {
     renderCorkStrings();
     initCorkEvents();
     runFlapAnimation();
-  }, 250);
+  }, 200);
 });

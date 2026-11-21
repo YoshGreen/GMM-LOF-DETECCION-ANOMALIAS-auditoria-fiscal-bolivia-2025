@@ -102,10 +102,22 @@ ui <- page_fluid(
         span("AUDITORÍA FORENSE"),
         span(" GAM 2025", class = "brand-accent")
       ),
-      span(class = "brand-sub", "335 municipios auditados · 12 casos críticos")
+      span(class = "brand-sub", "335 municipios auditados · 12 casos sospechosos")
     ),
     div(
-      style = "display: flex; gap: 0.75rem; align-items: center;",
+      class = "header-actions",
+      tags$button(
+        id = "btnSidebarToggle",
+        class = "action-btn-console",
+        onclick = "toggleSidebarMenu()",
+        "☰ Ocultar Menú"
+      ),
+      tags$button(
+        id = "btnThemeToggle",
+        class = "action-btn-console btn-theme",
+        onclick = "toggleDashboardTheme()",
+        "☀️ Modo Investigador"
+      ),
       span(class = "navbar-badge", span(class = "pulse-dot"), "MEFP 2025 · DUCKDB OLAP"),
       span(class = "navbar-badge", style = "border-color: rgba(77, 184, 255, 0.35); color: #4DB8FF;", "GMM (G=4) + LOF (k=20)")
     )
@@ -426,15 +438,15 @@ ui <- page_fluid(
       ),
       
       # ------------------------------------------------------------------------
-      # PESTAÑA 8: BITÁCORA KDD & REPRODUCIBILIDAD CIENTÍFICA
+      # PESTAÑA 8: BITÁCORA KDD & EVIDENCIAS PERICIALES
       # ------------------------------------------------------------------------
       nav_panel(
-        title = div(span("8. Bitácora KDD & Repro"), span(class = "pill-badge", style = "background: rgba(0, 255, 136, 0.2); color: #00FF88;", "KDD")),
+        title = div(span("8. Bitácora KDD & Evidencias"), span(class = "pill-badge", style = "background: rgba(0, 255, 136, 0.2); color: #00FF88;", "KDD")),
         div(
           style = "margin-bottom: 1.25rem;",
-          h4("BITÁCORA METODOLÓGICA KDD Y GUÍA DE REPRODUCIBILIDAD", style = "font-family: var(--font-oswald); letter-spacing: 0.04em; margin-bottom: 0.2rem;"),
+          h4("EXPEDIENTE PERICIAL KDD: PROGRESO Y EVIDENCIAS GRÁFICAS", style = "font-family: var(--font-oswald); letter-spacing: 0.04em; margin-bottom: 0.2rem;"),
           p(style = "color: #9CA3AF; font-size: 0.85rem; margin: 0;",
-            "Registro paso a paso de cada fase del proceso de Minería de Datos, auditoría contable y comandos CLI para reproducir la investigación desde cero.")
+            "Registro visual exhaustivo del proceso de Minería de Datos: desde la depuración microcontable en DuckDB hasta la comprobación empírica del sesgo de escala, modelos multivariantes y pruebas forenses de fraude.")
         ),
         
         # Etapa 1
@@ -442,16 +454,18 @@ ui <- page_fluid(
           class = "bitacora-step",
           div(
             class = "bitacora-header",
-            div(span(class = "bitacora-number", "FASE 1"), span(class = "bitacora-title", "Poda y Consolidación Columnar en Disco (DuckDB)")),
-            span(class = "badge-consenso normal", "COMPLETADO · 0 NULOS")
+            div(span(class = "bitacora-number", "FASE 1"), span(class = "bitacora-title", "Ingesta y Poda Microcontable en Disco con DuckDB")),
+            span(class = "stamp", "0 NULOS · DEPURADO")
           ),
           div(
             class = "bitacora-body",
-            p("Se procesaron ", strong("429.753 partidas de gasto"), " y ", strong("14.644 rubros de ingreso"), " crudos del MEFP 2025. Utilizando el motor OLAP ", code("duckdb"), ", se podó el universo a los 335 Gobiernos Autónomos Municipales (subárea ", code("GAM"), "), consolidando 9 ratios financieros invariantes a la escala."),
+            p("Se procesaron ", strong("429.753 partidas de gasto"), " y ", strong("14.644 rubros de ingreso"), " oficiales de la gestión 2025 del Ministerio de Economía. Utilizando el motor columnar ", code("DuckDB"), " directamente en disco, se filtraron los ", strong("335 Gobiernos Autónomos Municipales"), " sin colapso de memoria RAM."),
+            div(class = "hw", "«DuckDB procesó 408 MB en disco en 1,4 s y transformó 444 mil filas en 9 ratios normalizados.»"),
             div(
-              class = "cli-command-box",
-              span("Rscript scripts/01_limpieza_kdd_duckdb.R"),
-              span(style = "color: #9CA3AF; font-size: 0.72rem;", "Genera: municipios_modelados_2025.rds (111 KB)")
+              style = "display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem;",
+              div(class = "kpi-card kpi-normal", div(class = "kpi-title", "Registros Iniciales"), div(class = "kpi-value", "444.397"), div(class = "kpi-sub", "Gastos + Ingresos crudos")),
+              div(class = "kpi-card kpi-primary", div(class = "kpi-title", "Universo Municipal"), div(class = "kpi-value", "335 GAMs"), div(class = "kpi-sub", "Cobertura 100% de Bolivia")),
+              div(class = "kpi-card kpi-warn", div(class = "kpi-title", "Ratios Normalizados"), div(class = "kpi-value", "9 Métricas"), div(class = "kpi-sub", "Invariantes a escala"))
             )
           )
         ),
@@ -461,16 +475,25 @@ ui <- page_fluid(
           class = "bitacora-step",
           div(
             class = "bitacora-header",
-            div(span(class = "bitacora-number", "FASE 2"), span(class = "bitacora-title", "Línea Base Univariada y Demostración del Sesgo de Escala")),
-            span(class = "badge-consenso global", "TUKEY 1.5/3.0 IQR + Z-SCORE")
+            div(span(class = "bitacora-number", "FASE 2"), span(class = "bitacora-title", "Demostración Científica del Sesgo de Escala (Tukey 1.5 IQR)")),
+            span(class = "stamp", "SESGO DEMOSTRADO")
           ),
           div(
             class = "bitacora-body",
-            p("Se demostró formalmente que el análisis univariado sobre montos brutos (Presupuesto Vigente) solo señala a grandes capitales (Santa Cruz de la Sierra, La Paz, El Alto, Cochabamba) por mero volumen poblacional, omitiendo las crisis severas de ejecución y deuda en municipios medianos y rurales."),
+            p("Comprobación empírica del sesgo que afecta a las auditorías tradicionales: al evaluar el presupuesto bruto, únicamente las capitales aparecen como 'atípicas' debido a su volumen poblacional. Al contrastar con la tasa de ejecución y ratios relativos, la realidad se invierte."),
+            div(class = "hw", "«El monto bruto solo señala capitales; los ratios relativos destapan las verdaderas parálisis municipales.»"),
             div(
-              class = "cli-command-box",
-              span("Rscript scripts/02_linea_base_univariada.R"),
-              span(style = "color: #9CA3AF; font-size: 0.72rem;", "Genera: fig_01 y fig_02 (300 DPI)")
+              class = "bitacora-gallery",
+              div(
+                class = "bitacora-card-img",
+                tags$img(src = "figuras/fig_01_sesgo_escala_univariado.png", alt = "Sesgo de Escala"),
+                div(class = "bitacora-card-caption", strong("Figura 1: Sesgo de Escala."), " En la izquierda (monto bruto), sólo Santa Cruz, La Paz y Cochabamba son atípicos. En la derecha (tasa de ejecución), las capitales son normales y se evidencian las fallas de gestión en Chulumani y Mojinete.")
+              ),
+              div(
+                class = "bitacora-card-img",
+                tags$img(src = "figuras/fig_02_boxplot_ratios_tukey.png", alt = "Boxplots Tukey Ratios"),
+                div(class = "bitacora-card-caption", strong("Figura 2: Boxplots de Tukey (1.5 IQR)."), " Distribución empírica de los ratios fiscales normalizados, permitiendo aislar atípicos genuinos sin contaminación por tamaño.")
+              )
             )
           )
         ),
@@ -480,16 +503,25 @@ ui <- page_fluid(
           class = "bitacora-step",
           div(
             class = "bitacora-header",
-            div(span(class = "bitacora-number", "FASE 3"), span(class = "bitacora-title", "Modelado No Supervisado Multivariante (GMM + LOF)")),
-            span(class = "badge-consenso local", "OPTIMIZACIÓN BIC (G=4) + SENSIBILIDAD")
+            div(span(class = "bitacora-number", "FASE 3"), span(class = "bitacora-title", "Modelado No Supervisado Multivariante: GMM (EM + BIC) y LOF")),
+            span(class = "stamp", "CONSENSO GMM + LOF")
           ),
           div(
             class = "bitacora-body",
-            p("Se ajustó un Modelo de Mezclas Gaussianas (", code("mclust"), ") con selección óptima VVE en ", strong("G = 4 componentes"), " mediante criterio BIC. Paralelamente, se calculó el Factor de Atipicidad Local (", code("dbscan::lof"), ") con análisis de sensibilidad multiescala en ", code("minPts in {10, 15, 20, 30}"), ", aislando 12 municipios en consenso de alta prioridad."),
+            p("Ajuste probabilístico de Mezclas Gaussianas (GMM) con optimización bayesiana BIC y Factor de Valor Atípico Local (LOF) con matriz de sensibilidad multiescala."),
+            div(class = "hw", "«GMM aisló anomalías de densidad global mientras LOF detectó atipicidad local en vecindad de 20 municipios.»"),
             div(
-              class = "cli-command-box",
-              span("Rscript scripts/03_modelos_gmm_lof.R"),
-              span(style = "color: #9CA3AF; font-size: 0.72rem;", "Genera: fig_03, fig_04, fig_05 y tablas LaTeX")
+              class = "bitacora-gallery",
+              div(
+                class = "bitacora-card-img",
+                tags$img(src = "figuras/fig_03_gmm_curva_bic.png", alt = "Curva BIC GMM"),
+                div(class = "bitacora-card-caption", strong("Figura 3: Curvas BIC de Selección GMM."), " Evaluación de 14 familias paramétricas y G = 1..9 componentes. El modelo VVE con G = 4 componentes maximizó el criterio BIC (-5.284,80).")
+              ),
+              div(
+                class = "bitacora-card-img",
+                tags$img(src = "figuras/fig_05_sensibilidad_lof.png", alt = "Sensibilidad LOF"),
+                div(class = "bitacora-card-caption", strong("Figura 5: Matriz de Sensibilidad LOF (k in {10, 15, 20, 30})."), " Correlaciones r > 0.94 que demuestran la robustez matemática e invariancia de los 12 municipios priorizados.")
+              )
             )
           )
         ),
@@ -499,16 +531,25 @@ ui <- page_fluid(
           class = "bitacora-step",
           div(
             class = "bitacora-header",
-            div(span(class = "bitacora-number", "FASE 4"), span(class = "bitacora-title", "Auditoría Forense Digital (Ley de Benford y Fraccionamiento)")),
-            span(class = "badge-consenso critico", "CHI² + MAD + DUPLICADOS")
+            div(span(class = "bitacora-number", "FASE 4"), span(class = "bitacora-title", "Auditoría Forense de Partidas Crudas: Ley de Benford y Duplicados")),
+            span(class = "stamp", "VIOLACIÓN CONFIRMADA")
           ),
           div(
             class = "bitacora-body",
-            p("Sobre las transacciones microcontables de los 12 municipios en consenso, se aplicó la prueba del primer dígito de la Ley de Benford. Se detectó una ", strong("violación estadísticamente significativa en Caquiaviri"), " (Chi² = 16,91, p = 0,031, MAD = 0,0241) y señales críticas de compras fraccionadas repetidas en Boyuibe (19,86% duplicados) y Colcha K (15,32%)."),
+            p("Inspección pericial de las 6.387 transacciones individuales de los 12 municipios en consenso. Se contrastó la ley natural del primer dígito y se rastrearon patrones de compras fraccionadas repetidas."),
+            div(class = "hw", "«Caquiaviri violó la Ley de Benford (p = 0,031) y Boyuibe concentró 19,86% de sus pagos en montos idénticos.»"),
             div(
-              class = "cli-command-box",
-              span("Rscript scripts/04_auditoria_benford_fraude.R"),
-              span(style = "color: #9CA3AF; font-size: 0.72rem;", "Genera: fig_06, fig_07 y auditoria_benford_consenso.rds")
+              class = "bitacora-gallery",
+              div(
+                class = "bitacora-card-img",
+                tags$img(src = "figuras/fig_06_benford_caquiaviri.png", alt = "Benford Caquiaviri"),
+                div(class = "bitacora-card-caption", strong("Figura 6: Desvío de Benford en Caquiaviri."), " Déficit anómalo en dígito 1 y picos artificiales en dígitos 3, 4 y 5 (Chi² = 16,91, p = 0,031, MAD = 0,0241).")
+              ),
+              div(
+                class = "bitacora-card-img",
+                tags$img(src = "figuras/fig_07_composicion_gasto_consenso.png", alt = "Composición Gasto Consenso"),
+                div(class = "bitacora-card-caption", strong("Figura 7: Composición de Gasto por Objeto."), " Evidencia de 0% de inversión en Tahua y anomalías severas de concentración en servicios no personales.")
+              )
             )
           )
         )
