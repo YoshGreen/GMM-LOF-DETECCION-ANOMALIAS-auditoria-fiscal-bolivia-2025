@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Expediente de Evidencias · Auditoría Fiscal GAM 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=IBM+Plex+Mono:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1d1b16;--blue:#2b4a9a;--red:#c4161c;--amb:#e08a00;--grn:#2f7d4a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;font:13px/1.45 'IBM Plex Mono',monospace;color:#fff;background:#b8864f radial-gradient(#0002 1px,transparent 1.5px) 0 0/6px 6px;color-scheme:light}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 16px 60px}
+.hd{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.hd h1{font:700 clamp(22px,4vw,34px) Oswald,sans-serif;margin:0;letter-spacing:.04em;text-shadow:0 2px 0 #0006}
+.hd span{font-family:Caveat,cursive;font-size:20px;color:#ffe66b}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;position:sticky;top:0;z-index:9;padding-top:6px}
+.tabs button{font:500 14px Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#3a2a14;background:#d9b46a;border:2px solid #5b3a1e;border-bottom:0;border-radius:9px 9px 0 0;padding:9px 15px;cursor:pointer}
+.tabs button.on{background:#fff6d8;transform:translateY(2px)}
+.desk{border:3px solid #5b3a1e;background:#fff6d822;box-shadow:inset 0 0 40px #0005;padding:26px 18px;min-height:60vh}
+section{display:none}section.on{display:block;animation:fi .5s}@keyframes fi{from{opacity:0;transform:translateY(10px)}}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:30px 26px;margin-top:26px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:30px 26px;margin-top:26px}
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
+.sp2{grid-column:span 2}@media(max-width:820px){.sp2{grid-column:auto}}
+.ev{position:relative;background:#fffdf5;color:var(--ink);padding:18px 16px 14px;box-shadow:0 6px 10px #0006;transform:rotate(var(--r,0deg))}
+.ev::before{content:"";position:absolute;top:-8px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8a8a,#c4161c 60%,#7a0b10);box-shadow:2px 4px 4px #0006}
+.ev h3{font:700 15px Oswald,sans-serif;letter-spacing:.08em;text-transform:uppercase;margin:0 0 2px}
+.ev small{color:#6b6556;display:block;margin-bottom:8px}
+.hw{font:700 19px Caveat,cursive;color:var(--blue)}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}@media(max-width:820px){.kp{grid-template-columns:repeat(2,1fr)}}
+.sn{color:var(--ink);padding:16px 14px;box-shadow:0 6px 10px #0006;transform:rotate(var(--r));min-height:112px}
+.sn b{display:block;font:700 28px/1.1 Caveat,cursive;font-size:34px}.sn span{font:500 12px Oswald;letter-spacing:.1em;text-transform:uppercase}
+svg{width:100%;height:auto;display:block}svg text{font:10px 'IBM Plex Mono',monospace;fill:var(--ink)}svg .hw{font:700 17px Caveat,cursive;fill:var(--blue)}
+.ab{transform-box:fill-box;transform-origin:left;animation:gw .9s var(--d,0s) both cubic-bezier(.2,.8,.2,1)}@keyframes gw{from{transform:scaleX(0)}}
+.av{transform-box:fill-box;transform-origin:bottom;animation:gh .9s var(--d,0s) both cubic-bezier(.2,.8,.2,1)}@keyframes gh{from{transform:scaleY(0)}}
+.ap{transform-box:fill-box;transform-origin:center;animation:pp .5s var(--d,0s) both}@keyframes pp{from{transform:scale(0);opacity:0}}
+.ad{animation:dd 1.2s var(--d,0s) both ease-out}@keyframes dd{from{stroke-dasharray:0 440}}
+.stamp{display:inline-block;border:3px solid var(--red);color:var(--red);font:700 16px Oswald;letter-spacing:.2em;padding:1px 9px;transform:rotate(-7deg);animation:st .45s .2s both}@keyframes st{from{transform:rotate(-7deg) scale(3);opacity:0}}
+.ill{font-size:11px;color:#6b6556;margin-top:4px}
+.mt{width:100%;border-collapse:collapse}.mt td{padding:4px 0;border-bottom:1px dashed #bbb}.mt td:last-child{text-align:right;font-weight:700}
+/* flap */
+.fb{overflow-x:auto;background:#17181b;padding:14px;border:4px solid #2a2c31;color:#fff}
+.fh,.fr{display:flex;gap:14px;min-width:640px;align-items:center}.fh{font:500 11px Oswald;letter-spacing:.2em;color:#e8b400;margin-bottom:6px}.fr{margin:4px 0;cursor:pointer}
+.c1{width:262px}.c2{width:64px}.c3{width:82px}.c4{width:104px}.c5{width:104px}.c6{width:104px}.c{display:flex;gap:2px}.fh .c{display:block}
+.fl{position:relative;width:19px;height:28px;line-height:28px;text-align:center;background:linear-gradient(#26282c 50%,#1c1d20 50%);color:#f2efe6;font:700 18px 'IBM Plex Mono',monospace;border-radius:3px;box-shadow:0 2px 0 #000}
+.fl::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#000}.fl.y{color:#ffc61a}.fl.r{color:#ff4a3d}
+/* cinta */
+.paper{position:relative;max-width:380px;margin:0 auto;background:#fbfaf4;color:#1b1b18;padding:22px 20px 26px;box-shadow:0 20px 40px #0008}
+.paper::after{content:"";position:absolute;left:0;right:0;bottom:-11px;height:12px;background:linear-gradient(-45deg,transparent 7px,#fbfaf4 0),linear-gradient(45deg,transparent 7px,#fbfaf4 0);background-size:14px 14px}
+.ln{display:flex;gap:6px;animation:pr .25s both}.ln i{flex:1;border-bottom:2px dotted #999;margin-bottom:4px}.ln.b{font-weight:700}.ln.s{font-size:11px;color:#555;padding-left:22px}.ln.c{justify-content:center}.ln.d{border-top:2px dashed #888;margin:7px 0}
+@keyframes pr{from{opacity:0;transform:translateY(-10px)}}
+.bc{height:44px;margin:8px 10px;background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 9px,#111 9px 12px,transparent 12px 14px)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body><div class="wrap">
+<div class="hd"><h1>EXPEDIENTE DE EVIDENCIAS · GAM 2025</h1><span>335 municipios, 12 sospechosos</span></div>
+<div class="tabs" id="tb"><button class="on">1 · Panorama</button><button>2 · Regímenes</button><button>3 · Consenso</button><button>4 · Expediente</button><button>5 · Cinta</button></div>
+<div class="desk"><section id="s0" class="on"></section><section id="s1"></section><section id="s2"></section><section id="s3"></section><section id="s4"></section></div>
+</div>
+<script>
+const $=s=>document.querySelector(s),f=(v,d=1)=>v.toFixed(d).replace(".",","),ms=t=>new Promise(r=>setTimeout(r,t));
+const D=[["Chulumani","LPZ",31.9,16.20,2.64,-20.2,2.2,-1.7],["Mojinete","POT",78.7,.82,1.96,-25.0,-.55,-4.6],["Tahua","POT",46.3,2.45,1.91,-22.7,-2.55,2.65],["Santa Cruz","SCZ",80.0,17.77,1.76,-20.2,6.4,2.3],["Caquiaviri","LPZ",89.1,15.95,1.70,-17.0,2.05,1.4],["Humanata","LPZ",55.0,.04,1.70,-17.6,.4,-5.4],["San Juan","SCZ",49.3,1.53,1.69,-18.5,-1.6,.93],["Antequera","ORU",67.0,0,1.65,-19.2,1.15,-2.55],["Malla","LPZ",65.8,8.34,1.61,-16.2,1.85,-3.3],["Colpa Bélgica","SCZ",89.1,.04,1.60,-15.8,1.0,3.35],["Boyuibe","SCZ",65.0,7.14,1.54,-16.2,-.4,-1.2],["Colcha “K”","POT",68.1,0,1.52,-15.2,3.1,.07]];
+const TH=[30.1,17.6,12.5,9.7,7.9,6.7,5.8,5.1,4.6],OB=[27.6,19.7,16.7,12.1,10.0,4.2,3.8,1.7,4.2];
+let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647},gs=()=>Math.sqrt(-2*Math.log(rnd()+1e-9))*Math.cos(6.283*rnd());
+const ev=(t,s,body,cls="",r=0)=>`<div class="ev ${cls}" style="--r:${r}deg"><h3>${t}</h3><small>${s}</small>${body}</div>`;
+/* 1 Panorama */
+function v0(){const dep=[["SANTA CRUZ",7600,6000],["LA PAZ",6400,5360],["COCHABAMBA",4170,3560],["POTOSÍ",1850,1300],["TARIJA",1440,1110],["CHUQUISACA",1360,1080],["ORURO",1200,1000],["BENI",850,700],["PANDO",410,330]],x=v=>100+v/8000*440;
+let a=`<defs><pattern id="h" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#1d1b16" stroke-width="1.3"/></pattern></defs>`;
+dep.forEach((r,i)=>{const y=14+i*33;a+=`<text x="94" y="${y+16}" text-anchor="end">${r[0]}</text><rect x="100" y="${y}" width="${x(r[1])-100}" height="12" fill="url(#h)" stroke="#1d1b16" class="ab" style="--d:${i*.06}s"><title>Vigente ${r[1]} M</title></rect><rect x="100" y="${y+13}" width="${x(r[2])-100}" height="12" fill="#2b4a9a" class="ab" style="--d:${i*.06+.1}s"><title>Devengado ${r[2]} M</title></rect><text x="${x(r[1])+5}" y="${y+10}">${f(r[2]/r[1]*100,0)}%</text>`});
+a+=`<text x="320" y="318" text-anchor="middle">Millones de Bs.  ·  rayado = vigente, azul = devengado</text>`;
+const tk=[["Ppto. vigente",39,1],["Gasto devengado",40,1],["Ingreso percibido",41,1],["Deuda flotante",40,0],["Eficacia recaud.",5,0],["Ejecución gasto",1,0],["Inversión pública",1,0]];
+let b="";tk.forEach((r,i)=>{b+=`<text x="112" y="${i*34+22}" text-anchor="end">${r[0]}</text><rect x="120" y="${i*34+10}" width="${r[1]*10}" height="18" fill="${r[2]?'#c4161c':'#2b4a9a'}" class="ab" style="--d:${i*.08}s"/><text x="${126+r[1]*10}" y="${i*34+23}">${r[1]}</text>`});
+const kp=[["Bs. 25.319 M","Presupuesto vigente","#ffe66b",-2],["Bs. 20.404 M · 80,6 %","Gasto devengado","#a8d8ff",1.5],["Bs. 1.325 M","Deuda flotante exigible","#ffd08a",-1],["12 GAM","En alerta crítica","#ffb3c1",2]];
+$("#s0").innerHTML=`<div class="kp">${kp.map(k=>`<div class="sn" style="background:${k[2]};--r:${k[3]}deg"><b>${k[0]}</b><span>${k[1]}</span></div>`).join("")}</div>
+<div class="g2">${ev("Presupuesto vs. ejecución","Por departamento · valores leídos del gráfico original",`<svg viewBox="0 0 560 325">${a}</svg>`,"",-.6)}
+${ev("Sesgo de escala","Atípicos por criterio de Tukey 1,5 (Tabla 2)",`<svg viewBox="0 0 400 250">${b}</svg><div class="hw">rojo: los montos solo señalan capitales; azul: los ratios señalan otra cosa →</div>`,"",.6)}</div>`}
+/* 2 PCA */
+function v1(){const x=v=>50+(v+6)/10*490,y=v=>300-(v+4)/11*280;seed=11;let s=`<line x1="50" x2="540" y1="${y(0)}" y2="${y(0)}" stroke="#bbb"/><line x1="${x(0)}" x2="${x(0)}" y1="20" y2="300" stroke="#bbb"/>`;
+for(let i=0;i<280;i++){const px=gs()*1.6-.3,py=gs()*1.1+.2;if(px>-4.5&&px<3.3&&py>-3.8&&py<4.5)s+=`<circle cx="${x(px)}" cy="${y(py)}" r="2.6" fill="#2f7d4a" opacity=".5" class="ap" style="--d:${i*.003}s"/>`}
+D.forEach((r,i)=>{s+=`<circle cx="${x(r[7])}" cy="${y(r[6])}" r="6.5" fill="#c4161c" stroke="#1d1b16" stroke-width="1.5" class="ap" style="--d:${.9+i*.07}s"><title>${r[0]}</title></circle><text x="${x(r[7])+9}" y="${y(r[6])-6}" style="font-size:10px">${r[0]}</text>`});
+s+=`<text x="295" y="318" text-anchor="middle">Componente principal 1 (PCA 1)</text><text transform="translate(14 160) rotate(-90)" text-anchor="middle">PCA 2</text><text x="60" y="${y(-.4)+22}" class="hw">← Humanata y Mojinete, extremos</text>`;
+$("#s1").innerHTML=`<div class="g3"><div class="sp2">${ev("Espacio latente PCA","Regímenes GMM y factores locales LOF",`<svg viewBox="0 0 560 325">${s}</svg><div class="ill">Nube verde ilustrativa: en Shiny se reemplaza por los 335 puntos reales. Los 12 rojos están ubicados según tu captura.</div>`,"",-.4)}</div>
+${ev("Guía de interpretación","Cómo leer el plano",`<p>• GMM ajusta <b>4 regímenes</b> gaussianos sobre 9 ratios fiscales.</p><p>• LOF mide el aislamiento local frente a los 20 vecinos más cercanos.</p><p>• Punto rojo: cumple <b>doble alerta</b> (GMM global + LOF local).</p><p class="hw">minPts = 20 · umbral LOF = 1,5</p>`,"",1)}</div>`}
+/* 3 Consenso */
+const CH="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789.%- ";let T=[];
+function v2(){const x=v=>50+(v+27)/29*490,y=v=>280-(v-.9)/1.9*250;seed=5;
+let s=`<rect x="50" y="30" width="${x(-14.5)-50}" height="${y(1.5)-30}" fill="#c4161c" opacity=".13"/><line x1="${x(-14.5)}" x2="${x(-14.5)}" y1="30" y2="280" stroke="#1d1b16" stroke-dasharray="4 4"/><line x1="50" x2="540" y1="${y(1.5)}" y2="${y(1.5)}" stroke="#c4161c" stroke-dasharray="4 4"/><rect x="50" y="30" width="490" height="250" fill="none" stroke="#1d1b16"/>`;
+for(let i=0;i<285;i++){const ld=-14*Math.pow(rnd(),1.5)+1.5,l=Math.max(.92,.96+Math.max(0,-ld)*.026+(rnd()-.5)*.1);s+=`<circle cx="${x(ld)}" cy="${y(l)}" r="2.6" fill="#2f7d4a" opacity=".5" class="ap" style="--d:${i*.003}s"/>`}
+D.forEach((r,i)=>{s+=`<circle cx="${x(r[5])}" cy="${y(r[4])}" r="6" fill="#c4161c" stroke="#1d1b16" stroke-width="1.5" class="ap" style="--d:${.9+i*.07}s"><title>${r[0]}</title></circle>`});
+s+=`<text x="${x(-26)}" y="46" class="hw">zona crítica ↓ LOF &gt; 1,5 y log-dens &lt; −14,5</text><text x="295" y="306" text-anchor="middle">Log-densidad GMM (corte P5 = −14,5)</text><text transform="translate(14 160) rotate(-90)" text-anchor="middle">Score LOF</text>`;
+const cell=(n,c)=>Array.from({length:n},()=>`<span class="fl ${c}"> </span>`).join("");T=[];
+const rows=[...D].sort((a,b)=>b[4]-a[4]).map((r,i)=>{T.push([r[0].toUpperCase().replace(/[“”]/g,"").slice(0,13).padEnd(13),r[1].padEnd(3),f(r[4],2).padEnd(4),f(r[5]).padStart(5),f(r[2]).padStart(5),f(r[3],2).padStart(5)]);return `<div class="fr" onclick="fl(${i})"><span class="c c1">${cell(13,"")}</span><span class="c c2">${cell(3,"")}</span><span class="c c3">${cell(4,"y")}</span><span class="c c4">${cell(5,"")}</span><span class="c c5">${cell(5,"")}</span><span class="c c6">${cell(5,"r")}</span></div>`}).join("");
+$("#s2").innerHTML=`${ev("Matriz forense de cuadrantes","Log-densidad GMM vs. score LOF",`<svg viewBox="0 0 560 320">${s}</svg><div class="ill">Nube verde ilustrativa; los 12 puntos rojos usan los valores de la Tabla 5.</div>`,"",.3)}
+<div class="g2" style="grid-template-columns:1fr"><div class="fb"><div class="fh"><span class="c c1">MUNICIPIO</span><span class="c c2">DEP</span><span class="c c3">LOF</span><span class="c c4">LOG-DENS</span><span class="c c5">EJEC %</span><span class="c c6">DEUDA %</span></div>${rows}</div></div>`;fl()}
+function fl(o){document.querySelectorAll("#s2 .fr").forEach((row,i)=>{if(o!=null&&i!=o)return;const flat=T[i].join("");row.querySelectorAll(".fl").forEach((el,j)=>{let n=0;const N=5+(j%9)*2+i*2,iv=setInterval(()=>{if(++n>=N){el.textContent=flat[j];clearInterval(iv)}else el.textContent=CH[Math.random()*CH.length|0]},45)})})}
+/* 4 Expediente */
+function v3(){let ben=`<line x1="40" x2="540" y1="230" y2="230" stroke="#1d1b16"/>`;const y=v=>230-v/32*200,bw=500/9;
+OB.forEach((v,i)=>{ben+=`<rect x="${44+i*bw+6}" y="${y(v)}" width="${bw-12}" height="${230-y(v)}" fill="${Math.abs(v-TH[i])>3?'#c4161c':'#1d1b16'}" class="av" style="--d:${i*.07}s"/><text x="${44+i*bw+bw/2}" y="246" text-anchor="middle">${i+1}</text>`});
+ben+=`<polyline fill="none" stroke="#2b4a9a" stroke-width="3" points="${TH.map((v,i)=>`${44+i*bw+bw/2},${y(v)}`).join(" ")}"/>`+TH.map((v,i)=>`<circle cx="${44+i*bw+bw/2}" cy="${y(v)}" r="3.5" fill="#2b4a9a"/>`).join("")+`<text x="300" y="30" class="hw">¡el 1 está por debajo y 3, 4, 5 por encima!</text>`;
+const dn=[["Materiales y suministros",42.6,"#2b4a9a"],["Otros grupos",31.7,"#c4161c"],["Serv. no personales",13.9,"#e08a00"],["Serv. personales",10.4,"#2f7d4a"],["Activos reales",1.4,"#777"]];let off=0,d="";
+dn.forEach((r,i)=>{const L=r[1]/100*439.8;d+=`<circle cx="90" cy="90" r="70" fill="none" stroke="${r[2]}" stroke-width="30" stroke-dasharray="${L} ${439.8-L}" stroke-dashoffset="${-off}" transform="rotate(-90 90 90)" class="ad" style="--d:${i*.15}s"><title>${r[0]} ${r[1]}%</title></circle>`;off+=L});
+const lq=[["Devengado",17.7,"#e08a00"],["Pagado",14.9,"#2f7d4a"],["Ingreso percibido",15.7,"#2b4a9a"]];let lb=`<line x1="30" x2="330" y1="190" y2="190" stroke="#1d1b16"/>`;
+lq.forEach((r,i)=>{const h=r[1]/20*150;lb+=`<rect x="${50+i*100}" y="${190-h}" width="70" height="${h}" fill="${r[2]}" class="av" style="--d:${i*.12}s"/><text x="${85+i*100}" y="${184-h}" text-anchor="middle">${f(r[1])}</text><text x="${85+i*100}" y="206" text-anchor="middle">${r[0]}</text>`});
+lb+=`<text x="40" y="22" class="hw">brecha pagado vs. devengado = 15,95 %</text>`;
+const m=[["Código entidad","1239"],["Departamento","LA PAZ"],["Ppto. vigente","Bs. 19.972.963"],["Tasa de ejecución","89,1 %"],["Deuda flotante","15,95 %"],["Ratio de inversión","5,1 %"],["Balance de caja real","4,82 %"],["LOF score","1,70"]];
+$("#s3").innerHTML=`<div class="g3">${ev("Alerta forense principal","GAM Caquiaviri · La Paz",`<span class="stamp">VIOLACIÓN</span><p><b>Ley de Benford, primer dígito.</b> χ² = 16,91 · p = 0,031 · MAD = 0,0241 (no conformidad). 239 partidas devengadas.</p><div class="hw">Patrón incompatible con transacciones naturales.</div>`,"",-1.2)}
+${ev("Ficha del GAM","Caquiaviri",`<table class="mt">${m.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>`,"",.8)}
+${ev("Gasto por objeto","Aprox. de la captura original",`<svg viewBox="0 0 400 180"><g transform="translate(0 0)">${d}</g>${dn.map((r,i)=>`<rect x="200" y="${22+i*26}" width="12" height="12" fill="${r[2]}"/><text x="218" y="${32+i*26}">${r[0]} ${f(r[1])}%</text>`).join("")}</svg>`,"",-.5)}
+<div class="sp2">${ev("Prueba de Benford · Caquiaviri","Barras = observado (leído de la figura) · línea azul = teórico",`<svg viewBox="0 0 560 262">${ben}</svg>`,"",.4)}</div>
+${ev("Liquidez y brecha presupuestaria","Millones de Bs.",`<svg viewBox="0 0 360 215">${lb}</svg>`,"",-.7)}</div>`}
+/* 5 Cinta */
+let pid=0;
+async function v4(){const id=++pid,p=$("#s4");p.innerHTML='<div class="paper" id="pp"></div>';const pp=$("#pp");
+const L=[["c b","AUDITORÍA FORENSE PRESUPUESTARIA"],["c","GAM DE BOLIVIA · GESTIÓN 2025"],["d"],["r","GAM AUDITADOS","335"],["r","PARTIDAS DE GASTO","263.893"],["r","DEUDA FLOTANTE","Bs 1.324 M"],["d"]];
+[...D].sort((a,b)=>b[4]-a[4]).forEach((r,i)=>{L.push(["r b",String(i+1).padStart(2,"0")+" "+r[0].toUpperCase(),f(r[4],2)],["s","EJEC "+f(r[2])+"% · DEUDA "+f(r[3],2)+"%"])});L.push(["d"],["r b","TOTAL OBSERVADOS","12"],["r","% DEL UNIVERSO","3,6 %"],["d"],["bc"],["c","GRACIAS POR AUDITAR"]);
+for(const l of L){if(id!=pid)return;const e=document.createElement("div");if(l[0]=="d")e.className="ln d";else if(l[0]=="bc")e.className="bc";else{e.className="ln "+l[0].replace(/^r\s?/,"");e.innerHTML=l.length>2?`<span>${l[1]}</span><i></i><span>${l[2]}</span>`:l[1]}pp.appendChild(e);await ms(l[0]=="d"?25:70)}}
+const V=[v0,v1,v2,v3,v4];
+document.querySelectorAll("#tb button").forEach((b,i)=>b.onclick=()=>{document.querySelectorAll("#tb button").forEach(x=>x.classList.toggle("on",x==b));document.querySelectorAll("section").forEach((s,j)=>s.classList.toggle("on",i==j));pid++;V[i]();scrollTo({top:0})});
+v0();
+</script></body></html>

@@ -1,8 +1,8 @@
 # ==============================================================================
 # PROYECTO: Auditoría Forense Presupuestaria de Municipios de Bolivia (Gestión 2025)
 # APLICACIÓN: dashboard/app.R
-# TECNOLOGÍAS: R Shiny + bslib (Bootstrap 5) + plotly + DT + custom.css
-# SISTEMA VISUAL: Dark Telemetry / Obsidian (estricto DESIGN.md & Anti-AI-Slop)
+# TECNOLOGÍAS: R Shiny + bslib (Bootstrap 5) + plotly + DT + custom.css + ideas.js
+# SISTEMA VISUAL: Forensic Telemetry / Evidence Dossier (estricto DESIGN.md)
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -25,7 +25,7 @@ univariado_res <- readRDS(file.path(dir_base, "data/processed/univariado_resulta
 
 departamentos_disponibles <- c("TODOS", sort(unique(df_gam$departamento)))
 
-# Opciones limpias para selector forense: nombre amigable con valor = código de entidad
+# 12 Municipios de Consenso de Alto Riesgo ordenados por LOF
 df_consenso_gams <- df_gam %>%
   filter(categoria_consenso == "Consenso GMM + LOF (Prioridad Alta)") %>%
   arrange(desc(lof_score))
@@ -58,67 +58,26 @@ clean_plotly_config <- function(p) {
          displaylogo = FALSE)
 }
 
-# Diagnóstico forense cualitativo por municipio de consenso
-dict_diagnostico <- list(
-  "1239" = list(
-    titulo = "Violación de la Ley de Benford",
-    desc = "Alteración estadísticamente significativa en el primer dígito (Chi² = 16,91, p = 0,031, MAD = 0,0241). Patrón anómalo incompatible con transacciones naturales."
-  ),
-  "1205" = list(
-    titulo = "Parálisis de Inversión Pública (0,00%)",
-    desc = "El municipio destinó el 100% de su presupuesto a gasto corriente y servicios. Cero asignación a formación bruta de capital o infraestructura."
-  ),
-  "1206" = list(
-    titulo = "Peor Ejecución Nacional & Alta Deuda Flotante",
-    desc = "Tasa de ejecución más baja de Bolivia (31,87%) con un 16,20% de compromisos devengados no pagados. Riesgo de insolvencia y parálisis operativa."
-  ),
-  "1207" = list(
-    titulo = "Fraccionamiento de Compras (19,86% Duplicados)",
-    desc = "Concentración crítica de partidas devengadas en montos idénticos repetitivos justo en los límites de contratación menor del Estado."
-  ),
-  "1208" = list(
-    titulo = "Reincidencia de Montos & Sobredependencia",
-    desc = "15,32% de pagos en partidas idénticas combinadas con atipicidad local extrema en servicios no personales."
-  ),
-  "1209" = list(
-    titulo = "Superávit de Caja Distorsionado (46,67%)",
-    desc = "Saldo aparente positivo originado por subejecución crítica del gasto de inversión en lugar de una recaudación eficiente."
-  ),
-  "1210" = list(
-    titulo = "Aislamiento Multivariante & Deuda Flotante",
-    desc = "Brecha de pago del 14,28% y vulnerabilidad estructural en captación de recursos propios respecto a municipios pares."
-  ),
-  "1211" = list(
-    titulo = "Desfase Presupuestario y Modificación Neta",
-    desc = "Alta tasa de modificación presupuestaria combinada con dispersión asimétrica de caja percibida."
-  ),
-  "1212" = list(
-    titulo = "Rigidez en Servicios No Personales",
-    desc = "Desviación extrema en gasto de grupo 20000 y atipicidad de densidad respecto a la mezcla gaussiana nacional."
-  ),
-  "1213" = list(
-    titulo = "Vulnerabilidad Fiscal & Dispersión Operativa",
-    desc = "Dispersión severa en ratios de operación y baja capacidad de cobertura financiera con recursos del TGN."
-  ),
-  "1214" = list(
-    titulo = "Desfase Severo de Caja y Compromisos",
-    desc = "Asimetría entre el flujo de ingresos percibidos y los gastos devengados con pasivos flotantes acumulados."
-  ),
-  "1215" = list(
-    titulo = "Atipicidad Multivariante de Escala y Pasivos",
-    desc = "Concentración masiva de deuda flotante nominal y desviación multivariante en componentes principales PCA."
-  )
+# Grupos y notas forenses para el Tablero de Corcho
+dict_corcho <- list(
+  "1256" = list(grupo = "paralisis", label = "PARÁLISIS FISCAL", note = "peor ejecución nacional (31,9%) y 16,2% deuda", rot = -2.5),
+  "1524" = list(grupo = "tesoreria", label = "DÉFICIT TESORERÍA", note = "superávit artificial (46,7%) por subejecución", rot = 1.8),
+  "1536" = list(grupo = "inversion", label = "CERO INVERSIÓN REAL", note = "0,00% asignado a inversión pública", rot = -1.2),
+  "1701" = list(grupo = "deuda", label = "DEUDA E ILIQUIDEZ", note = "concentración masiva de deuda flotante (17,8%)", rot = 2.1),
+  "1239" = list(grupo = "deuda", label = "DEUDA & BENFORD", note = "violación ley benford (p=0,031) y 16,0% deuda", rot = -3.0),
+  "1284" = list(grupo = "inversion", label = "INVERSIÓN ATÍPICA", note = "aislamiento severo en vecindad de gasto", rot = 1.5),
+  "1752" = list(grupo = "distorsion", label = "DISTORSIÓN COMBINADA", note = "14,2% partidas duplicadas y desvío de caja", rot = -1.8),
+  "1410" = list(grupo = "tesoreria", label = "DÉFICIT TESORERÍA", note = "rigidez extrema en servicios no personales", rot = 2.4),
+  "1254" = list(grupo = "inversion", label = "INVERSIÓN ATÍPICA", note = "alta dispersión operativa respecto a pares", rot = -2.0),
+  "1756" = list(grupo = "distorsion", label = "DISTORSIÓN COMBINADA", note = "desfase severo entre flujo de caja y devengado", rot = 1.2),
+  "1724" = list(grupo = "distorsion", label = "FRACCIONAMIENTO COMPRAS", note = "19,86% de partidas en montos repetidos", rot = -2.7),
+  "1521" = list(grupo = "distorsion", label = "FRACCIONAMIENTO COMPRAS", note = "15,32% montos idénticos reiterativos", rot = 2.0)
 )
 
 # ------------------------------------------------------------------------------
-# 2. Interfaz de Usuario (UI) con bslib
+# 2. Interfaz de Usuario (UI) con Menú Lateral Responsivo
 # ------------------------------------------------------------------------------
-ui <- page_navbar(
-  title = div(
-    style = "display: flex; align-items: center; gap: 0.75rem;",
-    span("AUDITORÍA FISCAL BOLIVIA 2025", style = "color: #00FF88; font-weight: 700; letter-spacing: -0.02em;"),
-    span(class = "navbar-badge", span(class = "pulse-dot"), "MEFP 2025 | DUCKDB OLAP")
-  ),
+ui <- page_fluid(
   theme = bs_theme(
     version = 5,
     bg = "#000000",
@@ -128,219 +87,431 @@ ui <- page_navbar(
     base_font = font_google("Inter"),
     code_font = font_google("JetBrains Mono")
   ),
-  header = tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
+    tags$script(src = "ideas.js")
   ),
   
-  # ============================================================================
-  # PESTAÑA 1: PANORAMA FISCAL 2025
-  # ============================================================================
-  nav_panel(
-    title = "Panorama Fiscal 2025",
-    
-    # Fila de KPIs Principales (Máximo 4 tarjetas según DESIGN.md)
+  # Cabecera Superior Fija Telemetría
+  div(
+    class = "top-header-banner",
     div(
-      class = "kpi-container",
+      class = "brand-title-wrap",
       div(
-        class = "kpi-card kpi-normal",
-        div(
-          class = "kpi-title",
-          span("Gasto Vigente Consolidado"),
-          span(class = "kpi-tag tag-normal", "335 GAMs")
-        ),
-        div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_vigente))),
-        div(class = "kpi-sub", "Presupuesto municipal total autorizado en Bolivia")
+        class = "brand-main",
+        span("AUDITORÍA FORENSE"),
+        span(" GAM 2025", class = "brand-accent")
       ),
-      div(
-        class = "kpi-card kpi-primary",
-        div(
-          class = "kpi-title",
-          span("Gasto Devengado (Ejecución)"),
-          span(class = "kpi-tag tag-primary", sprintf("%.1f%% Global", sum(df_gam$gasto_devengado) / sum(df_gam$gasto_vigente) * 100))
-        ),
-        div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_devengado))),
-        div(class = "kpi-sub", "Obligaciones contables efectivamente perfeccionadas")
-      ),
-      div(
-        class = "kpi-card kpi-warn",
-        div(
-          class = "kpi-title",
-          span("Deuda Flotante Exigible"),
-          span(class = "kpi-tag tag-warn", "PASIVO EXIGIBLE")
-        ),
-        div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_devengado) - sum(df_gam$gasto_pagado))),
-        div(class = "kpi-sub", "Compromisos devengados pendientes de pago en tesorería")
-      ),
-      div(
-        class = "kpi-card kpi-alert",
-        div(
-          class = "kpi-title",
-          span("Municipios en Alerta Crítica"),
-          span(class = "kpi-tag tag-alert", "ALTO RIESGO")
-        ),
-        div(class = "kpi-value", "12 GAMs"),
-        div(class = "kpi-sub", "Consenso GMM + LOF aislado para auditoría forense")
-      )
+      span(class = "brand-sub", "335 municipios auditados · 12 casos críticos")
     ),
-    
-    # Gráficos de Comparativa Departamental y Línea Base Univariada
-    layout_columns(
-      col_widths = c(6, 6),
-      card(
-        card_header(
-          div(
-            div("Presupuesto vs. Ejecución por Departamento"),
-            div(class = "card-subtitle", "Compara la capacidad autorizada (Vigente) contra la ejecución real (Devengado)")
-          )
-        ),
-        card_body(plotlyOutput("plot_depto_comparativa", height = "360px"))
-      ),
-      card(
-        card_header(
-          div(
-            div("Línea Base Univariada y Sesgo de Escala"),
-            div(class = "card-subtitle", "El análisis univariado sobre montos brutos sólo señala capitales, mientras los ratios revelan fallas de gestión")
-          )
-        ),
-        card_body(
-          selectInput("selector_var_univariada", "Seleccionar Métrica de Análisis:",
-                      choices = c("Presupuesto Vigente (Monto Bruto)" = "gasto_vigente",
-                                  "Tasa de Ejecución de Gasto (%)" = "tasa_ejecucion_gasto",
-                                  "Brecha de Pago / Deuda Flotante (%)" = "brecha_pago",
-                                  "Ratio de Inversión Pública (%)" = "ratio_inversion",
-                                  "Balance de Caja Real (%)" = "balance_caja_real"),
-                      selected = "gasto_vigente"),
-          plotlyOutput("plot_univariado_interactivo", height = "300px")
-        )
-      )
+    div(
+      style = "display: flex; gap: 0.75rem; align-items: center;",
+      span(class = "navbar-badge", span(class = "pulse-dot"), "MEFP 2025 · DUCKDB OLAP"),
+      span(class = "navbar-badge", style = "border-color: rgba(77, 184, 255, 0.35); color: #4DB8FF;", "GMM (G=4) + LOF (k=20)")
     )
   ),
   
-  # ============================================================================
-  # PESTAÑA 2: REGÍMENES GMM & DENSIDAD LOF
-  # ============================================================================
-  nav_panel(
-    title = "Regímenes GMM & Densidad LOF",
-    layout_sidebar(
-      sidebar = sidebar(
-        width = 300,
-        title = "Controles de Sensibilidad",
-        selectInput("filtro_depto_gmm", "Departamento:", choices = departamentos_disponibles, selected = "TODOS"),
-        sliderInput("slider_minpts", "Parámetro minPts (LOF):", min = 10, max = 30, value = 20, step = 5),
-        sliderInput("slider_umbral_lof", "Umbral de Alerta LOF:", min = 1.2, max = 2.2, value = 1.5, step = 0.05),
-        hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
+  # Contenedor Principal con Menú Izquierdo (Pill List Rail)
+  div(
+    class = "main-wrapper",
+    navset_pill_list(
+      widths = c(3, 9),
+      well = FALSE,
+      
+      # ------------------------------------------------------------------------
+      # PESTAÑA 1: PANORAMA FISCAL 2025
+      # ------------------------------------------------------------------------
+      nav_panel(
+        title = div(span("1. Panorama Fiscal 2025"), span(class = "pill-badge", "335 GAMs")),
+        
+        # Tarjetas KPI Principales
         div(
-          style = "font-size: 0.78rem; color: #9CA3AF;",
-          p(strong("Guía de Interpretación:")),
-          p("• GMM ajusta 4 regímenes gaussianos en el espacio normalizado de 9 ratios fiscales."),
-          p("• El score LOF mide el grado de aislamiento respecto a la densidad de los k municipios más cercanos."),
-          p("• Puntos en carmesí cumplen la condición de doble alerta (GMM global + LOF local).")
+          class = "kpi-container",
+          div(
+            class = "kpi-card kpi-normal",
+            div(class = "kpi-title", span("Gasto Vigente Total"), span(class = "kpi-tag tag-normal", "AUTORIZADO")),
+            div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_vigente))),
+            div(class = "kpi-sub", "Presupuesto municipal consolidado en Bolivia")
+          ),
+          div(
+            class = "kpi-card kpi-primary",
+            div(class = "kpi-title", span("Gasto Devengado"), span(class = "kpi-tag tag-primary", sprintf("%.1f%% Global", sum(df_gam$gasto_devengado) / sum(df_gam$gasto_vigente) * 100))),
+            div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_devengado))),
+            div(class = "kpi-sub", "Obligaciones contables formalmente ejecutadas")
+          ),
+          div(
+            class = "kpi-card kpi-warn",
+            div(class = "kpi-title", span("Deuda Flotante Exigible"), span(class = "kpi-tag tag-warn", "PASIVO")),
+            div(class = "kpi-value", fmt_bs(sum(df_gam$gasto_devengado) - sum(df_gam$gasto_pagado))),
+            div(class = "kpi-sub", "Devengado pendiente de desembolso en tesorería")
+          ),
+          div(
+            class = "kpi-card kpi-alert",
+            div(class = "kpi-title", span("Alerta Forense Crítica"), span(class = "kpi-tag tag-alert", "CONSENSO")),
+            div(class = "kpi-value", "12 GAMs"),
+            div(class = "kpi-sub", "Doble alerta simultánea (GMM global + LOF local)")
+          )
+        ),
+        
+        # Gráficas Panorama
+        layout_columns(
+          col_widths = c(6, 6),
+          card(
+            card_header(
+              div(
+                div("Presupuesto Vigente vs. Ejecución por Departamento"),
+                div(class = "card-subtitle", "Compara el techo autorizado contra el devengado real por departamento")
+              )
+            ),
+            card_body(plotlyOutput("plot_depto_comparativa", height = "360px"))
+          ),
+          card(
+            card_header(
+              div(
+                div("Línea Base Univariada: Demostración del Sesgo de Escala"),
+                div(class = "card-subtitle", "Los montos brutos sólo señalan capitales; los ratios revelan crisis reales de gestión")
+              )
+            ),
+            card_body(
+              selectInput("selector_var_univariada", "Seleccionar Métrica de Inspección:",
+                          choices = c("Presupuesto Vigente (Monto Bruto)" = "gasto_vigente",
+                                      "Tasa de Ejecución de Gasto (%)" = "tasa_ejecucion_gasto",
+                                      "Brecha de Pago / Deuda Flotante (%)" = "brecha_pago",
+                                      "Ratio de Inversión Pública (%)" = "ratio_inversion",
+                                      "Balance de Caja Real (%)" = "balance_caja_real"),
+                          selected = "gasto_vigente"),
+              plotlyOutput("plot_univariado_interactivo", height = "290px")
+            )
+          )
         )
       ),
-      card(
-        card_header(
-          div(
-            div("Espacio Latente PCA: Regímenes GMM y Factores Locales LOF"),
-            div(class = "card-subtitle", "Los puntos anómalos destacan en carmesí (consenso) y ámbar (local). Pase el cursor para ver el diagnóstico.")
-          )
-        ),
-        card_body(plotlyOutput("plot_pca_gmm_interactivo", height = "520px"))
-      )
-    )
-  ),
-  
-  # ============================================================================
-  # PESTAÑA 3: CONSENSO DE ANOMALÍAS
-  # ============================================================================
-  nav_panel(
-    title = "Consenso de Anomalías",
-    layout_sidebar(
-      sidebar = sidebar(
-        width = 280,
-        title = "Filtros de Auditoría",
-        selectInput("filtro_depto_tabla", "Departamento:", choices = departamentos_disponibles, selected = "TODOS"),
-        selectInput("filtro_categoria_tabla", "Categoría Forense:",
-                    choices = c("TODAS", "Consenso GMM + LOF (Prioridad Alta)",
-                                "Solo GMM (Global/Contextual)", "Solo LOF (Local)", "Normal"),
-                    selected = "TODAS"),
-        hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
-        div(
-          style = "font-size: 0.75rem; color: #9CA3AF;",
-          div(strong("CONTEOS OFICIALES 2025:"), style = "margin-bottom: 0.4rem; color: #F3F4F6;"),
-          div(
-            class = "stats-pill-grid",
-            div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #FF3366;", "12"), div(class = "stats-pill-label", "Consenso")),
-            div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #FFB020;", "23"), div(class = "stats-pill-label", "Solo LOF")),
-            div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #4DB8FF;", "15"), div(class = "stats-pill-label", "Solo GMM")),
-            div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #00FF88;", "285"), div(class = "stats-pill-label", "Normal"))
-          )
-        )
-      ),
-      card(
-        card_header(
-          div(
-            div("Matriz Forense de Cuadrantes: Log-Densidad GMM vs. Score LOF"),
-            div(class = "card-subtitle", "El cuadrante superior izquierdo (LOF > 1.5 y Log-Densidad < -14.5) delimita la zona de riesgo crítico")
-          )
-        ),
-        card_body(plotlyOutput("plot_cuadrantes_consenso", height = "320px"))
-      ),
-      card(
-        card_header(
-          div(
-            div("Padrón Municipal Auditado (335 GAMs)"),
-            div(class = "card-subtitle", "Tabla interactiva y exportable con los 9 ratios estandarizados y diagnóstico de riesgo")
-          )
-        ),
-        card_body(DTOutput("tabla_consenso_interactiva"))
-      )
-    )
-  ),
-  
-  # ============================================================================
-  # PESTAÑA 4: AUDITORÍA FORENSE (BENFORD & DRILL-DOWN)
-  # ============================================================================
-  nav_panel(
-    title = "Auditoría Forense (Benford & Drill-Down)",
-    layout_sidebar(
-      sidebar = sidebar(
-        width = 310,
-        title = "Expediente Municipal",
-        selectInput("selector_municipio_forense", "Seleccionar GAM Prioritario:",
-                    choices = opciones_consenso,
-                    selected = opciones_consenso[grep("Caquiaviri", names(opciones_consenso))[1]]),
-        hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
-        uiOutput("panel_ficha_forense")
-      ),
-      layout_columns(
-        col_widths = c(6, 6),
-        card(
-          card_header(
+      
+      # ------------------------------------------------------------------------
+      # PESTAÑA 2: REGÍMENES GMM & DENSIDAD LOF
+      # ------------------------------------------------------------------------
+      nav_panel(
+        title = div(span("2. Regímenes GMM & LOF"), span(class = "pill-badge", "PCA 2D")),
+        layout_sidebar(
+          sidebar = sidebar(
+            width = 290,
+            title = "Controles de Sensibilidad",
+            selectInput("filtro_depto_gmm", "Departamento:", choices = departamentos_disponibles, selected = "TODOS"),
+            sliderInput("slider_minpts", "Parámetro minPts (LOF):", min = 10, max = 30, value = 20, step = 5),
+            sliderInput("slider_umbral_lof", "Umbral de Alerta LOF:", min = 1.2, max = 2.2, value = 1.5, step = 0.05),
+            hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
             div(
-              div("Prueba de Ley de Benford (Primer Dígito)"),
-              div(class = "card-subtitle", "Distribución observada (carmesí) vs. teórica (azul). Desvíos anómalos señalan alteración humana o fraccionamiento.")
+              style = "font-size: 0.77rem; color: #9CA3AF;",
+              p(strong("Guía de Telemetría:")),
+              p("• GMM clasifica 4 regímenes gaussianos multivariantes en 9 dimensiones fiscales."),
+              p("• LOF calcula el factor de densidad local frente a los k vecinos más próximos."),
+              p("• Los puntos carmesí cumplen la doble condición de baja densidad y aislamiento.")
             )
           ),
-          card_body(plotlyOutput("plot_benford_drilldown", height = "360px"))
-        ),
-        card(
-          card_header(
-            div(
-              div("Composición del Gasto Devengado por Objeto"),
-              div(class = "card-subtitle", "Desglose por grupos de partida: Serv. Personales (10000), Serv. No Personales (20000), Materiales (30000), Activos (40000)")
-            )
-          ),
-          card_body(plotlyOutput("plot_objeto_drilldown", height = "360px"))
+          card(
+            card_header(
+              div(
+                div("Espacio Latente PCA: Regímenes GMM y Densidad LOF"),
+                div(class = "card-subtitle", "Los casos críticos destacan en carmesí. Pase el cursor para ver el diagnóstico pericial.")
+              )
+            ),
+            card_body(plotlyOutput("plot_pca_gmm_interactivo", height = "520px"))
+          )
         )
       ),
-      card(
-        card_header(
-          div(
-            div("Diagnóstico de Liquidez y Brecha Presupuestaria (Caja Real vs. Deuda)"),
-            div(class = "card-subtitle", "Comparativa de Ingresos Percibidos, Gastos Devengados y Gastos Pagados")
+      
+      # ------------------------------------------------------------------------
+      # PESTAÑA 3: CONSENSO DE ANOMALÍAS & PADRÓN
+      # ------------------------------------------------------------------------
+      nav_panel(
+        title = div(span("3. Consenso de Anomalías"), span(class = "pill-badge", "Padrón DT")),
+        layout_sidebar(
+          sidebar = sidebar(
+            width = 280,
+            title = "Filtros del Padrón",
+            selectInput("filtro_depto_tabla", "Departamento:", choices = departamentos_disponibles, selected = "TODOS"),
+            selectInput("filtro_categoria_tabla", "Categoría Forense:",
+                        choices = c("TODAS", "Consenso GMM + LOF (Prioridad Alta)",
+                                    "Solo GMM (Global/Contextual)", "Solo LOF (Local)", "Normal"),
+                        selected = "TODAS"),
+            hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
+            div(
+              style = "font-size: 0.75rem; color: #9CA3AF;",
+              div(strong("CONTEOS OFICIALES 2025:"), style = "margin-bottom: 0.4rem; color: #F3F4F6;"),
+              div(
+                class = "stats-pill-grid",
+                div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #FF3366;", "12"), div(class = "stats-pill-label", "Consenso")),
+                div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #FFB020;", "23"), div(class = "stats-pill-label", "Solo LOF")),
+                div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #4DB8FF;", "15"), div(class = "stats-pill-label", "Solo GMM")),
+                div(class = "stats-pill", div(class = "stats-pill-count", style = "color: #00FF88;", "285"), div(class = "stats-pill-label", "Normal"))
+              )
+            )
+          ),
+          card(
+            card_header(
+              div(
+                div("Matriz Forense de Cuadrantes: Log-Densidad GMM vs. Score LOF"),
+                div(class = "card-subtitle", "El cuadrante superior izquierdo (LOF > 1.5 y Log-Densidad < -14.5) delimita la zona de alta prioridad")
+              )
+            ),
+            card_body(plotlyOutput("plot_cuadrantes_consenso", height = "320px"))
+          ),
+          card(
+            card_header(
+              div(
+                div("Padrón Municipal Auditado (335 GAMs)"),
+                div(class = "card-subtitle", "Tabla interactiva y exportable con los 9 ratios estandarizados y clasificación de riesgo")
+              )
+            ),
+            card_body(DTOutput("tabla_consenso_interactiva"))
+          )
+        )
+      ),
+      
+      # ------------------------------------------------------------------------
+      # PESTAÑA 4: EXPEDIENTE DE EVIDENCIAS (DRILL-DOWN)
+      # ------------------------------------------------------------------------
+      nav_panel(
+        title = div(span("4. Expediente de Evidencias"), span(class = "pill-badge", "Benford")),
+        layout_sidebar(
+          sidebar = sidebar(
+            width = 310,
+            title = "Expediente Pericial",
+            selectInput("selector_municipio_forense", "Seleccionar Caso Prioritario:",
+                        choices = opciones_consenso,
+                        selected = opciones_consenso[grep("Caquiaviri", names(opciones_consenso))[1]]),
+            hr(style = "border-color: rgba(255, 255, 255, 0.08);"),
+            uiOutput("panel_ficha_forense")
+          ),
+          layout_columns(
+            col_widths = c(6, 6),
+            card(
+              card_header(
+                div(
+                  div("Prueba de Ley de Benford (Primer Dígito)"),
+                  div(class = "card-subtitle", "Barras observadas (carmesí) vs. teórica (azul). Desvíos anómalos indican manipulación o fraccionamiento.")
+                )
+              ),
+              card_body(plotlyOutput("plot_benford_drilldown", height = "360px"))
+            ),
+            card(
+              card_header(
+                div(
+                  div("Composición del Gasto Devengado por Objeto"),
+                  div(class = "card-subtitle", "Desglose por grupos de partida: Serv. Personales (10000), Serv. No Personales (20000), Materiales (30000), Activos (40000)")
+                )
+              ),
+              card_body(plotlyOutput("plot_objeto_drilldown", height = "360px"))
+            )
+          ),
+          card(
+            card_header(
+              div(
+                div("Diagnóstico de Liquidez y Brecha Presupuestaria (Caja Real vs. Deuda)"),
+                div(class = "card-subtitle", "Comparativa de Ingresos Percibidos, Gastos Devengados y Gastos Pagados")
+              )
+            ),
+            card_body(plotlyOutput("plot_caja_drilldown", height = "280px"))
+          )
+        )
+      ),
+      
+      # ------------------------------------------------------------------------
+      # PESTAÑA 5: TABLERO DE INVESTIGACIÓN (CORCHO CRIMINALÍSTICO)
+      # ------------------------------------------------------------------------
+      nav_panel(
+        title = div(span("5. Tablero de Investigación"), span(class = "pill-badge", style = "background: rgba(196, 22, 28, 0.2); color: #FF4A3D;", "Corcho")),
+        div(
+          style = "margin-bottom: 0.85rem;",
+          h4("TABLERO CRIMINALÍSTICO DE CASOS CONECTADOS", style = "font-family: var(--font-oswald); letter-spacing: 0.04em; margin-bottom: 0.2rem;"),
+          p(style = "color: #9CA3AF; font-size: 0.82rem; margin: 0;",
+            "Fichas periciales de los 12 municipios de alto riesgo. Los hilos rojos conectan expedientes con el mismo patrón forense. Pasa el cursor sobre una tarjeta para aislar su red de implicación.")
+        ),
+        uiOutput("cork_board_ui")
+      ),
+      
+      # ------------------------------------------------------------------------
+      # PESTAÑA 6: TABLERO SPLIT-FLAP & CINTA DE SUMADORA
+      # ------------------------------------------------------------------------
+      nav_panel(
+        title = div(span("6. Telemetría Split-Flap"), span(class = "pill-badge", "Flap & Cinta")),
+        layout_columns(
+          col_widths = c(8, 4),
+          card(
+            card_header(
+              div(
+                div("Tablero de Alertas Split-Flap (Caracteres Mecánicos)"),
+                div(class = "card-subtitle", "Visualización de telemetría aeroportuaria/forense con los 12 municipios priorizados")
+              )
+            ),
+            card_body(
+              uiOutput("split_flap_ui"),
+              div(
+                style = "margin-top: 1rem; text-align: right;",
+                tags$button(
+                  class = "receipt-btn",
+                  style = "background: #E8B400; color: #000; margin: 0 0 0 auto; display: inline-block;",
+                  onclick = "runFlapAnimation()",
+                  "⟲ ACTUALIZAR CARACTERES FLAP"
+                )
+              )
+            )
+          ),
+          card(
+            card_header(
+              div(
+                div("Cinta de Sumadora Contable"),
+                div(class = "card-subtitle", "Impresión mecánica secuencial de la auditoría final")
+              )
+            ),
+            card_body(
+              div(
+                class = "receipt-wrapper",
+                div(class = "receipt-slot"),
+                div(id = "receiptContent", class = "receipt-paper"),
+                tags$button(
+                  class = "receipt-btn",
+                  onclick = "printReceiptSequence()",
+                  "⟲ REIMPRIMIR CINTA FORENSE"
+                )
+              )
+            )
+          )
+        )
+      ),
+      
+      # ------------------------------------------------------------------------
+      # PESTAÑA 7: GRÁFICAS COMPARATIVAS AVANZADAS
+      # ------------------------------------------------------------------------
+      nav_panel(
+        title = div(span("7. Gráficas Comparativas"), span(class = "pill-badge", "3 Modelos")),
+        div(
+          style = "margin-bottom: 1rem;",
+          h4("ANÁLISIS COMPARATIVO MULTIDIMENSIONAL DE RIESGO", style = "font-family: var(--font-oswald); letter-spacing: 0.04em; margin-bottom: 0.2rem;"),
+          p(style = "color: #9CA3AF; font-size: 0.82rem; margin: 0;",
+            "Gráficas diagnósticas que confrontan directamente variables de comportamiento contable: Inversión vs. Deuda, No Conformidad de Benford y Fraccionamiento de Compras.")
+        ),
+        layout_columns(
+          col_widths = c(12),
+          card(
+            card_header(
+              div(
+                div("Comparativa 1: Cuadrantes de Inversión Pública (%) vs. Deuda Flotante (%)"),
+                div(class = "card-subtitle", "Los 335 municipios divididos en cuadrantes de riesgo. El cuadrante superior izquierdo concentra los casos de parálisis e insolvencia.")
+              )
+            ),
+            card_body(plotlyOutput("plot_comparativa_inversion_deuda", height = "420px"))
           )
         ),
-        card_body(plotlyOutput("plot_caja_drilldown", height = "280px"))
+        layout_columns(
+          col_widths = c(6, 6),
+          card(
+            card_header(
+              div(
+                div("Comparativa 2: Desviación Benford (MAD) vs. Umbrales de Nigrini"),
+                div(class = "card-subtitle", "Los 12 municipios evaluados frente al umbral crítico de No Conformidad (MAD > 0.015)")
+              )
+            ),
+            card_body(plotlyOutput("plot_comparativa_benford_mad", height = "360px"))
+          ),
+          card(
+            card_header(
+              div(
+                div("Comparativa 3: Tasa de Partidas en Montos Duplicados (%)"),
+                div(class = "card-subtitle", "Reincidencia de pagos en importes idénticos. Resalta señales de compras fraccionadas en Boyuibe y Colcha K.")
+              )
+            ),
+            card_body(plotlyOutput("plot_comparativa_duplicados", height = "360px"))
+          )
+        )
+      ),
+      
+      # ------------------------------------------------------------------------
+      # PESTAÑA 8: BITÁCORA KDD & REPRODUCIBILIDAD CIENTÍFICA
+      # ------------------------------------------------------------------------
+      nav_panel(
+        title = div(span("8. Bitácora KDD & Repro"), span(class = "pill-badge", style = "background: rgba(0, 255, 136, 0.2); color: #00FF88;", "KDD")),
+        div(
+          style = "margin-bottom: 1.25rem;",
+          h4("BITÁCORA METODOLÓGICA KDD Y GUÍA DE REPRODUCIBILIDAD", style = "font-family: var(--font-oswald); letter-spacing: 0.04em; margin-bottom: 0.2rem;"),
+          p(style = "color: #9CA3AF; font-size: 0.85rem; margin: 0;",
+            "Registro paso a paso de cada fase del proceso de Minería de Datos, auditoría contable y comandos CLI para reproducir la investigación desde cero.")
+        ),
+        
+        # Etapa 1
+        div(
+          class = "bitacora-step",
+          div(
+            class = "bitacora-header",
+            div(span(class = "bitacora-number", "FASE 1"), span(class = "bitacora-title", "Poda y Consolidación Columnar en Disco (DuckDB)")),
+            span(class = "badge-consenso normal", "COMPLETADO · 0 NULOS")
+          ),
+          div(
+            class = "bitacora-body",
+            p("Se procesaron ", strong("429.753 partidas de gasto"), " y ", strong("14.644 rubros de ingreso"), " crudos del MEFP 2025. Utilizando el motor OLAP ", code("duckdb"), ", se podó el universo a los 335 Gobiernos Autónomos Municipales (subárea ", code("GAM"), "), consolidando 9 ratios financieros invariantes a la escala."),
+            div(
+              class = "cli-command-box",
+              span("Rscript scripts/01_limpieza_kdd_duckdb.R"),
+              span(style = "color: #9CA3AF; font-size: 0.72rem;", "Genera: municipios_modelados_2025.rds (111 KB)")
+            )
+          )
+        ),
+        
+        # Etapa 2
+        div(
+          class = "bitacora-step",
+          div(
+            class = "bitacora-header",
+            div(span(class = "bitacora-number", "FASE 2"), span(class = "bitacora-title", "Línea Base Univariada y Demostración del Sesgo de Escala")),
+            span(class = "badge-consenso global", "TUKEY 1.5/3.0 IQR + Z-SCORE")
+          ),
+          div(
+            class = "bitacora-body",
+            p("Se demostró formalmente que el análisis univariado sobre montos brutos (Presupuesto Vigente) solo señala a grandes capitales (Santa Cruz de la Sierra, La Paz, El Alto, Cochabamba) por mero volumen poblacional, omitiendo las crisis severas de ejecución y deuda en municipios medianos y rurales."),
+            div(
+              class = "cli-command-box",
+              span("Rscript scripts/02_linea_base_univariada.R"),
+              span(style = "color: #9CA3AF; font-size: 0.72rem;", "Genera: fig_01 y fig_02 (300 DPI)")
+            )
+          )
+        ),
+        
+        # Etapa 3
+        div(
+          class = "bitacora-step",
+          div(
+            class = "bitacora-header",
+            div(span(class = "bitacora-number", "FASE 3"), span(class = "bitacora-title", "Modelado No Supervisado Multivariante (GMM + LOF)")),
+            span(class = "badge-consenso local", "OPTIMIZACIÓN BIC (G=4) + SENSIBILIDAD")
+          ),
+          div(
+            class = "bitacora-body",
+            p("Se ajustó un Modelo de Mezclas Gaussianas (", code("mclust"), ") con selección óptima VVE en ", strong("G = 4 componentes"), " mediante criterio BIC. Paralelamente, se calculó el Factor de Atipicidad Local (", code("dbscan::lof"), ") con análisis de sensibilidad multiescala en ", code("minPts in {10, 15, 20, 30}"), ", aislando 12 municipios en consenso de alta prioridad."),
+            div(
+              class = "cli-command-box",
+              span("Rscript scripts/03_modelos_gmm_lof.R"),
+              span(style = "color: #9CA3AF; font-size: 0.72rem;", "Genera: fig_03, fig_04, fig_05 y tablas LaTeX")
+            )
+          )
+        ),
+        
+        # Etapa 4
+        div(
+          class = "bitacora-step",
+          div(
+            class = "bitacora-header",
+            div(span(class = "bitacora-number", "FASE 4"), span(class = "bitacora-title", "Auditoría Forense Digital (Ley de Benford y Fraccionamiento)")),
+            span(class = "badge-consenso critico", "CHI² + MAD + DUPLICADOS")
+          ),
+          div(
+            class = "bitacora-body",
+            p("Sobre las transacciones microcontables de los 12 municipios en consenso, se aplicó la prueba del primer dígito de la Ley de Benford. Se detectó una ", strong("violación estadísticamente significativa en Caquiaviri"), " (Chi² = 16,91, p = 0,031, MAD = 0,0241) y señales críticas de compras fraccionadas repetidas en Boyuibe (19,86% duplicados) y Colcha K (15,32%)."),
+            div(
+              class = "cli-command-box",
+              span("Rscript scripts/04_auditoria_benford_fraude.R"),
+              span(style = "color: #9CA3AF; font-size: 0.72rem;", "Genera: fig_06, fig_07 y auditoria_benford_consenso.rds")
+            )
+          )
+        )
       )
     )
   )
@@ -464,7 +635,7 @@ server <- function(input, output, session) {
     
     p <- plot_ly()
     
-    # Renderizar puntos normales primero (opacidad 0.45)
+    # Normales
     df_norm <- df_p %>% filter(cat_consenso_actual == "Normal")
     if (nrow(df_norm) > 0) {
       p <- p %>% add_trace(
@@ -481,7 +652,7 @@ server <- function(input, output, session) {
       )
     }
     
-    # Renderizar Solo GMM
+    # Solo GMM
     df_gmm_only <- df_p %>% filter(cat_consenso_actual == "Solo GMM (Global/Contextual)")
     if (nrow(df_gmm_only) > 0) {
       p <- p %>% add_trace(
@@ -496,7 +667,7 @@ server <- function(input, output, session) {
       )
     }
     
-    # Renderizar Solo LOF
+    # Solo LOF
     df_lof_only <- df_p %>% filter(cat_consenso_actual == "Solo LOF (Local)")
     if (nrow(df_lof_only) > 0) {
       p <- p %>% add_trace(
@@ -511,7 +682,7 @@ server <- function(input, output, session) {
       )
     }
     
-    # Renderizar Consenso GMM + LOF (Alta prioridad, opacidad 1.0, borde visible)
+    # Consenso GMM + LOF
     df_cons <- df_p %>% filter(cat_consenso_actual == "Consenso GMM + LOF (Prioridad Alta)")
     if (nrow(df_cons) > 0) {
       p <- p %>% add_trace(
@@ -641,25 +812,19 @@ server <- function(input, output, session) {
     req(nrow(m) > 0)
     
     ent_code <- as.character(m$entidad)
-    diag <- if (!is.null(dict_diagnostico[[ent_code]])) {
-      dict_diagnostico[[ent_code]]
+    diag <- if (!is.null(dict_corcho[[ent_code]])) {
+      dict_corcho[[ent_code]]
     } else {
-      list(
-        titulo = "Anomalía Multivariante de Consenso",
-        desc = "Combinación simultánea de baja log-densidad probabilística en GMM y alto aislamiento espacial en LOF."
-      )
+      list(label = "ANOMALÍA MULTIVARIANTE", note = "aislamiento conjunto en densidad GMM y vecindad LOF")
     }
     
     tagList(
-      # Banner de Alerta Forense Específica
       div(
         class = "forensic-alert-box",
         div(class = "forensic-alert-title", "ALERTA FORENSE PRINCIPAL"),
-        p(strong(diag$titulo), style = "color: #F3F4F6; margin-bottom: 0.25rem; font-size: 0.82rem;"),
-        p(class = "forensic-alert-desc", diag$desc)
+        p(strong(diag$label), style = "color: #F3F4F6; margin-bottom: 0.25rem; font-size: 0.82rem;"),
+        p(class = "forensic-alert-desc", diag$note)
       ),
-      
-      # Tarjeta Ficha Técnica Estructurada
       div(
         class = "forensic-spec-card",
         div(
@@ -775,6 +940,212 @@ server <- function(input, output, session) {
         yaxis = list(title = "Millones de Bs. (Bs. M)", gridcolor = COLOR_GRID),
         showlegend = FALSE,
         margin = list(t = 20, r = 20, b = 40, l = 60)
+      ) %>%
+      clean_plotly_config()
+    p
+  })
+  
+  # --- PESTAÑA 5: TABLERO DE CORCHO CRIMINALÍSTICO (Ideas/) ---
+  
+  output$cork_board_ui <- renderUI({
+    # Fichas generadas a partir de df_consenso_gams
+    cards_ui <- lapply(seq_len(nrow(df_consenso_gams)), function(i) {
+      r <- df_consenso_gams[i, ]
+      code_str <- as.character(r$entidad)
+      meta <- if (!is.null(dict_corcho[[code_str]])) dict_corcho[[code_str]] else list(grupo = "general", label = "ATÍPICO", note = "anomalía multivariante", rot = 0)
+      
+      div(
+        class = "cork-card",
+        `data-group` = meta$grupo,
+        style = sprintf("--r: %.1fdeg;", meta$rot),
+        span(class = "card-lof", sprintf("%.2f", r$lof_score)),
+        tags$h3(r$municipio),
+        tags$small(toupper(r$departamento)),
+        div(class = "handwritten-note", meta$note),
+        tags$small(sprintf("ejec %.1f%% · deuda %.1f%%", r$tasa_ejecucion_gasto * 100, r$brecha_pago * 100))
+      )
+    })
+    
+    tagList(
+      div(
+        class = "cork-container",
+        id = "corkBoard",
+        div(
+          class = "cork-pins-header",
+          span(class = "cork-sticky-note", style = "--r: -2deg;", "Deuda e Iliquidez"),
+          span(class = "cork-sticky-note", style = "--r: 1.5deg;", "Déficit de Tesorería"),
+          span(class = "cork-sticky-note", style = "--r: -1deg;", "Cero Inversión Real"),
+          span(class = "cork-sticky-note", style = "--r: 2deg;", "Fraccionamiento de Compras"),
+          span(class = "cork-sticky-note", style = "--r: -1.5deg;", "Parálisis Fiscal")
+        ),
+        tags$svg(id = "corkSvg", class = "cork-strings"),
+        div(class = "cork-grid", cards_ui)
+      ),
+      div(
+        style = "margin-top: 0.75rem; text-align: right;",
+        tags$button(
+          class = "receipt-btn",
+          style = "margin: 0 0 0 auto; display: inline-block; background: #5B3A1E;",
+          onclick = "renderCorkStrings(); initCorkEvents();",
+          "⟲ REAJUSTAR HILOS DEL CORCHO"
+        )
+      )
+    )
+  })
+  
+  # --- PESTAÑA 6: SPLIT-FLAP BOARD (Ideas/) ---
+  
+  output$split_flap_ui <- renderUI({
+    rows_ui <- lapply(seq_len(nrow(df_consenso_gams)), function(i) {
+      r <- df_consenso_gams[i, ]
+      mun_name <- toupper(gsub("[\"“”]", "", r$municipio))
+      mun_name <- substr(mun_name, 1, 13)
+      mun_padded <- sprintf("%-13s", mun_name)
+      dep_padded <- sprintf("%-5s", substr(toupper(r$departamento), 1, 5))
+      lof_padded <- sprintf("%-4.2f", r$lof_score)
+      ejec_padded <- sprintf("%5.1f", r$tasa_ejecucion_gasto * 100)
+      deuda_padded <- sprintf("%5.1f", r$brecha_pago * 100)
+      estado <- if (r$lof_score >= 1.9) "CRÍTICO  " else "OBSERVAR "
+      
+      flat_str <- paste0(mun_padded, dep_padded, lof_padded, ejec_padded, deuda_padded, estado)
+      
+      # Generar spans
+      cells <- lapply(seq_len(nchar(flat_str)), function(j) {
+        char_val <- substr(flat_str, j, j)
+        cls <- if (j > 18 && j <= 22) "cell-yellow" else if (j > 32) "cell-red" else ""
+        span(class = paste("flap-cell", cls), char_val)
+      })
+      
+      div(
+        class = "flap-row",
+        `data-flat` = flat_str,
+        cells
+      )
+    })
+    
+    div(
+      class = "flap-board",
+      div(
+        class = "flap-header",
+        span(style = "width: 270px; display: inline-block;", "MUNICIPIO"),
+        span(style = "width: 105px; display: inline-block;", "DEPTO"),
+        span(style = "width: 85px; display: inline-block;", "LOF"),
+        span(style = "width: 105px; display: inline-block;", "EJEC %"),
+        span(style = "width: 105px; display: inline-block;", "DEUDA %"),
+        span(style = "display: inline-block;", "ESTADO")
+      ),
+      rows_ui
+    )
+  })
+  
+  # --- PESTAÑA 7: GRÁFICAS COMPARATIVAS AVANZADAS ---
+  
+  output$plot_comparativa_inversion_deuda <- renderPlotly({
+    p <- plot_ly() %>%
+      # Puntos de los 335 GAMs
+      add_trace(
+        data = df_gam,
+        x = ~ratio_inversion * 100,
+        y = ~brecha_pago * 100,
+        type = "scatter",
+        mode = "markers",
+        color = ~categoria_consenso,
+        colors = c(COLOR_ALERT, COLOR_NORMAL, COLOR_PRIMARY, COLOR_WARN),
+        marker = list(size = 8, opacity = 0.75),
+        text = ~paste0("<b>", municipio, " (", departamento, ")</b><br>",
+                       "Inversión Pública: ", sprintf("%.1f%%", ratio_inversion * 100), "<br>",
+                       "Deuda Flotante: ", sprintf("%.1f%%", brecha_pago * 100), "<br>",
+                       "LOF Score: ", sprintf("%.2f", lof_score)),
+        hoverinfo = "text"
+      ) %>%
+      # Línea umbral deuda flotante 10%
+      add_segments(x = 0, xend = 85, y = 10, yend = 10,
+                   line = list(color = COLOR_WARN, dash = "dash", width = 1),
+                   showlegend = FALSE, inherit = FALSE) %>%
+      # Línea umbral inversión 15%
+      add_segments(x = 15, xend = 15, y = -5, yend = 35,
+                   line = list(color = COLOR_PRIMARY, dash = "dash", width = 1),
+                   showlegend = FALSE, inherit = FALSE) %>%
+      # Anotación Zona Crítica
+      add_annotations(
+        x = 5, y = 25,
+        text = "🚨 ZONA CRÍTICA<br>(Baja Inversión & Alta Deuda)",
+        showarrow = FALSE,
+        font = list(color = COLOR_ALERT, size = 11, family = "Inter")
+      ) %>%
+      # Anotación Zona Eficiente
+      add_annotations(
+        x = 60, y = 2,
+        text = "✓ ZONA DE SALUD FISCAL<br>(Alta Inversión & Baja Deuda)",
+        showarrow = FALSE,
+        font = list(color = COLOR_NORMAL, size = 11, family = "Inter")
+      ) %>%
+      layout(
+        plot_bgcolor = COLOR_BG,
+        paper_bgcolor = COLOR_BG,
+        font = list(color = COLOR_TEXT_PRI, family = "Inter"),
+        xaxis = list(title = "Ratio de Inversión Pública (% del Gasto Devengado)", gridcolor = COLOR_GRID),
+        yaxis = list(title = "Brecha de Pago / Deuda Flotante (% Exigible)", gridcolor = COLOR_GRID),
+        legend = list(orientation = "h", x = 0.1, y = 1.15, font = list(color = COLOR_TEXT_PRI)),
+        margin = list(t = 40, r = 20, b = 40, l = 60)
+      ) %>%
+      clean_plotly_config()
+    p
+  })
+  
+  output$plot_comparativa_benford_mad <- renderPlotly({
+    df_bf <- benford_data$resumen_benford %>%
+      arrange(desc(MAD))
+    
+    p <- plot_ly(df_bf, y = ~reorder(municipio, MAD), x = ~MAD, type = "bar", orientation = "h",
+                 marker = list(
+                   color = ~ifelse(MAD > 0.015, COLOR_ALERT, ifelse(MAD > 0.012, COLOR_WARN, COLOR_NORMAL)),
+                   line = list(color = "#FFFFFF", width = 0.8)
+                 ),
+                 hovertemplate = "<b>%{y}</b><br>MAD: %{x:.4f}<extra></extra>") %>%
+      add_annotations(
+        x = 0.0155, y = 10,
+        text = "Umbral Crítico Nigrini (0,015)",
+        showarrow = FALSE,
+        font = list(color = COLOR_ALERT, size = 10)
+      ) %>%
+      layout(
+        plot_bgcolor = COLOR_BG,
+        paper_bgcolor = COLOR_BG,
+        font = list(color = COLOR_TEXT_PRI, family = "Inter"),
+        shapes = list(
+          list(type = "line", x0 = 0.015, x1 = 0.015, y0 = 0, y1 = 1, yref = "paper",
+               line = list(color = COLOR_ALERT, dash = "dash", width = 1.5))
+        ),
+        xaxis = list(title = "Mean Absolute Deviation (MAD)", gridcolor = COLOR_GRID),
+        yaxis = list(title = "", gridcolor = "transparent"),
+        margin = list(t = 20, r = 20, b = 40, l = 160)
+      ) %>%
+      clean_plotly_config()
+    p
+  })
+  
+  output$plot_comparativa_duplicados <- renderPlotly({
+    df_dup <- benford_data$resumen_benford %>%
+      arrange(desc(pct_duplicados))
+    
+    p <- plot_ly(df_dup, y = ~reorder(municipio, pct_duplicados), x = ~pct_duplicados, type = "bar", orientation = "h",
+                 marker = list(
+                   color = ~ifelse(pct_duplicados > 15, COLOR_ALERT, ifelse(pct_duplicados > 10, COLOR_WARN, COLOR_PRIMARY)),
+                   line = list(color = "#FFFFFF", width = 0.8)
+                 ),
+                 hovertemplate = "<b>%{y}</b><br>Duplicados: %{x:.1f}%<extra></extra>") %>%
+      layout(
+        plot_bgcolor = COLOR_BG,
+        paper_bgcolor = COLOR_BG,
+        font = list(color = COLOR_TEXT_PRI, family = "Inter"),
+        shapes = list(
+          list(type = "line", x0 = 10, x1 = 10, y0 = 0, y1 = 1, yref = "paper",
+               line = list(color = COLOR_WARN, dash = "dash", width = 1.2))
+        ),
+        xaxis = list(title = "% de Partidas Devengadas en Montos Duplicados", gridcolor = COLOR_GRID),
+        yaxis = list(title = "", gridcolor = "transparent"),
+        margin = list(t = 20, r = 20, b = 40, l = 160)
       ) %>%
       clean_plotly_config()
     p

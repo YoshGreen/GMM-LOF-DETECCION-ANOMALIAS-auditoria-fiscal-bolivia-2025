@@ -13,9 +13,18 @@ El proyecto cruza las ejecuciones microcontables oficiales de **Gastos** (429.75
 
 ---
 
-## Vista Previa del Dashboard Interactivo
+## Vista Previa y Estructura del Dashboard Interactivo
 
-El sistema cuenta con un panel analítico en **R Shiny** (`bslib` + `plotly` + `DT`) bajo el estándar visual forense *Dark Telemetry*.
+El sistema cuenta con un panel analítico en **R Shiny** (`bslib` + `plotly` + `DT`) bajo el estándar visual forense *Dark Telemetry*, organizado en un **menú lateral izquierdo responsivo** con 8 secciones de investigación:
+
+1. **Panorama Fiscal 2025**: KPIs ejecutivos, presupuesto vs. devengado departamental y línea base univariada (Tukey/Z-score).
+2. **Regímenes GMM & Densidad LOF**: Proyección latente PCA interactiva con controles de sensibilidad (`minPts` y umbral LOF).
+3. **Consenso de Anomalías**: Matriz de cuadrantes (Log-Densidad GMM vs. Score LOF) y padrón municipal auditado DT buscable y exportable.
+4. **Expediente de Evidencias (Drill-Down)**: Ficha pericial por municipio, prueba de Benford (primer dígito), donut por objeto de gasto y balance de liquidez.
+5. **Tablero de Investigación (Corcho Criminalístico)**: Fichas periciales unidas con hilos rojos interactivos que agrupan municipios por causal de atipicidad (Deuda e iliquidez, Déficit de tesorería, Cero inversión, Parálisis fiscal, Fraccionamiento de compras).
+6. **Telemetría Split-Flap & Cinta de Sumadora**: Tablero mecánico de caracteres que giran y cinta contable que se imprime paso a paso con código de barras y sello de "OBSERVADO".
+7. **Gráficas Comparativas de Riesgo**: Cuadrantes de Inversión vs. Deuda, No Conformidad Benford (MAD de Nigrini) y Tasa de Partidas Duplicadas.
+8. **Bitácora KDD & Reproducibilidad Científica**: Registro detallado de cada fase metodológica con comandos CLI de ejecución reproducible.
 
 ![Dashboard Interactivo Preview](informe/figuras/dashboard_interactivo_preview.png)
 

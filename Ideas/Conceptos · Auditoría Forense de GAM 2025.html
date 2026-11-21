@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conceptos · Auditoría Forense de GAM 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=IBM+Plex+Mono:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;font:14px/1.45 'IBM Plex Mono',monospace;transition:background .5s;color-scheme:dark}
+body.v1{background:#26282b radial-gradient(circle at 50% 0,#3a3d42,#1c1d20)}
+body.v2{background:#8c5f37}body.v3{background:#0d0e10}
+.bar{position:sticky;top:0;z-index:20;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:10px;background:#000c;backdrop-filter:blur(8px)}
+.bar button{font:700 12px 'IBM Plex Mono',monospace;color:#fff;background:none;border:1.5px solid #fff8;padding:8px 14px;cursor:pointer}
+.bar button.on{background:#fff;color:#000}
+section{display:none;padding:26px 16px 60px;animation:fi .6s}section.on{display:block}@keyframes fi{from{opacity:0}}
+.note{text-align:center;color:#fffa;font-size:12px;margin:22px auto 0;max-width:62ch}
+/* 1 · cinta */
+.slot{max-width:420px;margin:0 auto;height:16px;background:#0c0c0e;border-radius:8px;box-shadow:0 4px 0 #000,inset 0 -3px 6px #000}
+.paper{position:relative;max-width:380px;margin:-4px auto 0;background:#fbfaf4;color:#1b1b18;padding:22px 20px 26px;box-shadow:0 20px 40px #0008;min-height:120px}
+.paper::after{content:"";position:absolute;left:0;right:0;bottom:-11px;height:12px;background:linear-gradient(-45deg,transparent 7px,#fbfaf4 0),linear-gradient(45deg,transparent 7px,#fbfaf4 0);background-size:14px 14px}
+.ln{display:flex;gap:6px;font-size:13px;animation:pr .25s both}.ln.c{justify-content:center;text-align:center}.ln.b{font-weight:700}.ln.s{font-size:11px;color:#555;padding-left:22px}
+.ln i{flex:1;border-bottom:2px dotted #999;margin-bottom:4px;min-width:10px}
+.ln.d{border-top:2px dashed #888;margin:7px 0;height:0}
+@keyframes pr{from{opacity:0;transform:translateY(-10px)}}
+.stamp{display:inline-block;border:3px solid #c4161c;color:#c4161c;font:700 15px 'Oswald',sans-serif;letter-spacing:.2em;padding:1px 8px;transform:rotate(-8deg);margin-left:auto;animation:st .4s .2s both}
+@keyframes st{from{transform:rotate(-8deg) scale(3);opacity:0}}
+.bc{height:46px;margin:8px 10px 4px;background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 9px,#111 9px 12px,transparent 12px 14px)}
+.re{display:block;margin:34px auto 0;font:700 12px 'IBM Plex Mono';background:#c4161c;color:#fff;border:0;padding:9px 16px;cursor:pointer}
+/* 2 · corcho */
+.cork{position:relative;max-width:1000px;margin:0 auto;padding:30px 20px;border:12px solid #5b3a1e;border-radius:6px;background:#b8864f radial-gradient(#0002 1px,transparent 1.5px) 0 0/6px 6px;box-shadow:inset 0 0 40px #0006,0 16px 30px #0006}
+.pn{display:grid;grid-template-columns:repeat(4,1fr);gap:34px 26px;position:relative;z-index:2}
+@media(max-width:760px){.pn{grid-template-columns:repeat(2,1fr)}}
+.cd{position:relative;background:#fffdf5;color:#1d1b16;padding:16px 12px 12px;box-shadow:0 6px 10px #0005;transition:.25s;cursor:pointer;transform:rotate(var(--r))}
+.cd::before{content:"";position:absolute;top:-7px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8a8a,#c4161c 60%,#7a0b10);box-shadow:2px 4px 4px #0006}
+.cd h3{font:700 19px/1.1 'Oswald',sans-serif;margin:0;text-transform:uppercase}.cd small{color:#6b6556}
+.cd .lf{float:right;font:700 28px 'Oswald';color:#c4161c;line-height:1}
+.cd p{font:700 17px/1.1 'Caveat',cursive;color:#2b4a9a;margin:10px 0 0}
+.cd:hover,.cd.hl{transform:rotate(0) scale(1.06);z-index:5}
+.cork.dim .cd:not(.hl){opacity:.45}
+svg.st{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+svg.st path{fill:none;stroke:#c4161c;stroke-width:2.5;filter:drop-shadow(1px 3px 2px #0006);transition:.3s}
+.cork.dim svg.st path:not(.hl){opacity:.12}
+.pi{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:26px;position:relative;z-index:2}
+.pi span{background:#ffe66b;color:#2b2a22;font:700 17px 'Caveat',cursive;padding:6px 12px;box-shadow:0 4px 6px #0004;transform:rotate(var(--r))}
+/* 3 · split-flap */
+.fb{max-width:980px;margin:0 auto;overflow-x:auto;background:#17181b;padding:18px;border:4px solid #2a2c31;border-radius:8px}
+.fh,.fr{display:flex;gap:18px;min-width:720px;align-items:center}
+.fh{font:500 11px 'Oswald',sans-serif;letter-spacing:.2em;color:#e8b400;margin-bottom:8px}.fr{margin:5px 0}
+.g{display:flex;gap:2px}.g1{width:268px}.g2{width:92px}.g3{width:96px}.g4{width:122px}.g5{width:122px}.g6{width:192px}
+.fh .g{display:block}
+.fl{position:relative;display:inline-block;width:19px;height:30px;line-height:30px;text-align:center;background:linear-gradient(#26282c 50%,#1c1d20 50%);color:#f2efe6;font:700 19px 'IBM Plex Mono',monospace;border-radius:3px;box-shadow:0 2px 0 #000}
+.fl::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#000}
+.fl.y{color:#ffc61a}.fl.r{color:#ff4a3d}
+.fr.hi .fl{box-shadow:0 0 0 1px #e8b40088}
+.fr{cursor:pointer}
+</style></head>
+<body class="v1">
+<div class="bar" id="bar"><button class="on" data-v="1">I · Cinta de sumadora</button><button data-v="2">II · Tablero de investigación</button><button data-v="3">III · Tablero de alertas</button></div>
+
+<section id="s1" class="on"><div class="slot"></div><div class="paper" id="pp"></div><button class="re" onclick="print1()">⟲ IMPRIMIR OTRA VEZ</button>
+<p class="note">Concepto I: el resultado de la auditoría como la cinta de una sumadora contable. Se imprime línea por línea.</p></section>
+
+<section id="s2"><div class="cork" id="ck"><div class="pi" id="pi"></div><svg class="st" id="svg"></svg><div class="pn" id="pn"></div></div>
+<p class="note">Concepto II: tablero de investigación. Los hilos unen municipios con el mismo diagnóstico forense (Tabla 5). Pasa el cursor sobre una ficha.</p></section>
+
+<section id="s3"><div class="fb"><div class="fh"><span class="g g1">GAM</span><span class="g g2">DEPTO</span><span class="g g3">LOF</span><span class="g g4">EJEC %</span><span class="g g5">DEUDA %</span><span class="g g6">ESTADO</span></div><div id="fr"></div></div>
+<p class="note">Concepto III: tablero de alertas tipo aeropuerto, con letras que giran hasta fijarse. Pulsa «Actualizar» o una fila.</p><button class="re" style="background:#e8b400;color:#000" onclick="flap()">⟲ ACTUALIZAR TABLERO</button></section>
+
+<script>
+const D=[["Chulumani","LPZ",31.9,16.20,2.64,0,"PARÁLISIS FISCAL","LA PAZ"],["Mojinete","POT",78.7,.82,1.96,1,"DÉFICIT DE TESORERÍA","POTOSÍ"],["Tahua","POT",46.3,2.45,1.91,5,"CERO INVERSIÓN REAL","POTOSÍ"],["Santa Cruz","SCZ",80.0,17.77,1.76,2,"DEUDA E ILIQUIDEZ","SANTA CRUZ"],["Caquiaviri","LPZ",89.1,15.95,1.70,2,"DEUDA E ILIQUIDEZ","LA PAZ"],["Humanata","LPZ",55.0,.04,1.70,3,"INVERSIÓN ATÍPICA","LA PAZ"],["San Juan","SCZ",49.3,1.53,1.69,4,"DISTORSIÓN COMBINADA","SANTA CRUZ"],["Antequera","ORU",67.0,0,1.65,1,"DÉFICIT DE TESORERÍA","ORURO"],["Malla","LPZ",65.8,8.34,1.61,3,"INVERSIÓN ATÍPICA","LA PAZ"],["Colpa Bélgica","SCZ",89.1,.04,1.60,4,"DISTORSIÓN COMBINADA","SANTA CRUZ"],["Boyuibe","SCZ",65.0,7.14,1.54,4,"DISTORSIÓN COMBINADA","SANTA CRUZ"],["Colcha “K”","POT",68.1,0,1.52,4,"DISTORSIÓN COMBINADA","POTOSÍ"]];
+const $=s=>document.querySelector(s),f=(v,d=1)=>v.toFixed(d).replace(".",","),ms=ms=>new Promise(r=>setTimeout(r,ms));
+let T=[];
+/* nav */
+document.querySelectorAll("#bar button").forEach(b=>b.onclick=()=>{const v=b.dataset.v;document.body.className="v"+v;document.querySelectorAll("#bar button").forEach(x=>x.classList.toggle("on",x==b));document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id=="s"+v));if(v==1)print1();if(v==2)strings();if(v==3)flap()});
+/* I · cinta */
+let pid=0;
+async function print1(){const id=++pid,p=$("#pp");p.innerHTML="";
+const L=[["c b","AUDITORÍA FORENSE PRESUPUESTARIA"],["c","GAM DE BOLIVIA · GESTIÓN 2025"],["c s0","20/11/2026 · MEFP / DUCKDB"],["d"],["r","GAM AUDITADOS","335"],["r","PARTIDAS DE GASTO","263.893"],["r","DEUDA FLOTANTE","Bs 1.324 M"],["d"],["c b","— CONSENSO GMM + LOF —"]];
+[...D].sort((a,b)=>b[4]-a[4]).forEach((r,i)=>{L.push(["r b",String(i+1).padStart(2,"0")+" "+r[0].toUpperCase(),f(r[4],2)]);L.push(["s","EJEC "+f(r[2])+"% · DEUDA "+f(r[3],2)+"%"])});
+L.push(["d"],["r b","TOTAL OBSERVADOS","12"],["r","% DEL UNIVERSO","3,6 %"],["st"],["d"],["bc"],["c s0","GRACIAS POR AUDITAR"]);
+for(const l of L){if(id!=pid)return;const e=document.createElement("div");const k=l[0];
+if(k=="d")e.className="ln d";else if(k=="bc")e.className="bc";else if(k=="st")e.innerHTML='<div class="ln"><span>ESTADO FINAL</span><span class="stamp">OBSERVADO</span></div>';
+else{e.className="ln "+k.replace("s0","s").replace(/^r\s?/,"");e.innerHTML=l.length>2?`<span>${l[1]}</span><i></i><span>${l[2]}</span>`:l[1]}
+p.appendChild(e);scrollTo({top:document.body.scrollHeight,behavior:"smooth"});await ms(k=="d"?30:85)}scrollTo({top:0,behavior:"smooth"})}
+/* II · corcho */
+const CG=[0,1,2,3,4,5];const order=[3,4,1,7,5,8,0,2,6,9,10,11];
+$("#pi").innerHTML=["Deuda e iliquidez","Déficit de tesorería","Inversión atípica","Distorsión combinada"].map((t,i)=>`<span style="--r:${(i*5%7)-3}deg">${t}</span>`).join("");
+$("#pn").innerHTML=order.map((j,k)=>{const r=D[j];return `<div class="cd" data-g="${r[5]}" style="--r:${((k*37)%7)-3}deg"><span class="lf">${f(r[4],2)}</span><h3>${r[0]}</h3><small>${r[7]}</small><p>${r[6].toLowerCase()}</p><small>ejec ${f(r[2])}% · deuda ${f(r[3],1)}%</small></div>`}).join("");
+function strings(){const ck=$("#ck"),sv=$("#svg"),b=ck.getBoundingClientRect();sv.setAttribute("viewBox",`0 0 ${b.width} ${b.height}`);let h="";const by={};
+document.querySelectorAll(".cd").forEach(c=>{const g=c.dataset.g;(by[g]=by[g]||[]).push(c)});
+for(const g in by){const a=by[g];for(let i=0;i<a.length-1;i++){const p=a[i].getBoundingClientRect(),q=a[i+1].getBoundingClientRect(),x1=p.left+p.width/2-b.left,y1=p.top-b.top,x2=q.left+q.width/2-b.left,y2=q.top-b.top;
+h+=`<path data-g="${g}" d="M${x1},${y1} Q${(x1+x2)/2},${Math.max(y1,y2)+46} ${x2},${y2}"/>`}}
+sv.innerHTML=h}
+document.querySelectorAll(".cd").forEach(c=>{c.onmouseenter=()=>{$("#ck").classList.add("dim");document.querySelectorAll(`[data-g="${c.dataset.g}"]`).forEach(e=>e.classList.add("hl"))};c.onmouseleave=()=>{$("#ck").classList.remove("dim");document.querySelectorAll(".hl").forEach(e=>e.classList.remove("hl"))}});
+addEventListener("resize",strings);
+/* III · split-flap */
+const CH="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789.%- ";
+const cell=(n,cls)=>Array.from({length:n},()=>`<span class="fl ${cls}"> </span>`).join("");
+$("#fr").innerHTML=[...D].sort((a,b)=>b[4]-a[4]).map((r,i)=>{T.push([r[0].toUpperCase().replace("“","").replace("”","").slice(0,13).padEnd(13),r[1].padEnd(5),f(r[4],2).padEnd(4),f(r[2]).padStart(5),f(r[3],2).padStart(5),(r[4]>=1.9?"CRÍTICO":"OBSERVAR").padEnd(9)]);
+const hot=r[4]>=1.9?"r":"y";return `<div class="fr" onclick="flap(${i})"><span class="g g1">${cell(13,"")}</span><span class="g g2">${cell(5,"")}</span><span class="g g3">${cell(4,"y")}</span><span class="g g4">${cell(5,"")}</span><span class="g g5">${cell(5,"")}</span><span class="g g6">${cell(9,hot)}</span></div>`}).join("");
+function setC(el,t,n){let s=0;const iv=setInterval(()=>{if(++s>=n){el.textContent=t;clearInterval(iv)}else el.textContent=CH[Math.random()*CH.length|0]},45)}
+function flap(only){document.querySelectorAll(".fr").forEach((row,i)=>{if(only!=null&&i!=only)return;let k=0;row.querySelectorAll(".fl").forEach((el,j)=>{const flat=T[i].join("");setC(el,flat[j]==" "?" ":flat[j],6+(j%9)*2+i*2+(only!=null?0:4));k++})})}
+print1();
+</script></body></html>

@@ -1,13 +1,15 @@
 /* ==========================================================================
-   DESIGN SYSTEM FORENSE — AUDITORÍA FISCAL MUNICIPIOS BOLIVIA 2025
-   Estrictamente alineado con DESIGN.md y principios de diseño "Avoid AI Slop":
-   - Tipografía tabular y monoespaciada con alta densidad de datos.
-   - Micro-bordes sutiles (1px) con iluminación localizada.
-   - Paleta sobria "Dark Telemetry" sin degradados púrpuras genéricos.
-   - Transiciones suaves y badges de píldora forense con alto contraste.
+   DESIGN SYSTEM FORENSE & TELEMETRÍA MUNICIPAL BOLIVIA 2025
+   Estrictamente alineado con DESIGN.md y los conceptos de Ideas/:
+   - Navegación lateral izquierda responsiva (Pill Rail).
+   - Tablero de Corcho Criminalístico con hilos de conexión de casos.
+   - Tablero de Alertas Split-Flap con animación mecánica.
+   - Cinta de Sumadora Contable paso a paso con código de barras y sellos.
+   - Bitácora KDD interactiva con acordeones de reproducibilidad científica.
+   - Tipografías: Inter, JetBrains Mono, Oswald, IBM Plex Mono y Caveat.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap');
 
 :root {
   --bg-canvas: #000000;
@@ -16,7 +18,7 @@
   --bg-surface-hover: #1F2937;
   
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.16);
+  --border-hover: rgba(255, 255, 255, 0.18);
   --border-focus: #00FF88;
   
   --text-primary: #F3F4F6;
@@ -27,9 +29,13 @@
   --color-primary: #4DB8FF;
   --color-warning: #FFB020;
   --color-alert: #FF3366;
+  --color-ink: #1D1B16;
+  --color-blue-ink: #2B4A9A;
   
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Cascadia Code', monospace;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-oswald: 'Oswald', sans-serif;
+  --font-caveat: 'Caveat', cursive;
 }
 
 /* --- Reseteo y Base --- */
@@ -41,10 +47,9 @@ body {
   padding: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar Personalizada Técnica */
+/* Scrollbar Personalizada */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -60,9 +65,9 @@ body {
   background: #374151;
 }
 
-/* Transición suave entre pestañas */
+/* Animación de Entrada */
 .tab-pane {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeIn {
@@ -76,37 +81,58 @@ body {
   }
 }
 
-/* --- Barra de Navegación Superior --- */
-.navbar {
-  background-color: #05070A !important;
-  border-bottom: 1px solid rgba(0, 255, 136, 0.3) !important;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.85) !important;
-  padding: 0.6rem 1.75rem !important;
+/* --- Cabecera Superior Fija --- */
+.top-header-banner {
+  background-color: #05070A;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+  padding: 0.65rem 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
 }
 
-.navbar-brand {
-  font-family: var(--font-mono) !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.02em !important;
-  color: var(--color-normal) !important;
-  font-size: 1.12rem !important;
+.brand-title-wrap {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.85rem;
+}
+
+.brand-main {
+  font-family: var(--font-oswald);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+}
+
+.brand-accent {
+  color: var(--color-normal);
+}
+
+.brand-sub {
+  font-family: var(--font-caveat);
+  font-size: 1.15rem;
+  color: #FFE66B;
 }
 
 .navbar-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   background: rgba(0, 255, 136, 0.1);
-  border: 1px solid rgba(0, 255, 136, 0.25);
+  border: 1px solid rgba(0, 255, 136, 0.3);
   color: var(--color-normal);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  padding: 0.25rem 0.65rem;
+  padding: 0.28rem 0.75rem;
   border-radius: 9999px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .navbar-badge .pulse-dot {
@@ -120,43 +146,106 @@ body {
 
 @keyframes pulseDot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 0.35; transform: scale(0.8); }
 }
 
-.nav-link {
+/* --- Layout Principal con Menú Izquierdo (Pill List Rail) --- */
+.main-wrapper {
+  padding: 1.25rem 1.5rem 3rem;
+}
+
+/* Contenedor del navset_pill_list */
+.nav-pills {
+  background-color: #080B10 !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 0.6rem !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7) !important;
+  gap: 0.35rem;
+}
+
+.nav-pills .nav-link {
   color: var(--text-secondary) !important;
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  padding: 0.65rem 0.9rem !important;
+  font-size: 0.85rem !important;
   font-weight: 500 !important;
-  font-size: 0.86rem !important;
-  padding: 0.45rem 0.95rem !important;
-  border-radius: 4px;
-  transition: all 0.18s ease;
+  text-align: left !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  transition: all 0.18s ease !important;
 }
 
-.nav-link:hover {
+.nav-pills .nav-link:hover {
   color: var(--text-primary) !important;
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: var(--bg-surface-elevated) !important;
+  border-color: var(--border-hover) !important;
 }
 
-.nav-link.active {
+.nav-pills .nav-link.active {
   color: #000000 !important;
   background-color: var(--color-normal) !important;
-  font-weight: 600 !important;
-  box-shadow: 0 0 12px rgba(0, 255, 136, 0.35);
+  border-color: var(--color-normal) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.35) !important;
+}
+
+.nav-pills .nav-link.active .pill-badge {
+  background-color: #000000 !important;
+  color: var(--color-normal) !important;
+}
+
+.pill-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+}
+
+/* Sidebar Footer Info */
+.sidebar-info-card {
+  background-color: #080B10;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 0.85rem;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.sidebar-info-card strong {
+  color: var(--text-primary);
 }
 
 /* --- Tarjetas KPI (Value Boxes) --- */
 .kpi-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.1rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+}
+
+@media (max-width: 992px) {
+  .kpi-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  .kpi-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .kpi-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
-  padding: 1.15rem 1.35rem;
+  padding: 1.15rem 1.25rem;
   position: relative;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
@@ -185,11 +274,11 @@ body {
 
 .kpi-title {
   color: var(--text-secondary);
-  font-size: 0.74rem;
+  font-size: 0.73rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -233,16 +322,15 @@ body {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
-  letter-spacing: -0.02em;
 }
 
 .kpi-sub {
   color: var(--text-muted);
-  font-size: 0.73rem;
+  font-size: 0.72rem;
   margin-top: 0.35rem;
 }
 
-/* --- Paneles y Tarjetas de Gráficas --- */
+/* --- Tarjetas y Paneles --- */
 .card {
   background-color: var(--bg-surface) !important;
   border: 1px solid var(--border-subtle) !important;
@@ -281,13 +369,7 @@ body {
   background-color: var(--bg-surface) !important;
 }
 
-/* --- Barra Lateral (Sidebar) --- */
-.sidebar {
-  background-color: #080B10 !important;
-  border-right: 1px solid var(--border-subtle) !important;
-  padding: 1.25rem !important;
-}
-
+/* --- Formularios y Sliders --- */
 .control-label {
   color: var(--text-secondary) !important;
   font-size: 0.78rem !important;
@@ -328,11 +410,9 @@ body {
   color: var(--color-normal) !important;
 }
 
-/* Sliders */
 .irs--shiny .irs-bar {
   background-color: var(--color-normal) !important;
-  border-top: none !important;
-  border-bottom: none !important;
+  border: none !important;
 }
 
 .irs--shiny .irs-handle {
@@ -352,44 +432,401 @@ body {
   font-size: 0.75rem !important;
 }
 
-/* --- Badges y Etiquetas de Consenso --- */
-.badge-consenso {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
+/* ==========================================================================
+   CONCEPTO 1: TABLERO DE INVESTIGACIÓN / CORCHO CRIMINALÍSTICO (Ideas/)
+   ========================================================================== */
+.cork-container {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 28px 20px;
+  border: 10px solid #5B3A1E;
+  border-radius: 8px;
+  background: #B8864F radial-gradient(#0002 1px, transparent 1.5px) 0 0/6px 6px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6), 0 16px 30px rgba(0, 0, 0, 0.6);
+  min-height: 580px;
+  overflow: hidden;
+}
+
+.cork-pins-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.cork-sticky-note {
+  background: #FFE66B;
+  color: #2B2A22;
+  font-family: var(--font-caveat);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
+  transform: rotate(var(--r, 0deg));
+}
+
+.cork-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 22px;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 1100px) {
+  .cork-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .cork-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .cork-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cork-card {
+  position: relative;
+  background: #FFFDF5;
+  color: var(--color-ink);
+  padding: 16px 14px 14px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.45);
+  transition: all 0.22s ease;
+  cursor: pointer;
+  transform: rotate(var(--r, 0deg));
+  border-radius: 2px;
+}
+
+.cork-card::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FF8A8A, #C4161C 60%, #7A0B10);
+  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.5);
+}
+
+.cork-card h3 {
+  font-family: var(--font-oswald);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.cork-card small {
+  color: #6B6556;
   font-size: 0.72rem;
+  display: block;
+  margin-top: 2px;
+}
+
+.cork-card .card-lof {
+  float: right;
+  font-family: var(--font-oswald);
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: #C4161C;
+  line-height: 1;
+}
+
+.cork-card .handwritten-note {
+  font-family: var(--font-caveat);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-blue-ink);
+  margin: 8px 0 4px;
+  line-height: 1.15;
+}
+
+.cork-card:hover, .cork-card.hl {
+  transform: rotate(0deg) scale(1.05);
+  z-index: 10;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+}
+
+.cork-container.dim .cork-card:not(.hl) {
+  opacity: 0.4;
+}
+
+svg.cork-strings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+svg.cork-strings path {
+  fill: none;
+  stroke: #C4161C;
+  stroke-width: 2.5;
+  filter: drop-shadow(1px 3px 2px rgba(0, 0, 0, 0.5));
+  transition: opacity 0.3s;
+}
+
+.cork-container.dim svg.cork-strings path:not(.hl) {
+  opacity: 0.12;
+}
+
+/* ==========================================================================
+   CONCEPTO 2: TABLERO DE ALERTAS SPLIT-FLAP (Ideas/)
+   ========================================================================== */
+.flap-board {
+  max-width: 100%;
+  overflow-x: auto;
+  background: #17181B;
+  padding: 18px;
+  border: 4px solid #2A2C31;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85);
+}
+
+.flap-header, .flap-row {
+  display: flex;
+  gap: 14px;
+  min-width: 720px;
+  align-items: center;
+}
+
+.flap-header {
+  font-family: var(--font-oswald);
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.2em;
+  color: #E8B400;
+  margin-bottom: 8px;
+}
+
+.flap-row {
+  margin: 5px 0;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.flap-row:hover {
+  opacity: 0.9;
+}
+
+.flap-cell {
+  position: relative;
+  display: inline-block;
+  width: 19px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  background: linear-gradient(#26282C 50%, #1C1D20 50%);
+  color: #F2EFE6;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 1.15rem;
+  border-radius: 3px;
+  box-shadow: 0 2px 0 #000000;
+  margin-right: 2px;
+}
+
+.flap-cell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: #000000;
+}
+
+.flap-cell.cell-yellow { color: #FFC61A; }
+.flap-cell.cell-red { color: #FF4A3D; }
+
+/* ==========================================================================
+   CONCEPTO 3: CINTA DE SUMADORA CONTABLE INTERACTIVA (Ideas/)
+   ========================================================================== */
+.receipt-wrapper {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+.receipt-slot {
+  height: 16px;
+  background: #0C0C0E;
+  border-radius: 8px;
+  box-shadow: 0 4px 0 #000, inset 0 -3px 6px #000;
+  margin-bottom: -4px;
+}
+
+.receipt-paper {
+  position: relative;
+  background: #FBFAF4;
+  color: #1B1B18;
+  padding: 22px 20px 28px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  min-height: 140px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.receipt-paper::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -11px;
+  height: 12px;
+  background: linear-gradient(-45deg, transparent 7px, #FBFAF4 0),
+              linear-gradient(45deg, transparent 7px, #FBFAF4 0);
+  background-size: 14px 14px;
+}
+
+.receipt-line {
+  display: flex;
+  gap: 6px;
+  animation: printLine 0.25s both;
+}
+
+.receipt-line.center { justify-content: center; text-align: center; }
+.receipt-line.bold { font-weight: 700; }
+.receipt-line.small { font-size: 0.72rem; color: #555555; padding-left: 18px; }
+.receipt-line.dashed { border-top: 2px dashed #888888; margin: 8px 0; height: 0; }
+
+.receipt-line i {
+  flex: 1;
+  border-bottom: 2px dotted #999999;
+  margin-bottom: 4px;
+  min-width: 10px;
+}
+
+@keyframes printLine {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.receipt-stamp {
+  display: inline-block;
+  border: 3px solid #C4161C;
+  color: #C4161C;
+  font-family: var(--font-oswald);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.2em;
+  padding: 2px 9px;
+  transform: rotate(-8deg);
+  margin-left: auto;
+  animation: stampPop 0.4s 0.2s both;
+}
+
+@keyframes stampPop {
+  from { transform: rotate(-8deg) scale(3); opacity: 0; }
+  to { transform: rotate(-8deg) scale(1); opacity: 1; }
+}
+
+.receipt-barcode {
+  height: 44px;
+  margin: 10px 10px 6px;
+  background: repeating-linear-gradient(90deg, #111 0 2px, transparent 2px 4px, #111 4px 5px, transparent 5px 9px, #111 9px 12px, transparent 12px 14px);
+}
+
+.receipt-btn {
+  display: block;
+  margin: 20px auto 0;
   font-family: var(--font-mono);
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background: #C4161C;
+  color: #FFFFFF;
+  border: none;
+  padding: 9px 18px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: opacity 0.2s;
 }
 
-.badge-consenso.critico {
-  background-color: rgba(255, 51, 102, 0.15);
-  border: 1px solid var(--color-alert);
-  color: var(--color-alert);
+.receipt-btn:hover { opacity: 0.9; }
+
+/* ==========================================================================
+   CONCEPTO 4: BITÁCORA KDD & REPRODUCIBILIDAD
+   ========================================================================== */
+.bitacora-step {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
 }
 
-.badge-consenso.local {
-  background-color: rgba(255, 176, 32, 0.15);
-  border: 1px solid var(--color-warning);
-  color: var(--color-warning);
+.bitacora-step:hover {
+  border-color: var(--border-hover);
 }
 
-.badge-consenso.global {
-  background-color: rgba(77, 184, 255, 0.15);
-  border: 1px solid var(--color-primary);
-  color: var(--color-primary);
+.bitacora-header {
+  background-color: #0A0E14;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.badge-consenso.normal {
-  background-color: rgba(0, 255, 136, 0.12);
-  border: 1px solid var(--color-normal);
+.bitacora-number {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   color: var(--color-normal);
+  background: rgba(0, 255, 136, 0.12);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-/* Banner de Alerta Forense Principal (Drill-Down) */
+.bitacora-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-left: 0.5rem;
+}
+
+.bitacora-body {
+  padding: 1.25rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.cli-command-box {
+  background-color: #05070A;
+  border: 1px solid #1F2937;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-normal);
+  margin: 0.85rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ==========================================================================
+   ELEMENTOS DE EXPEDIENTE & TABLAS
+   ========================================================================== */
 .forensic-alert-box {
   background-color: rgba(255, 51, 102, 0.08);
   border: 1px solid rgba(255, 51, 102, 0.35);
@@ -407,9 +844,6 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.35rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
 }
 
 .forensic-alert-desc {
@@ -419,7 +853,6 @@ body {
   margin: 0;
 }
 
-/* Tarjeta Ficha Técnica */
 .forensic-spec-card {
   background-color: var(--bg-surface-elevated);
   border: 1px solid var(--border-subtle);
@@ -452,41 +885,9 @@ body {
   color: var(--text-primary);
 }
 
-/* Indicadores de Conteo en Sidebar */
-.stats-pill-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-}
-
-.stats-pill {
-  background: var(--bg-surface-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  padding: 0.45rem 0.6rem;
-  text-align: center;
-}
-
-.stats-pill-count {
-  font-family: var(--font-mono);
-  font-size: 1.05rem;
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-.stats-pill-label {
-  font-size: 0.68rem;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  margin-top: 0.15rem;
-}
-
-/* --- Tablas DT (DataTables) --- */
 .dataTables_wrapper {
   color: var(--text-primary) !important;
   font-size: 0.82rem !important;
-  padding: 0.25rem 0 !important;
 }
 
 table.dataTable {
@@ -522,13 +923,6 @@ table.dataTable tbody tr:hover {
   background: var(--bg-surface-elevated) !important;
   border: 1px solid var(--border-subtle) !important;
   border-radius: 4px !important;
-  transition: all 0.15s ease;
-}
-
-.dataTables_paginate .paginate_button:hover {
-  color: var(--text-primary) !important;
-  background: var(--bg-surface-hover) !important;
-  border-color: var(--border-hover) !important;
 }
 
 .dataTables_paginate .paginate_button.current {
@@ -536,7 +930,6 @@ table.dataTable tbody tr:hover {
   background: var(--color-normal) !important;
   border-color: var(--color-normal) !important;
   font-weight: 700 !important;
-  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
 }
 
 .dt-buttons .dt-button {
@@ -546,18 +939,4 @@ table.dataTable tbody tr:hover {
   font-size: 0.75rem !important;
   border-radius: 4px !important;
   padding: 0.35rem 0.75rem !important;
-  transition: all 0.15s ease;
-}
-
-.dt-buttons .dt-button:hover {
-  background: var(--bg-surface-hover) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-hover) !important;
-}
-
-/* Monospace para montos numéricos */
-.num-cell {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-  text-align: right;
 }
